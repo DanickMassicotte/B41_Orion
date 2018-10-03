@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from tkinter import *
 import os,os.path
 import sys
@@ -32,7 +34,7 @@ class Vaisseau():
         self.vitesse=2
         self.cible=None
         
-        # Début des modifications
+        # Dï¿½but des modifications
         self.hp = 100
         self.atk = 10
         self.cout = 100
@@ -71,7 +73,7 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
-# Début des modifications/différents types de vaisseaux                
+# Dï¿½but des modifications/diffï¿½rents types de vaisseaux                
 class Mineur(Vaisseau):
     def __init__(self):
         Vaisseau.__init__(self, nom, x, y, combat)
@@ -192,11 +194,58 @@ class Joueur():
         self.planetemere.proprietaire=self.nom
         self.couleur=couleur
         self.planetescontrolees=[planetemere]
-        self.flotte=[]
+        
+        # Dï¿½but des modifications; change "flotte" de liste ï¿½ dictionnaire de listes
+        self.flotte={"M": [],       # Mineurs
+                     "E": [],       # Exploreurs
+                     "A1": [],      # Fregates
+                     "A2": [],      # Chasseurs
+                     "A3": [],      # Bombardes
+                     "A4": [],      # Dreadnoughts
+                     "A5": []}      # Destructeurs
+        # Fin des modifications -- DM
+        
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte}
+    
+    # Modification de la mï¿½thode pour inclure les types de vaisseaux
+    def creervaisseau(self,planete,choix):
+        if choix == "M":
+            v = Mineur(self.nom, self.planetemere.x+10, self.planetemere.y)
+            print("Mineur", v.id)
+            self.flotte["M"].append(v)
+            
+        elif choix == "E":
+            v = Exploreur(self.nom, self.planetemere.x+10, self.planetemere.y)
+            print("Exploreur", v.id)
+            self.flotte["E"].append(v)
+            
+        elif choix == "A1":
+            v = Fregate(self.nom, self.planetemere.x+10, self.planetemere.y)
+            print("Fregate", v.id)
+            self.flotte["A1"].append(v)
+            
+        elif choix == "A2":
+            v = Chasseur(self.nom, self.planetemere.x+10, self.planetemere.y)
+            print("Chasseur", v.id)
+            self.flotte["A2"].append(v)
+            
+        elif choix == "A3":
+            v = Bombarde(self.nom, self.planetemere.x+10, self.planetemere.y)
+            print("Bombarde", v.id)
+            self.flotte["A3"].append(v)
+            
+        elif choix == "A4":
+            v = Dreadnought(self.nom, self.planetemere.x+10, self.planetemere.y)
+            print("Dreadnought", v.id)
+            self.flotte["A4"].append(v)
+            
+        elif choix == "A5":
+            v = Destructeur(self.nom, self.planetemere.x+10, self.planetemere.y)
+            print("Destructeur", v.id)
+            self.flotte["A5"].append(v)
+    # Fin des modifications -- DM
         
-    def creervaisseau(self,planete):
         v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
         print("Vaisseau",v.id)
         self.flotte.append(v)
