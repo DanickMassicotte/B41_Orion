@@ -34,7 +34,7 @@ class Vaisseau():
         self.vitesse=2
         self.cible=None
         
-        # D�but des modifications
+        # Debut des modifications
         self.hp = 100
         self.atk = 10
         self.cout = 100
@@ -73,7 +73,7 @@ class Vaisseau():
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
 
-# D�but des modifications/diff�rents types de vaisseaux                
+# Debut des modifications/differents types de vaisseaux                
 class Mineur(Vaisseau):
     def __init__(self):
         Vaisseau.__init__(self, nom, x, y, combat)
@@ -195,7 +195,7 @@ class Joueur():
         self.couleur=couleur
         self.planetescontrolees=[planetemere]
         
-        # D�but des modifications; change "flotte" de liste � dictionnaire de listes
+        # Debut des modifications; change "flotte" de liste a dictionnaire de listes
         self.flotte={"M": [],       # Mineurs
                      "E": [],       # Exploreurs
                      "A1": [],      # Fregates
@@ -208,7 +208,7 @@ class Joueur():
         self.actions={"creervaisseau":self.creervaisseau,
                       "ciblerflotte":self.ciblerflotte}
     
-    # Modification de la m�thode pour inclure les types de vaisseaux
+    # Modification de la methode pour inclure les types de vaisseaux
     def creervaisseau(self,planete,choix):
         if choix == "M":
             v = Mineur(self.nom, self.planetemere.x+10, self.planetemere.y)
