@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from tkinter import *
 import os,os.path
 import sys
@@ -7,18 +9,24 @@ import random
 from subprocess import Popen 
 from helper import Helper as hlp
 from ObjetsJeu import *
+from MonstreIntersideral import *
 
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
-        self.largeur=500 #self.parent.vue.root.winfo_screenwidth()
-        self.hauteur=400 #self.parent.vue.root.winfo_screenheight()
+        self.largeur=6000 #self.parent.vue.root.winfo_screenwidth()
+        self.hauteur=6000 #self.parent.vue.root.winfo_screenheight()
         self.joueurs={}
         self.actionsafaire={}
         self.planetes=[]
+        self.listeVaisseaux = []
+        self.listeEtoiles = []
+        self.listeAsteroides = []
         self.terrain=[]
         self.creerplanetes(joueurs)
         self.creerterrain()
+        self.monstre = MonstreIntersideral(self,500,500) #peut changer pour un init pour choisir une position random parmis choix
+        self.genererAstres()
         
     def creerterrain(self):
         self.terrain=[]
@@ -37,7 +45,7 @@ class Modele():
         for i in range(100):
             x=random.randrange(self.largeur-(2*bordure))+bordure
             y=random.randrange(self.hauteur-(2*bordure))+bordure
-            self.planetes.append(Planete(x,y))
+            self.planetes.append(Planete(x,y)) # ajouter false quand class sera mise � jour
         np=len(joueurs)
         planes=[]
         while np:
@@ -50,6 +58,11 @@ class Modele():
                   "lightblue","pink","gold","purple"]
         for i in joueurs:
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
+            
+    def genererAstres(self):
+        for i in range(10):
+            self.listeEtoiles.append(Etoile(random.randint(0,1000), random.randint(0,1000))) 
+            self.listeAsteroides.append(Asteroide(random.randint(0,1000), random.randint(0,1000)))   
             
     def prochaineaction(self,cadre):
         if cadre in self.actionsafaire:
@@ -69,3 +82,21 @@ class Modele():
                 
         for i in self.joueurs:
             self.joueurs[i].prochaineaction()
+
+class Etoile():
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        
+class Asteroide():
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        
+if __name__ == "__main__":
+    joueur = {"joueur1": "joueur1"}
+    modele = Modele(0,joueur)
+    while 1:
+        modele.monstre.choixAction()
+        time.sleep(2)
+    

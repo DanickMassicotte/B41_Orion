@@ -14,8 +14,7 @@ class MonstreIntersideral():
         self.pointsDeVie = 1000
         self.puissance = 100
         self.grandeurInvasion = 0
-        #self.tempsPreparation = 300 # 5 minutes
-        self.porteeMonstre = 100
+        self.porteeMonstre = 0
         self.compteurHorsPortee = 0
         self.nbPlanetesInfectees = 0
         self.nbEtoilesDevorees = 0
@@ -161,15 +160,15 @@ class ModeleMonstre():
         
     def genererAstres(self):
         for i in range(10):
-            self.planetes.append(PlaneteMonstre(random.randint(0,1000), random.randint(0,1000), False)) 
+            self.planetes.append(PlaneteMonstre(random.randint(0,1000), random.randint(0,1000))) 
             self.listeEtoiles.append(EtoileMonstre(random.randint(0,1000), random.randint(0,1000))) 
             self.listeAsteroides.append(AsteroideMonstre(random.randint(0,1000), random.randint(0,1000))) 
 
 class PlaneteMonstre():
-    def __init__(self,x,y,estOccupee):
+    def __init__(self,x,y):
         self.x = x
         self.y = y
-        self.estOccupee = estOccupee
+        self.estOccupee = False
         
 class EtoileMonstre():
     def __init__(self,x,y):
