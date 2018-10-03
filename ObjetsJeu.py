@@ -27,15 +27,20 @@ class Vaisseau():
         self.proprietaire=nom
         self.x=x
         self.y=y
-        self.combat = False
         self.cargo=0            # Necessaire?
         self.energie=100        # Necessaire?
+        self.vitesse=2
+        self.cible=None
+        
+        # Début des modifications
         self.hp = 100
         self.atk = 10
-        self.vitesse=2
         self.cout = 100
         self.pop = 1
-        self.cible=None
+        self.combat = False
+        # Fin des modifications -- DM
+        
+        
         
     def avancer(self):
         if self.cible:
@@ -65,7 +70,8 @@ class Vaisseau():
                 self.y+=self.vitesse
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
-                
+
+# Début des modifications/différents types de vaisseaux                
 class Mineur(Vaisseau):
     def __init__(self):
         Vaisseau.__init__(self, nom, x, y, combat)
@@ -174,7 +180,8 @@ class Destructeur(Vaisseau):
         pass
         
     def attaquerPlanete(self):
-        pass
+        pass   
+# Fin des modifications/types de vaisseaux -- DM
               
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
