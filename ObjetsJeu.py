@@ -21,6 +21,7 @@ class Planete():
         self.proprietaire="inconnu"
         self.x=x
         self.y=y
+        self.estOccupee = False # ajout Simon
         self.taille=random.randrange(4,6)
         
 class Vaisseau():
