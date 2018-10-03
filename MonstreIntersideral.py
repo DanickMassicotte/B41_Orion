@@ -27,9 +27,13 @@ class MonstreIntersideral():
     def initMessages(self):
         self.listeMessages.append("Je vais dévorer votre monde!")
         self.listeMessages.append("Vos étoiles s'éteignent, une à une!")
-        self.listeMessages.append("Votre futile résistance nourrie ma haine!")
-        
-        
+        self.listeMessages.append("Votre futile résistance... nourrie ma haine!")
+        self.listeMessages.append("Je suis éternel! JE SUIS INFINI!")
+        self.listeMessages.append("J'ai éteint des trillons d'espèces, vous n'êtes que les plus récentes à subir mon étreinte mortelle!")
+        self.listeMessages.append("ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn")
+        self.listeMessages.append("Cahf ah nafl mglw'nafh hh' ahor syha'h ah'legeth, ng llll or'azath syha'hnahh n'ghftephai n'gha ahornah ah'mglw'nafh")
+        self.listeMessages.append("Y'ephairemake ymg'nilgh'rishuggogg")
+        self.listeMessages.append("The og mgn'ghftephai ot ya ymg'ephaich'nglui'ahog feeble lloigg")
         
     def updateGrandeurInvasion(self):
         nombreMinutesPassees = math.floor(( (time.time() - self.genese) / 60 ))
@@ -39,12 +43,12 @@ class MonstreIntersideral():
     #pas encore utilisée
     def updatePortee(self):
         self.porteeMonstre = 100 * ( self.nbPlanetesInfectees + self.compteurHorsPortee )
-        print("JE M'ÉTEND MONSTRUEUSEMENT : (portée à:)", self.porteeMonstre)
+        print("JE M'ÉTEND MONSTRUEUSEMENT : (portée à:", self.porteeMonstre, ")")
         
     def determinerProiesAPortee(self, proie):
         if proie == "planete":
-            random.shuffle(self.pointeurModele.listePlanetes)
-            for planete in self.pointeurModele.listePlanetes:
+            random.shuffle(self.pointeurModele.planetes)
+            for planete in self.pointeurModele.planetes:
                 portee = math.sqrt( ( (planete.x -self.x) ** 2 + (planete.y - self.y) ** 2 ) )
                 if portee <= self.porteeMonstre and not planete.estOccupee:
                    return planete
@@ -140,7 +144,7 @@ class ProgenitureInfernale():
     def __init__(self,x,y):
         self.x = x
         self.y = y
-        print("Infernal Spawn")
+        #***print("Infernal Spawn")
 
 # ----------------------------------------------------- #
 #               section tests locaux
@@ -149,7 +153,7 @@ class ProgenitureInfernale():
 class ModeleMonstre():
     def __init__(self):
         self.monstre = MonstreIntersideral(self,500,500)
-        self.listePlanetes = []
+        self.planetes = []
         self.listeVaisseaux = ["Vaisseau1", "Vaisseau2", "Vaisseau3"]
         self.listeEtoiles = []
         self.listeAsteroides = []
@@ -157,7 +161,7 @@ class ModeleMonstre():
         
     def genererAstres(self):
         for i in range(10):
-            self.listePlanetes.append(PlaneteMonstre(random.randint(0,1000), random.randint(0,1000), False)) 
+            self.planetes.append(PlaneteMonstre(random.randint(0,1000), random.randint(0,1000), False)) 
             self.listeEtoiles.append(EtoileMonstre(random.randint(0,1000), random.randint(0,1000))) 
             self.listeAsteroides.append(AsteroideMonstre(random.randint(0,1000), random.randint(0,1000))) 
 
