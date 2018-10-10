@@ -56,7 +56,7 @@ class MonstreIntersideral():
             random.shuffle(self.pointeurModele.planetes)
             for planete in self.pointeurModele.planetes:
                 portee = math.sqrt( ( (planete.x -self.x) ** 2 + (planete.y - self.y) ** 2 ) )
-                if portee <= self.porteeMonstre and not planete.estOccupee:
+                if portee <= self.porteeMonstre and not planete.estOccupee and not planete.estInfectee:
                    return planete
         
         elif proie == "vaisseau":
@@ -90,6 +90,7 @@ class MonstreIntersideral():
         self.cible = self.detectionMenace()
         if self.cible is not None:
             self.attaquer()
+        #sinon, son tour est basé sur la probabilité
         else:    
             probabilite = random.randint(0,100)
             #print("probabilite=",probabilite)
@@ -108,6 +109,7 @@ class MonstreIntersideral():
                     self.infecterPlanete()
         if self.hp > 0:
             timer = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = self.frequenceTour
+        #dans les deux cas, les progénitures font leur tour, s'il y en a
         self.actionsProgenitures()
     
     def detectionMenace(self):
@@ -160,8 +162,8 @@ class MonstreIntersideral():
         self.updatePortee()
         planeteCible = self.determinerProiesAPortee("planete")
         if planeteCible != -1:
-            planeteCible.estOccupee = True
-            print("j'infecte planète à:", planeteCible.x, planeteCible.y, planeteCible.estOccupee)
+            planeteCible.estInfectee = True
+            print("j'infecte planète à:", planeteCible.x, planeteCible.y, planeteCible.estInfectee)
             self.nbPlanetesInfectees += 1
         else:
             #print("Aucune planète à portée...")
@@ -271,6 +273,7 @@ class PlaneteMonstre():
         self.x = x
         self.y = y
         self.estOccupee = False
+        self.estInfectee = False
         
 class EtoileMonstre():
     def __init__(self,x,y):
