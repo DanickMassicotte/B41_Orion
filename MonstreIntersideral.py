@@ -1,27 +1,31 @@
 # -*- coding: utf-8 -*-
 import random
 import time
+from threading import Timer
 import math
-random.seed()
-
 
 class MonstreIntersideral():
-    def __init__(self,pointeurModele,x,y): #bcp de placeholders à ajuster au fur et à mesure
+    def __init__(self,pointeurModele,seed,x,y): #bcp de placeholders à ajuster au fur et à mesure
         self.pointeurModele = pointeurModele
         self.x = x
         self.y = y
+        self.seed = seed #prendre la mm seed que le serveur pour synchroniser les monstres
+        random.seed(self.seed)
+        self.frequenceTour = 3.0 #nb de secondes entre chaque tour du monstre
         self.genese = time.time() 
         self.pointsDeVie = 1000
         self.puissance = 100
         self.grandeurInvasion = 0
         self.porteeMonstre = 0
-        self.compteurHorsPortee = 0
+        self.compteurHorsPortee = 0  
         self.nbPlanetesInfectees = 0
         self.nbEtoilesDevorees = 0
         self.nbAsteroidesDevores = 0
         self.listeProgenitures = []
         self.listeMessages= []
         self.initMessages()
+        self.choixAction()
+        
         
     def initMessages(self):
         self.listeMessages.append("Je vais dévorer votre monde!")
@@ -39,10 +43,11 @@ class MonstreIntersideral():
         self.grandeurInvasion = nombreMinutesPassees + self.nbAsteroidesDevores + ( 2 * self.nbPlanetesInfectees) + (3 * self.nbEtoilesDevorees)
         print("Grandeur invasion =", self.grandeurInvasion)
     
-    #pas encore utilisée
     def updatePortee(self):
+        porteeAnterieure = self.porteeMonstre
         self.porteeMonstre = 100 * ( self.nbPlanetesInfectees + self.compteurHorsPortee )
-        print("JE M'ÉTEND MONSTRUEUSEMENT : (portée à:", self.porteeMonstre, ")")
+        if porteeAnterieure < self.porteeMonstre:
+            print("JE M'ÉTEND MONSTRUEUSEMENT : (portée à:", self.porteeMonstre, ")")
         
     def determinerProiesAPortee(self, proie):
         if proie == "planete":
@@ -80,21 +85,23 @@ class MonstreIntersideral():
     
     def choixAction(self):
         probabilite = random.randint(0,100)
-        print("probabilite=",probabilite)
+        #print("probabilite=",probabilite)
         if 0 <= probabilite < 20:
             print(self.message())
         elif 20 <= probabilite < 35:
             self.invasion()
         elif 35 <= probabilite <= 100:
             choixAstre = random.randint(0,100) 
-            print("choix astre=",choixAstre)
+            #print("choix astre=",choixAstre)
             if 0 <= choixAstre < 20:    #faire des branches selon ce qui est à portée
                 self.devorerEtoile()
             elif 20 <= choixAstre < 70:
                 self.devorerAsteroides()
             elif 70 <= choixAstre < 100:
                 self.infecterPlanete()
-            
+        if self.pointsDeVie > 0:
+            timer = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = frequenceTour
+   
     def message(self):
         message = random.choice(self.listeMessages) # *** faudrait que la vue affiche le message dans frame en haut ou en bas ***
         return message
@@ -151,19 +158,27 @@ class ProgenitureInfernale():
 
 class ModeleMonstre():
     def __init__(self):
-        self.monstre = MonstreIntersideral(self,500,500)
+        random.seed(7)
         self.planetes = []
         self.listeVaisseaux = ["Vaisseau1", "Vaisseau2", "Vaisseau3"]
         self.listeEtoiles = []
         self.listeAsteroides = []
         self.genererAstres()
+        self.monstre = MonstreIntersideral(self, random.randint(0,1000),500,500)
+        #self.monstre = MonstreIntersideral(self, 7,500,500) #test seed spécifique
+        self.threadRecursif()
         
     def genererAstres(self):
         for i in range(10):
             self.planetes.append(PlaneteMonstre(random.randint(0,1000), random.randint(0,1000))) 
             self.listeEtoiles.append(EtoileMonstre(random.randint(0,1000), random.randint(0,1000))) 
             self.listeAsteroides.append(AsteroideMonstre(random.randint(0,1000), random.randint(0,1000))) 
-
+    
+    def threadRecursif(self):
+        time.sleep(5)
+        print("***** thread principal continue *****")
+        self.threadRecursif()
+        
 class PlaneteMonstre():
     def __init__(self,x,y):
         self.x = x
@@ -179,10 +194,7 @@ class AsteroideMonstre():
     def __init__(self,x,y):
         self.x = x
         self.y = y
-       
+
 
 if __name__ == '__main__':
    modele = ModeleMonstre()
-   while 1:
-       modele.monstre.choixAction()
-       time.sleep(2)
