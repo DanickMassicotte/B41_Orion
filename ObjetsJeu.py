@@ -8,6 +8,7 @@ import socket
 import random
 from subprocess import Popen 
 from helper import Helper as hlp
+import Batiments # Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 choix = "A1"
 
@@ -25,6 +26,15 @@ class Planete():
         self.y=y
         self.estOccupee = False # ajout Simon
         self.taille=random.randrange(4,6)
+    # Debut ajouts JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # Creation de listes de batiments
+        self.fermes=[]
+        self.pods=[]
+        self.minesArgent=[]
+        self.minesMateriaux=[]
+        self.minesEnergie=[]
+        self.hangars=[]
+    # Fin ajouts JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
 class Vaisseau():
     def __init__(self,nom,x,y):
@@ -204,6 +214,21 @@ class Joueur():
         self.planetemere.proprietaire=self.nom
         self.couleur=couleur
         self.planetescontrolees=[planetemere]
+    # DEBUT AJOUTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.argent = 1000
+        self.nourriture = 1000
+        self.materiaux = 1000
+        self.energie = 1000
+        self.population = 100
+        self.populationMaximale = 1000
+        self.connaissance = 1000
+        self.fermes=[]
+        self.pods=[] # Logements
+        self.minesArgent=[]
+        self.minesMateriaux=[]
+        self.minesEnergie=[]
+        self.hangars=[]
+    # FIN AJOUTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         # Debut des modifications; change "flotte" de liste a dictionnaire de listes
         self.flotte={"M": [],       # Mineurs
@@ -248,7 +273,74 @@ class Joueur():
                         i.cible=j
                         print("GOT TARGET")
                         return
-        
+
+# DEBUT AJOUTS CREATION BATIMENTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+
+    # Création d'une ferme qui accumule de la nourriture   
+    def creerFerme(self):
+        if self.argent >= Batiments.Ferme.coutEnArgent and self.minerai >= Batiments.Ferme.coutEnMateriaux:
+            self.argent -= Batiments.Ferme.coutEnArgent                     # Total argent - cout
+            self.materiaux -= Batiments.Ferme.coutEnMateriaux               # Total materiaux - cout
+            f=Batiments.Ferme()
+            self.fermes.append(f)
+            self.planetemere.fermes.append(f)
+        else:
+            print("Manque de ressource!")
+            
+    # Création d'un logement    
+    def creerPod(self):
+        if self.argent >= Batiments.Pod.coutEnArgent and self.minerai >= Batiments.Pod.coutEnMateriaux:
+            self.argent -= Batiments.Pod.coutEnArgent                       # Total argent - cout
+            self.materiaux -= Batiments.Pod.coutEnMateriaux                 # Total materiaux - cout
+            p=Batiments.Pod()
+            self.pods.append(p)
+            self.planetemere.pods.append(p)
+            self.populationMaximale += Batiments.Pod.capaciteOccupants      # Population maximale ++
+            self.population += Batiments.Pod.nbOccupants                    # Population ++
+        else:
+            print("Manque de ressource!")
+            
+    def creerHangar(self):
+        if self.argent >= Batiments.Hangar.coutEnArgent and self.minerai >= Batiments.Hangar.coutEnMateriaux:
+            self.argent -= Batiments.Hangar.coutEnArgent                       # Total argent - cout
+            self.materiaux -= Batiments.Hangar.coutEnMateriaux                 # Total materiaux - cout
+            p=Batiments.Hangar()
+            self.hangars.append(p)
+            self.planetemere.hangars.append(p)
+        else:
+            print("Manque de ressource!")
+            
+    # Création d'une mine qui accumule de l'argent         
+    def creerMineArgent(self):
+        if self.minerai >= Batiments.MineArgent.coutEnMateriaux:
+            self.materiaux -= Batiments.MineArgent.coutEnMateriaux          # Total materiaux - cout
+            ma=Batiments.MineArgent()
+            self.minesArgent.append(ma)
+            self.planetemere.minesArgent.append(ma)
+        else:
+            print("Manque de ressource!")
+            
+    # Création d'une mine qui accumule des materiaux de construction      
+    def creerMineMateriaux(self):
+        if self.argent >= Batiments.MineMateriaux.coutEnArgent:
+            self.argent -= Batiments.MineMateriaux.coutEnArgent              # Total argent - cout
+            mm=Batiments.MineMateriaux()
+            self.minesMateriaux.append(mm)
+            self.planetemere.minesMateriaux.append(mm)
+        else:
+            print("Manque de ressource!")
+            
+    # Création d'une mine qui accumule des materiaux sources d'energie   
+    def creerMineEnergie(self):
+        if self.argent >= Batiments.MineEnergie.coutEnArgent and self.minerai >= Batiments.MineEnergie.coutEnMateriaux:
+            self.argent -= Batiments.MineEnergie.coutEnArgent                       # Total argent - cout
+            self.materiaux -= Batiments.MineEnergie.coutEnMateriaux                 # Total materiaux - cout
+            me=Batiments.MineEnergie()
+            self.minesEnergie.append(me)
+            self.planetemere.minesEnergie.append(me)
+        else:
+            print("Manque de ressource!")
+    # FIN AJOUTS CREATION BATIMENTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
         
     def prochaineaction(self):
         for i in self.flotte[choix]:
