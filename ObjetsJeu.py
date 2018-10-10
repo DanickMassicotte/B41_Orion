@@ -6,6 +6,7 @@ import sys
 import xmlrpc.client
 import socket
 import random
+from random import randint
 from subprocess import Popen 
 from helper import Helper as hlp
 import Batiments # Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -253,7 +254,10 @@ class Joueur():
                       "A5": Destructeur     # Destructeurs
                       }
         
-        v = self.choix[choix](self.nom, self.planetemere.x+10, self.planetemere.y)
+        rx = randint(-25, 25)
+        ry = randint(-25, 25)
+        
+        v = self.choix[choix](self.nom, self.planetemere.x + rx, self.planetemere.y + ry)
         print("Vaisseau", v.id)
         print("Type: ", v.type)
         print("Combat: ", v.combat)
@@ -264,15 +268,26 @@ class Joueur():
         print("Pop: ", v.pop)
         self.flotte[choix].append(v)
         
-    def ciblerflotte(self,ids):
+    def ciblerflotte(self,ids, choix):
         idori,iddesti=ids
-        for i in self.flotte:
+        for i in self.flotte[choix]:
             if i.id== int(idori):
                 for j in self.parent.planetes:
                     if j.id== int(iddesti):
                         i.cible=j
                         print("GOT TARGET")
                         return
+                    
+    def prochaineaction(self):
+        for i in self.flotte[choix]:
+            if i.cible:
+                i.avancer()
+            else:
+                pass
+            
+    def prochaineaction2(self):
+        for i in self.flotte:
+            i.avancer()
 
 # DEBUT AJOUTS CREATION BATIMENTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
@@ -341,14 +356,3 @@ class Joueur():
         else:
             print("Manque de ressource!")
     # FIN AJOUTS CREATION BATIMENTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!        
-        
-    def prochaineaction(self):
-        for i in self.flotte[choix]:
-            if i.cible:
-                i.avancer()
-            else:
-                i.cible=random.choice(self.parent.planetes)
-            
-    def prochaineaction2(self):
-        for i in self.flotte:
-            i.avancer()

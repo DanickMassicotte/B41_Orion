@@ -132,11 +132,11 @@ class Vue():
         
         self.imgplanete = PhotoImage(file = "img_etoile_01.png")
         for i in mod.planetes:
-            self.canevas.create_image(i.x, i.y, image = self.imgplanete)
-            
-#             t=i.taille
-#             self.canevas.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
-#                                      tags=(i.proprietaire,"planete",str(i.id)))
+            self.canevas.create_image(i.x, i.y, image = self.imgplanete,
+                                      tags=(i.proprietaire,"planete",str(i.id)))
+            # t=i.taille
+            #self.canevas.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
+                                    #tags=(i.proprietaire,"planete",str(i.id)))
         for i in mod.joueurs.keys():
             for j in mod.joueurs[i].planetescontrolees:
                 self.img_planeteJoueur = PhotoImage(file = "img_planeteJoueur_01.png")
