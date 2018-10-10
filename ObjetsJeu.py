@@ -9,6 +9,8 @@ import random
 from subprocess import Popen 
 from helper import Helper as hlp
 
+choix = "A1"
+
 class Id():
     id=0
     def prochainid():
@@ -30,10 +32,10 @@ class Vaisseau():
         self.proprietaire=nom
         self.x=x
         self.y=y
-        self.cargo=0            # Necessaire?
-        self.energie=100        # Necessaire?
+        self.cargo=0
+        self.energie=100
         self.vitesse=2
-        self.cible=None
+        self.cible=None 
         
         # Debut des modifications
         self.hp = 100
@@ -42,8 +44,6 @@ class Vaisseau():
         self.pop = 1
         self.combat = False
         # Fin des modifications -- DM
-        
-        
         
     def avancer(self):
         if self.cible:
@@ -73,16 +73,18 @@ class Vaisseau():
                 self.y+=self.vitesse
             if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
                 self.cible=None
-
-# Debut des modifications/differents types de vaisseaux                
+                
+# Debut des modifications/differents types de vaisseaux
+        
 class Mineur(Vaisseau):
-    def __init__(self):
-        Vaisseau.__init__(self, nom, x, y, combat)
-        self.hp = Vaisseau.hp * 1
-        self.atk = Vaisseau.atk * 0
-        self.vts = Vaisseau.vitesse * 1
-        self.cout = Vaisseau.cout * 1.5
-        self.pop = Vaisseau.pop * 3
+    def __init__(self, nom, x, y):
+        Vaisseau.__init__(self, nom, x, y)
+        self.type = "Mineur"                # Sert à certain tests
+        self.hp = self.hp * 1
+        self.atk = self.atk * 0
+        self.vitesse = self.vitesse * 1
+        self.cout = self.cout * 1.5
+        self.pop = self.pop * 3
         
     def minevalide(self):
         pass
@@ -91,45 +93,48 @@ class Mineur(Vaisseau):
         pass
     
 class Exploreur(Vaisseau):
-    def __init__(self):
-        Vaisseau.__init__(self, nom, x, y, combat)
-        self.hp = Vaisseau.hp * 1
-        self.atk = Vaisseau.atk * 0
-        self.vts = Vaisseau.vitesse * 1
-        self.cout = Vaisseau.cout * 1.5
-        self.pop = Vaisseau.pop * 2
+    def __init__(self, nom, x, y):
+        Vaisseau.__init__(self, nom, x, y)
+        self.type = "Exploreur"             # Sert à certains tests
+        self.hp = self.hp * 1
+        self.atk = self.atk * 0
+        self.vitesse = self.vitesse * 1
+        self.cout = self.cout * 1.5
+        self.pop = self.pop * 1
         
     def explovalide(self):
         pass
     
     def decouvrir(self):
         pass
-
+    
 class Fregate(Vaisseau):
-    def __init__(self):
-        Vaisseau.__init__(self, nom, x, y, combat)
+    def __init__(self, nom, x, y):
+        Vaisseau.__init__(self, nom, x, y)
         self.combat = True
-        self.hp = Vaisseau.hp * 1
-        self.atk = Vaisseau.atk * 1
-        self.vts = Vaisseau.vitesse * 1
-        self.cout = Vaisseau.cout * 1
-        self.pop = Vaisseau.pop * 1
+        self.type = "Fregate"               # Sert à certains tests
+        self.hp = self.hp * 1
+        self.atk = self.atk * 1
+        self.vitesse = self.vitesse * 1
+        self.cout = self.cout * 0.5
+        self.pop = self.pop * 1
         
     def attaquevalide(self):
         pass
         
     def attaquer(self):
         pass
-
+                
 class Chasseur(Vaisseau):
-    def __init__(self):
-        Vaisseau.__init__(self, nom, x, y, combat)
+    def __init__(self, nom, x, y):
+        Vaisseau.__init__(self, nom, x, y)
+        self.type = "Chasseur"              # Sert à certains tests
         self.combat = True
-        self.hp = Vaisseau.hp * 2
-        self.atk = Vaisseau.atk * 3
-        self.vts = Vaisseau.vitesse * 5
-        self.cout = Vaisseau.cout * 2
-        self.pop = Vaisseau.pop * 1
+        self.hp = self.hp * 2
+        self.atk = self.atk * 3
+        self.vitesse = self.vitesse * 5
+        self.cout = self.cout * 2
+        self.pop = self.pop * 1
 
     def attaquevalide(self):
             pass
@@ -138,52 +143,56 @@ class Chasseur(Vaisseau):
             pass
         
 class Bombarde(Vaisseau):
-    def __init__(self):
-        Vaisseau.__init__(self, nom, x, y, combat)
+    def __init__(self, nom, x, y):
+        Vaisseau.__init__(self, nom, x, y)
         self.combat = True
-        self.hp = Vaisseau.hp * 2
-        self.atk = VaisseauCombat.atk * 2
-        self.vts = Vaisseau.vitesse * 2
-        self.cout = Vaisseau.cout * 2.5
-        self.pop = Vaisseau.pop * 3
+        self.type = "Bombarde"              # Sert à certains tests
+        self.hp = self.hp * 2
+        self.atk = self.atk * 2
+        self.vitesse = self.vitesse * 2
+        self.cout = self.cout * 2.5
+        self.pop = self.pop * 3
         
     def attaquevalide(self):
                 pass
         
     def attaquerBombe(self):
         pass
-        
+    
 class Dreadnought(Vaisseau):
-    def __init__(self):
-        Vaisseau.__init__(self, nom, x, y, combat)
+    def __init__(self, nom, x, y):
+        Vaisseau.__init__(self, nom, x, y)
         self.combat = True
-        self.hp = Vaisseau.hp * 5
-        self.atk = Vaisseau.atk * 5
-        self.vts = Vaisseau.vitesse * 1
-        self.cout = Vaisseau.cout * 5
-        self.pop = Vaisseau.pop * 10
+        self.type = "Dreadnought"
+        self.hp = self.hp * 5
+        self.atk = self.atk * 5
+        self.vitesse = self.vitesse * 0.5
+        self.cout = self.cout * 5
+        self.pop = self.pop * 10
         
     def attaquevalide(self):
         pass
         
     def attaquer(self):
         pass
-        
+    
 class Destructeur(Vaisseau):
-    def __init__(self):
-        Vaisseau.__init__(self, nom, x, y, combat)
+    def __init__(self, nom, x, y):
+        Vaisseau.__init__(self, nom, x, y)
         self.combat = True
-        self.hp = Vaisseau.hp * 5
-        self.atk = Vaisseau.atk * 10
-        self.vts = Vaisseau.vitesse * 0
-        self.cout = Vaisseau.cout * 10
-        self.pop = Vaisseau.pop * 25
+        self.type = "Destructeur"
+        self.hp = self.hp * 5
+        self.atk = self.atk * 10
+        self.vitesse = self.vitesse * 0
+        self.cout = self.cout * 10
+        self.pop = self.pop * 25
         
     def attaquevalide(self):
         pass
         
     def attaquerPlanete(self):
         pass   
+    
 # Fin des modifications/types de vaisseaux -- DM
               
 class Joueur():
@@ -206,50 +215,26 @@ class Joueur():
                      "A5": []}      # Destructeurs
         # Fin des modifications -- DM
         
-        self.actions={"creervaisseau":self.creervaisseau,
-                      "ciblerflotte":self.ciblerflotte}
-    
-    # Modification de la methode pour inclure les types de vaisseaux
     def creervaisseau(self,planete,choix):
-        if choix == "M":
-            v = Mineur(self.nom, self.planetemere.x+10, self.planetemere.y)
-            print("Mineur", v.id)
-            self.flotte["M"].append(v)
-            
-        elif choix == "E":
-            v = Exploreur(self.nom, self.planetemere.x+10, self.planetemere.y)
-            print("Exploreur", v.id)
-            self.flotte["E"].append(v)
-            
-        elif choix == "A1":
-            v = Fregate(self.nom, self.planetemere.x+10, self.planetemere.y)
-            print("Fregate", v.id)
-            self.flotte["A1"].append(v)
-            
-        elif choix == "A2":
-            v = Chasseur(self.nom, self.planetemere.x+10, self.planetemere.y)
-            print("Chasseur", v.id)
-            self.flotte["A2"].append(v)
-            
-        elif choix == "A3":
-            v = Bombarde(self.nom, self.planetemere.x+10, self.planetemere.y)
-            print("Bombarde", v.id)
-            self.flotte["A3"].append(v)
-            
-        elif choix == "A4":
-            v = Dreadnought(self.nom, self.planetemere.x+10, self.planetemere.y)
-            print("Dreadnought", v.id)
-            self.flotte["A4"].append(v)
-            
-        elif choix == "A5":
-            v = Destructeur(self.nom, self.planetemere.x+10, self.planetemere.y)
-            print("Destructeur", v.id)
-            self.flotte["A5"].append(v)
-    # Fin des modifications -- DM
+        self.choix = {"M": Mineur,          # Mineurs
+                      "E": Exploreur,       # Exploreur
+                      "A1": Fregate,        # Fregates
+                      "A2": Chasseur,       # Chasseurs
+                      "A3": Bombarde,       # Bombardes
+                      "A4": Dreadnought,    # Dreadnought
+                      "A5": Destructeur     # Destructeurs
+                      }
         
-        v=Vaisseau(self.nom,self.planetemere.x+10,self.planetemere.y)
-        print("Vaisseau",v.id)
-        self.flotte.append(v)
+        v = self.choix[choix](self.nom, self.planetemere.x+10, self.planetemere.y)
+        print("Vaisseau", v.id)
+        print("Type: ", v.type)
+        print("Combat: ", v.combat)
+        print("HP: ", v.hp)
+        print("Atk: ", v.atk)
+        print("Vts: ", v.vitesse)
+        print("Cout: ", v.cout)
+        print("Pop: ", v.pop)
+        self.flotte[choix].append(v)
         
     def ciblerflotte(self,ids):
         idori,iddesti=ids

@@ -7,6 +7,8 @@ import random
 from subprocess import Popen 
 from helper import Helper as hlp
 
+choix = "A1"
+
 class Vue():
     def __init__(self,parent,ip,nom):
         self.parent=parent
@@ -168,7 +170,7 @@ class Vue():
                         self.canevas.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
                                                  tags=("select","marqueur"))
             elif self.maselection[1]=="flotte":
-                for i in joueur.flotte:
+                for i in joueur.flotte[choix]:
                     if i.id == int(self.maselection[2]):
                         x=i.x
                         y=i.y
@@ -181,7 +183,7 @@ class Vue():
         
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
-            for j in i.flotte:
+            for j in i.flotte[choix]:
                 self.canevas.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
                                      tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
 

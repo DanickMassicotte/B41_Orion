@@ -11,6 +11,8 @@ from helper import Helper as hlp
 from ObjetsJeu import *
 from MonstreIntersideral import *
 
+choix = "A1"
+
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
@@ -25,7 +27,7 @@ class Modele():
         self.terrain=[]
         self.creerplanetes(joueurs)
         self.creerterrain()
-        self.monstre = MonstreIntersideral(self,500,500) #peut changer pour un init pour choisir une position random parmis choix
+        self.monstre = MonstreIntersideral(self,self.parent.serveur.rdseed,500,500) #peut changer pour un init pour choisir une position random parmis choix
         self.genererAstres()
         
     def creerterrain(self):
