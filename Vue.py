@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from tkinter import *
 import os,os.path
 import sys
@@ -129,15 +130,18 @@ class Vue():
             y=random.randrange(mod.hauteur)
             self.canevas.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
         
+        self.imgplanete = PhotoImage(file = "img_etoile_01.png")
         for i in mod.planetes:
-            t=i.taille
-            self.canevas.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
-                                     tags=(i.proprietaire,"planete",str(i.id)))
+            self.canevas.create_image(i.x, i.y, image = self.imgplanete)
+            
+#             t=i.taille
+#             self.canevas.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
+#                                      tags=(i.proprietaire,"planete",str(i.id)))
         for i in mod.joueurs.keys():
             for j in mod.joueurs[i].planetescontrolees:
-                t=j.taille
-                self.canevas.create_oval(j.x-t,j.y-t,j.x+t,j.y+t,fill=mod.joueurs[i].couleur,
-                                     tags=(j.proprietaire,"planete",str(j.id),"possession"))
+                self.img_planeteJoueur = PhotoImage(file = "img_planeteJoueur_01.png")
+                self.canevas.create_image(j.x, j.y, image = self.img_planeteJoueur,
+                                          tags=(j.proprietaire,"planete",str(j.id),"possession"))
                 
         self.afficherpartie(mod)
                 

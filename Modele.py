@@ -16,8 +16,8 @@ choix = "A1"
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
-        self.largeur=6000 #self.parent.vue.root.winfo_screenwidth()
-        self.hauteur=6000 #self.parent.vue.root.winfo_screenheight()
+        self.largeur=600 #self.parent.vue.root.winfo_screenwidth()
+        self.hauteur=600 #self.parent.vue.root.winfo_screenheight()
         self.joueurs={}
         self.actionsafaire={}
         self.planetes=[]
@@ -27,7 +27,7 @@ class Modele():
         self.terrain=[]
         self.creerplanetes(joueurs)
         self.creerterrain()
-        self.monstre = MonstreIntersideral(self,self.parent.serveur.rdseed,500,500) #peut changer pour un init pour choisir une position random parmis choix
+        self.monstre = MonstreIntersideral(self,self.parent.serveur.rdseed,20,20) #peut changer pour un init pour choisir une position random parmis choix
         self.genererAstres()
         
     def creerterrain(self):
@@ -70,7 +70,7 @@ class Modele():
         if cadre in self.actionsafaire:
             for i in self.actionsafaire[cadre]:
                 #print(i)
-                self.joueurs[i[0]].actions[i[1]](i[2])
+                self.joueurs[i[0]].actions[i[1]](i[2], choix)
                 """
                 print("4- le modele distribue les actions au divers participants")
                 print("4...- en executant l'action qui est identifie par i[1] le dico")

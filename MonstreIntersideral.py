@@ -45,7 +45,7 @@ class MonstreIntersideral():
     
     def updatePortee(self):
         porteeAnterieure = self.porteeMonstre
-        self.porteeMonstre = 100 * ( self.nbPlanetesInfectees + self.compteurHorsPortee )
+        self.porteeMonstre = 25 * ( self.nbPlanetesInfectees + self.compteurHorsPortee )
         if porteeAnterieure < self.porteeMonstre:
             print("JE M'ÉTEND MONSTRUEUSEMENT : (portée à:", self.porteeMonstre, ")")
         
