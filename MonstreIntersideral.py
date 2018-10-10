@@ -13,7 +13,7 @@ class MonstreIntersideral():
         random.seed(self.seed)
         self.frequenceTour = 3.0 #nb de secondes entre chaque tour du monstre
         self.genese = time.time() 
-        self.pointsDeVie = 1000
+        self.hp = 1000
         self.puissance = 100
         self.grandeurInvasion = 0
         self.porteeMonstre = 0
@@ -36,7 +36,7 @@ class MonstreIntersideral():
         self.listeMessages.append("ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn")
         self.listeMessages.append("Cahf ah nafl mglw'nafh hh' ahor syha'h ah'legeth, ng llll or'azath syha'hnahh n'ghftephai n'gha ahornah ah'mglw'nafh")
         self.listeMessages.append("Y'ephairemake ymg'nilgh'rishuggogg")
-        self.listeMessages.append("The og mgn'ghftephai ot ya ymg'ephaich'nglui'ahog feeble lloigg")
+        self.listeMessages.append("Og mgn'ghftephai ot ya ymg'ephaich'nglui'ahog feeble lloigg")
         
     def updateGrandeurInvasion(self):
         nombreMinutesPassees = math.floor(( (time.time() - self.genese) / 60 ))
@@ -99,9 +99,10 @@ class MonstreIntersideral():
                 self.devorerAsteroides()
             elif 70 <= choixAstre < 100:
                 self.infecterPlanete()
-        if self.pointsDeVie > 0:
-            timer = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = frequenceTour
-   
+        if self.hp > 0:
+            timer = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = self.frequenceTour
+        self.actionsProgenitures()
+    
     def message(self):
         message = random.choice(self.listeMessages) # *** faudrait que la vue affiche le message dans frame en haut ou en bas ***
         return message
@@ -109,7 +110,7 @@ class MonstreIntersideral():
     def invasion(self):
         self.updateGrandeurInvasion()
         for nbProgenitures in range(self.grandeurInvasion):
-            progeniture = ProgenitureInfernale(self.x, self.y)
+            progeniture = ProgenitureInfernale(self, self.x, self.y)
             self.listeProgenitures.append(progeniture)
         print("Invasion")
         
@@ -121,7 +122,7 @@ class MonstreIntersideral():
             del etoileCible
             self.nbEtoilesDevorees += 1
         else:
-            print("Aucune étoile à portée...")
+            #print("Aucune étoile à portée...")
             self.compteurHorsPortee += 1
         
     def devorerAsteroides(self):
@@ -132,7 +133,7 @@ class MonstreIntersideral():
             del asteroideCible
             self.nbAsteroidesDevores += 1
         else:
-            print("Aucun astéroïde à portée...")
+            #print("Aucun astéroïde à portée...")
             self.compteurHorsPortee += 1
     
     def infecterPlanete(self):
@@ -143,14 +144,63 @@ class MonstreIntersideral():
             print("j'infecte planète à:", planeteCible.x, planeteCible.y, planeteCible.estOccupee)
             self.nbPlanetesInfectees += 1
         else:
-            print("Aucune planète à portée...")
+            #print("Aucune planète à portée...")
             self.compteurHorsPortee += 1
+    
+    def actionsProgenitures(self):
+        if (self.listeProgenitures):
+            for progeniture in self.listeProgenitures:
+                progeniture.procedure()
             
 class ProgenitureInfernale():
-    def __init__(self,x,y):
+    def __init__(self,pointeurMonstre,x,y):
+        self.pointeurMonstre = pointeurMonstre
         self.x = x
         self.y = y
-        #***print("Infernal Spawn")
+        self.hp = 50
+        self.puissance = 20
+        self.porteeAttaque = 15
+        self.vitesse = 10
+        self.cible = self.pointeurMonstre.pointeurModele.cible #test, en réalité choixCible() va sélectionner un objet
+        self.choixCible()
+
+    
+    def procedure(self):
+        if self.cible == None: #si plus de cible, on en sélectionne une
+            self.choixCible()
+            
+        if math.sqrt( ( (self.cible.x -self.x) ** 2 + (self.cible.y - self.y) ** 2 ) ) > self.porteeAttaque:
+            self.deplacement()
+        else:
+            self.attaquer()
+
+        
+    def choixCible(self):
+        pass
+        #générer une liste de cible possibles
+        #prioriser les cibles dans une certaine portée du monstre
+    
+    def deplacement(self):
+        print("deplacement de ", self.x, self.y, "vers", self.cible.x, self.cible.y)
+        if self.x > self.cible.x:
+            self.x -= self.vitesse
+        if self.x < self.cible.x:
+            self.x += self.vitesse
+            
+        if self.y > self.cible.y:
+            self.y -= self.vitesse
+        if self.y < self.cible.y:
+            self.y += self.vitesse
+        
+        
+    def attaquer(self):
+        print("progéniture à",self.x,self.y, "attaque", self.cible.x, self.cible.y, "vie cible:", self.cible.hp)
+        if self.cible.hp > 0:
+            self.cible.hp -= self.puissance
+            print("vie cible après attaque", self.cible.hp)
+        else:
+            self.cible = None
+        
 
 # ----------------------------------------------------- #
 #               section tests locaux
@@ -164,7 +214,8 @@ class ModeleMonstre():
         self.listeEtoiles = []
         self.listeAsteroides = []
         self.genererAstres()
-        self.monstre = MonstreIntersideral(self, random.randint(0,1000),500,500)
+        self.monstre = MonstreIntersideral(self, random.randint(0,1000),200,200)
+        self.cible = CibleMonstre(100,100)
         #self.monstre = MonstreIntersideral(self, 7,500,500) #test seed spécifique
         self.threadRecursif()
         
@@ -175,7 +226,7 @@ class ModeleMonstre():
             self.listeAsteroides.append(AsteroideMonstre(random.randint(0,1000), random.randint(0,1000))) 
     
     def threadRecursif(self):
-        time.sleep(5)
+        time.sleep(15)
         print("***** thread principal continue *****")
         self.threadRecursif()
         
@@ -194,6 +245,13 @@ class AsteroideMonstre():
     def __init__(self,x,y):
         self.x = x
         self.y = y
+        
+class CibleMonstre():
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        self.hp = 500
+    
 
 
 if __name__ == '__main__':
