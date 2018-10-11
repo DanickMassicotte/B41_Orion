@@ -140,3 +140,7 @@ class Controleur():
         
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
+    
+    def gameOver(self):
+        print("jeu fini")
+        #ajouter procédure de fin de jeu
