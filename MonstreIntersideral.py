@@ -41,7 +41,7 @@ class MonstreIntersideral():
         self.listeMessages.append("Og mgn'ghftephai ot ya ymg'ephaich'nglui'ahog feeble lloigg")
         
     def updateGrandeurInvasion(self):
-        nombreMinutesPassees = math.floor(( (time.time() - self.genese) / 60 ))
+        nombreMinutesPassees = math.floor(( (time.time() - self.genese) / 60 )) 
         self.grandeurInvasion = nombreMinutesPassees + self.nbAsteroidesDevores + ( 2 * self.nbPlanetesInfectees) + (3 * self.nbEtoilesDevorees)
         print("Grandeur invasion =", self.grandeurInvasion)
     
@@ -87,6 +87,8 @@ class MonstreIntersideral():
     
     def choixAction(self):
         #si une vaisseau est trop près de lui, le monstre va l'attaquer
+        if self.hp <= 0: #p-e mettre dans modele ***
+            self.pointeurModele.parent.gameOver()
         self.cible = self.detectionMenace()
         if self.cible is not None:
             self.attaquer()
@@ -101,13 +103,13 @@ class MonstreIntersideral():
             elif 35 <= probabilite <= 100:
                 choixAstre = random.randint(0,100) 
                 #print("choix astre=",choixAstre)
-                if 0 <= choixAstre < 20:    #faire des branches selon ce qui est à portée??
+                if 0 <= choixAstre < 20:    #faire des branches selon ce qui est à portée??***
                     self.devorerEtoile()
                 elif 20 <= choixAstre < 70:
                     self.devorerAsteroides()
                 elif 70 <= choixAstre < 100:
                     self.infecterPlanete()
-        if self.hp > 0:
+        if self.hp > 0: # p-e enlever si on garde le check en haut ***
             timer = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = self.frequenceTour
         #dans les deux cas, les progénitures font leur tour, s'il y en a
         self.actionsProgenitures()
@@ -185,7 +187,24 @@ class ProgenitureInfernale():
         self.vitesse = 10
         self.cible = None
 
+    def procedure(self):
+        if not self.isAlive():
+            self.pointeurMonstre.listeProgenitures.remove(self)
 
+        if self.cible == None: #si n'a pas de cible, on en sélectionne une
+            self.choixCible()
+            
+        if math.sqrt( ( (self.cible.x -self.x) ** 2 + (self.cible.y - self.y) ** 2 ) ) > self.porteeAttaque:
+            self.deplacement()
+        else:
+            self.attaquer()
+            
+    def isAlive(self):
+        if self.hp>0:
+            return True
+        else:
+            return False
+        
     def choixCible(self):
         listeCibles = []
         listeMenaces = []
@@ -195,25 +214,18 @@ class ProgenitureInfernale():
             if planete.estOccupee:
                 listePlanetesOccupees.append(planete)
         for vaisseau in self.pointeurMonstre.pointeurModele.listeVaisseaux:
-            if math.sqrt( ( (vaisseau.x - self.pointeurMonstre.x) ** 2 + (vaisseau.y - self.pointeurMonstre.y) ** 2 ) ) < self.pointeurMonstre.distanceCritique:
-                listeMenaces.append(vaisseau)
-                print("détection d'un vaisseau dans une distance critique")
-            else:
-                listeCibles.append(vaisseau)
+            if vaisseau.hp > 0:
+                if math.sqrt( ( (vaisseau.x - self.pointeurMonstre.x) ** 2 + (vaisseau.y - self.pointeurMonstre.y) ** 2 ) ) < self.pointeurMonstre.distanceCritique:
+                    listeMenaces.append(vaisseau)
+                    print("détection d'un vaisseau dans une distance critique")
+                else:
+                    listeCibles.append(vaisseau)
         
         if listeMenaces:
             self.cible = random.choice(listeMenaces)
         else:
             self.cible = random.choice(listeCibles)
         
-    def procedure(self):
-        if self.cible == None: #si n'a pas de cible, on en sélectionne une
-            self.choixCible()
-            
-        if math.sqrt( ( (self.cible.x -self.x) ** 2 + (self.cible.y - self.y) ** 2 ) ) > self.porteeAttaque:
-            self.deplacement()
-        else:
-            self.attaquer()
 
     
     def deplacement(self):
@@ -242,10 +254,17 @@ class ProgenitureInfernale():
 # ----------------------------------------------------- #
 #               section tests locaux
 # ----------------------------------------------------- #
-
-class ModeleMonstre():
+class ControleurMonstre():
     def __init__(self):
+        self.modele = ModeleMonstre(self)
+    
+    def gameOver(self):
+        print("game over")
+        
+class ModeleMonstre():
+    def __init__(self, parent):
         random.seed(7)
+        self.parent = parent
         self.planetes = []
         self.listeVaisseaux = []
         self.listeEtoiles = []
@@ -259,13 +278,16 @@ class ModeleMonstre():
             self.planetes.append(PlaneteMonstre(random.randint(0,1000), random.randint(0,1000))) 
             self.listeEtoiles.append(EtoileMonstre(random.randint(0,1000), random.randint(0,1000))) 
             self.listeAsteroides.append(AsteroideMonstre(random.randint(0,1000), random.randint(0,1000))) 
-            self.listeVaisseaux.append(VaisseauMonstre(random.randint(0,1000), random.randint(0,1000)))
+            self.listeVaisseaux.append(VaisseauMonstre(self,random.randint(0,1000), random.randint(0,1000)))
         #test vaisseau à côté monstre      
-        self.listeVaisseaux.append(VaisseauMonstre(550,550))     
+        #self.listeVaisseaux.append(VaisseauMonstre(self,550,550))     
                    
     def threadRecursif(self):
-        time.sleep(15)
-        print("***** thread principal continue *****")
+        time.sleep(1)
+        #print("***** thread principal continue *****")
+        for vaisseau in self.listeVaisseaux:
+            vaisseau.choixCible()
+            vaisseau.attaquer()
         self.threadRecursif()
         
 class PlaneteMonstre():
@@ -286,12 +308,41 @@ class AsteroideMonstre():
         self.y = y
         
 class VaisseauMonstre():
-    def __init__(self,x,y):
+    def __init__(self,pointeurModele,x,y):
+        self.pointeurModele = pointeurModele
         self.x = x
         self.y = y
         self.hp = 150
+        self.puissance = 10
+        self.cible =None
+        self.vitesse = 25
     
-
+    def choixCible(self):
+            if self.cible == None and self.pointeurModele.monstre.listeProgenitures:
+                self.cible = random.choice(self.pointeurModele.monstre.listeProgenitures)
+                #print("vaisseau", self, "trouver cible", self.cible)
+                
+    def deplacement(self):
+            #print("deplacement de ", self.x, self.y, "vers", self.cible.x, self.cible.y)
+        if self.x > self.cible.x:
+            self.x -= self.vitesse
+        if self.x < self.cible.x:
+            self.x += self.vitesse
+            
+        if self.y > self.cible.y:
+            self.y -= self.vitesse
+        if self.y < self.cible.y:
+            self.y += self.vitesse
+            
+    def attaquer(self):
+        #print("progéniture à",self.x,self.y, "attaque", self.cible.x, self.cible.y, "vie cible:", self.cible.hp)
+        if self.cible is not None and self.cible.hp > 0:
+            self.cible.hp -= self.puissance
+            print("vie cible après attaque", self.cible.hp)
+        else:
+            self.cible = None
+            #print("cible détruite")
 
 if __name__ == '__main__':
-   modele = ModeleMonstre()
+   control = ControleurMonstre()
+  
