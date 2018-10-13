@@ -13,7 +13,8 @@ monip=s.getsockname()[0]
 print("MON IP SERVEUR",monip)
 s.close()
 
-daemon=SimpleXMLRPCServer((monip, 9999)) 
+#daemon=SimpleXMLRPCServer((monip, 9999))
+daemon=SimpleXMLRPCServer((monip, 9999), logRequests=False)  
 
 class Client(object):
     def __init__(self,nom):

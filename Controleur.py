@@ -140,6 +140,29 @@ class Controleur():
         
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
+        
+    # DEBUT AJOUTS BATIMENTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!         
+    def creerPod(self):
+        self.actions.append([self.monnom, "creerPod",""])
+        
+    def creerFerme(self):
+        self.actions.append([self.monnom, "creerFerme",""])
+    
+    def creerHangar(self):
+        self.actions.append([self.monnom, "creerHangar",""])
+    
+    def creerMineArgent(self):
+        self.actions.append([self.monnom, "creerMineArgent",""])
+        
+    def creerMineMateriaux(self):
+        self.actions.append([self.monnom, "creerMineMateriaux",""])
+        
+    def creerMineEnergie(self):
+        self.actions.append([self.monnom, "creerMineEnergie",""])
+        
+    def creerReacteurNucleaire(self):
+        self.actions.append([self.monnom, "creerReacteurNucleaire",""])
+# FIN AJOUTS BATIMENTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  
     
     def gameOver(self):
         print("jeu fini")

@@ -70,7 +70,7 @@ class Modele():
         if cadre in self.actionsafaire:
             for i in self.actionsafaire[cadre]:
                 #print(i)
-                self.joueurs[i[0]].actions[i[1]](i[2], choix)
+                self.joueurs[i[0]].actions[i[1]](i[2])
                 """
                 print("4- le modele distribue les actions au divers participants")
                 print("4...- en executant l'action qui est identifie par i[1] le dico")
@@ -84,6 +84,14 @@ class Modele():
                 
         for i in self.joueurs:
             self.joueurs[i].prochaineaction()
+            # DEBUT AJOUTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            self.joueurs[i].productionFerme()
+            self.joueurs[i].productionMineArgent()
+            self.joueurs[i].productionMineMateriaux()
+            self.joueurs[i].productionMineEnergie()
+            self.joueurs[i].productionReacteurNucleaire()
+            self.joueurs[i].coutEnergitique()
+            # FIN AJOUTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
 class Etoile():
     def __init__(self,x,y):

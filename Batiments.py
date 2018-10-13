@@ -1,74 +1,91 @@
 ## -*- coding: utf-8 -*-
 
-class Batiment:                                     # Super-classe pour la creation de batiments
-    def __init__(self):
-        self.coutEnArgent=0
-        self.coutEnMateriaux=0
-        self.niveau=0
-        self.consommationEnergie=0
+class Pod():                                # Logement (Augmente la population maximale)
+    coutEnArgent=100
+    coutEnMateriaux=100
+    capaciteOccupants=10
+    nbOccupants=10
     
-
-class Pod(Batiment):                                # Logement (Augmente la population maximale)
     def __init__(self):
-        Batiment.__init__(self)
-        self.capaciteOccupants=10
+        self.niveau=1
+        self.consommationEnergie=0.1
         self.nbOccupants=10
-        self.coutEnArgent = 25
-        self.coutEnMateriaux = 25
-        self.niveau=1
-        self.consommationEnergie=5
-
        
-class Ferme(Batiment):                              # (Augmente la quantite de nourriture produite) 
+class Ferme():                              # (Augmente la quantite de nourriture produite)
+    coutEnArgent=100
+    coutEnMateriaux=100
+         
     def __init__(self):
-        Batiment.__init__(self)
-        self.capaciteProduction
+        self.niveau=1
+        self.consommationEnergie=0.1
+        self.capaciteProduction = 0.1
         self.vitesse = 1
-        self.nourritureAccumule = 0
-        self.coutEnArgent = 25
-        self.coutEnMateriaux = 25
+        
+    def produire(self):
+        return self.capaciteProduction * self.vitesse
+
+
+class MineArgent():                         # (Accumule de l'argent)
+    coutEnArgent=100
+    coutEnMateriaux=100
+    
+    def __init__(self):
         self.niveau=1
-        self.consommationEnergie=5
-
-
-class MineArgent(Batiment):                         # (Accumule de l'argent)
-    def __init__(self):
-        Batiment.__init__(self)
-        self.capaciteProduction = 10
+        self.consommationEnergie=0.1
+        self.capaciteProduction = 0.1
         self.vitesse = 1 
-        self.materiauxAccumule = 0
         
     def miner(self):
-        self.materiauxAccumule += self.capaciteProduction * self.vitesse
+        return self.capaciteProduction * self.vitesse
         
 
-class MineMateriaux(Batiment):                      # (Accumule des materiaux de construction)
+class MineMateriaux():                      # (Accumule des materiaux de construction)
+    coutEnArgent=100
+    coutEnMateriaux=100
+    
     def __init__(self):
-        Batiment.__init__(self)
-        self.capaciteProduction = 10
+        self.niveau=1
+        self.consommationEnergie=0.1
+        self.capaciteProduction = 0.1
         self.vitesse = 1 
-        self.materiauxAccumule = 0
         
     def miner(self):
-        self.materiauxAccumule += self.capaciteProduction * self.vitesse
+        return self.capaciteProduction * self.vitesse
         
 
-class MineEnergie(Batiment):                        # (Accumule de la matiere transformable en energie)
+class MineEnergie():                        # (Accumule de la matiere transformable en energie)
+    coutEnArgent=100
+    coutEnMateriaux=100
+    
     def __init__(self):
-        Batiment.__init__(self)
-        self.capaciteProduction = 10
+        self.niveau=1
+        self.consommationEnergie=0.1
+        self.capaciteProduction = 0.1
         self.vitesse = 1 
-        self.materiauxAccumule = 0
         
     def miner(self):
-        self.materiauxAccumule += self.capaciteProduction * self.vitesse
+        return self.capaciteProduction * self.vitesse
   
   
-class Hangar(Batiment):                                # Permet de créer des vaisseaux
+class Hangar():                                # Permet de créer des vaisseaux
+    coutEnArgent=100
+    coutEnMateriaux=100
+    
     def __init__(self):
-        Batiment.__init__(self)
-        self.coutEnArgent = 25
-        self.coutEnMateriaux = 25
         self.niveau=1
-        self.consommationEnergie=5
+        self.consommationEnergie=0.1
+        
+class ReacteurNucleaire():                      # Transforme le minerai nucleaire en energie
+    coutEnArgent=100
+    coutEnMateriaux=100
+    
+    def __init__(self):
+        self.niveau=1
+        self.consommationEnergie=0.1
+        self.capaciteProduction = 0.05
+        self.vitesse = 1
+        
+    def produire(self):
+        return self.capaciteProduction * self.vitesse
+
   
