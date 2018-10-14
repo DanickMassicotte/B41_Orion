@@ -125,23 +125,37 @@ class Vue():
         
     def afficherdecor(self,mod):
         
+        # afficher etoiles decoratives
         for i in range(len(mod.planetes)*3):
             x=random.randrange(mod.largeur)
             y=random.randrange(mod.hauteur)
-            self.canevas.create_oval(x,y,x+1,y+1,fill="white",tags=("fond",))
-        
-        self.imgplanete = PhotoImage(file = "img_etoile_01.png")
+            self.canevas.create_oval (x, y, x+1, y+1, fill = "white", tags = ("fond"))
+
+        # afficher planetes vierges
+        self.imgplanete = PhotoImage (file = "img_etoile_01.png")
         for i in mod.planetes:
-            self.canevas.create_image(i.x, i.y, image = self.imgplanete,
-                                      tags=(i.proprietaire,"planete",str(i.id)))
-            # t=i.taille
-            #self.canevas.create_oval(i.x-t,i.y-t,i.x+t,i.y+t,fill="grey80",
-                                    #tags=(i.proprietaire,"planete",str(i.id)))
+            self.canevas.create_image (
+                i.x, i.y, image = self.imgplanete, tags = (i.proprietaire,"planete",str(i.id)))
+
+        # afficher monstre        
+        self.img_monstre = PhotoImage (file = "img_monstre_02.png")
+        x = mod.monstre.x # hardcode pour l'instant
+        y = mod.monstre.y # hardcode pour l'instant
+        self.canevas.create_image (x, y, image = self.img_monstre)
+
+        # afficher progenitures du monstre
+        self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
+        x = mod.progenitures.x
+        y = mod.progenitures.y
+        self.canevas.create_image (x, y, image = self.img_progenitures)
+
+        # afficher planetes joueurs
+        self.img_planeteJoueur = PhotoImage (file = "img_planeteJoueur_02.png")
         for i in mod.joueurs.keys():
             for j in mod.joueurs[i].planetescontrolees:
-                self.img_planeteJoueur = PhotoImage(file = "img_planeteJoueur_01.png")
-                self.canevas.create_image(j.x, j.y, image = self.img_planeteJoueur,
-                                          tags=(j.proprietaire,"planete",str(j.id),"possession"))
+                self.canevas.create_image (
+                    j.x, j.y, image = self.img_planeteJoueur,
+                    tags = (j.proprietaire,"planete", str(j.id), "possession"))
                 
         self.afficherpartie(mod)
                 
@@ -151,8 +165,10 @@ class Vue():
         x=j.planetemere.x
         y=j.planetemere.y
         t=10
-        self.canevas.create_oval(x-t,y-t,x+t,y+t,dash=(3,3),width=2,outline=couleur,
-                                 tags=("planetemere","marqueur"))
+        self.canevas.create_oval (
+            x-t, y-t, x+t, y+t, dash=(3,3), width=2, outline=couleur,
+            tags = ("planetemere","marqueur"))
+        
     def creervaisseau(self):
         print("Creer vaisseau")
         self.parent.creervaisseau()
@@ -170,9 +186,11 @@ class Vue():
                     if i.id == int(self.maselection[2]):
                         x=i.x
                         y=i.y
-                        t=10
-                        self.canevas.create_oval(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
-                                                 tags=("select","marqueur"))
+                        t = 40
+                        self.canevas.create_oval (
+                            x-t, y-t, x+t, y+t, dash = (2,2),
+                            outline = mod.joueurs[self.nom].couleur,
+                            tags=("select","marqueur"))
             elif self.maselection[1]=="flotte":
                 for i in joueur.flotte[choix]:
                     if i.id == int(self.maselection[2]):
@@ -181,9 +199,6 @@ class Vue():
                         t=10
                         self.canevas.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
                                                  tags=("select","marqueur"))
-        #else:
-        #    self.canevas.delete("marqueur")
-            
         
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
@@ -223,3 +238,6 @@ class Vue():
     
     def afficherartefacts(self,joueurs):
         pass #print("ARTEFACTS de ",self.nom)
+    
+    
+    
