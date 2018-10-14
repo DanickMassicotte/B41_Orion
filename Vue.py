@@ -148,6 +148,12 @@ class Vue():
         x = mod.progenitures.x
         y = mod.progenitures.y
         self.canevas.create_image (x, y, image = self.img_progenitures)
+        
+        # afficher une planete infectee
+        self.img_planeteInfectee = PhotoImage (file = "img_planeteInfectee_01.png")
+        x = 220 # hardcode pour l'instant
+        y = 60 # hardcode pour l'instant
+        self.canevas.create_image (x, y, image = self.img_planeteInfectee)
 
         # afficher planetes joueurs
         self.img_planeteJoueur = PhotoImage (file = "img_planeteJoueur_02.png")
@@ -196,15 +202,19 @@ class Vue():
                     if i.id == int(self.maselection[2]):
                         x=i.x
                         y=i.y
-                        t=10
-                        self.canevas.create_rectangle(x-t,y-t,x+t,y+t,dash=(2,2),outline=mod.joueurs[self.nom].couleur,
-                                                 tags=("select","marqueur"))
+                        t = 60
+                        self.canevas.create_rectangle (
+                            x-t, y-t, x+t, y+t, dash = (2,2),
+                            outline = mod.joueurs[self.nom].couleur,
+                            tags=("select","marqueur"))
         
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
             for j in i.flotte[choix]:
-                self.canevas.create_rectangle(j.x-3,j.y-3,j.x+3,j.y+3,fill=i.couleur,
-                                     tags=(j.proprietaire,"flotte",str(j.id),"artefact"))
+                t = 40
+                self.canevas.create_rectangle (
+                    j.x-t, j.y-t, j.x+t, j.y+t, fill = i.couleur,
+                    tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
 
     def cliquecosmos(self,evt):
         self.btncreervaisseau.pack_forget()

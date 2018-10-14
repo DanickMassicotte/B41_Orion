@@ -30,7 +30,7 @@ class Modele():
         self.monstre = MonstreIntersideral (
             self, self.parent.serveur.rdseed, 95, 60)
             # peut changer pour un init pour choisir une position random parmis choix
-        self.progenitures = ProgenitureInfernale (self, 180, 110)
+        self.progenitures = ProgenitureInfernale (self, 120, 140)
         self.genererAstres()
         
     def creerterrain(self):
