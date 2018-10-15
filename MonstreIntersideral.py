@@ -251,8 +251,10 @@ class ProgenitureInfernale():
         
         if listeMenaces:
             self.cible = random.choice(listeMenaces)
-        else:
+        elif listeCibles:
             self.cible = random.choice(listeCibles)
+        else:
+            self.cible = None
         
 
     
@@ -350,6 +352,41 @@ class JoueurMonstre():
         self.flotte = []
         
 class Mineur():
+    def __init__(self,pointeurModele,x,y):
+        self.pointeurModele = pointeurModele
+        self.x = x
+        self.y = y
+        self.hp = 150
+        self.puissance = 10
+        self.cible =None
+        self.vitesse = 25
+    
+    def choixCible(self):
+            if self.cible == None and self.pointeurModele.monstre.listeProgenitures:
+                self.cible = random.choice(self.pointeurModele.monstre.listeProgenitures)
+                #print("vaisseau", self, "trouver cible", self.cible)
+                
+    def deplacement(self):
+            #print("deplacement de ", self.x, self.y, "vers", self.cible.x, self.cible.y)
+        if self.x > self.cible.x:
+            self.x -= self.vitesse
+        if self.x < self.cible.x:
+            self.x += self.vitesse
+            
+        if self.y > self.cible.y:
+            self.y -= self.vitesse
+        if self.y < self.cible.y:
+            self.y += self.vitesse
+            
+    def attaquer(self):
+        #print("progéniture à",self.x,self.y, "attaque", self.cible.x, self.cible.y, "vie cible:", self.cible.hp)
+        if self.cible is not None and self.cible.hp > 0:
+            self.cible.hp -= self.puissance
+            print("vie cible après attaque", self.cible.hp)
+        else:
+            self.cible = None
+            #print("cible détruite")
+class Explorateur():
     def __init__(self,pointeurModele,x,y):
         self.pointeurModele = pointeurModele
         self.x = x
