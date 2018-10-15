@@ -9,8 +9,6 @@ from subprocess import Popen
 from helper import Helper as hlp
 from PIL import Image, ImageTk
 
-choix = "A1"
-
 class Vue():
     def __init__(self,parent,ip,nom):
         self.parent=parent
@@ -419,6 +417,29 @@ class Vue():
         self.canevas.delete("marqueur")
         self.btncreervaisseau.pack_forget()
         
+    # -----------------DM---------------------- #
+    def creermineur(self):
+        print("Creer mineur")
+        self.parent.creermineur()
+        self.maselection=None
+        self.canevas.delete("marqueur")
+        self.btncreervaisseau.pack_forget()     # À vérifier
+        
+    def creerexploreur(self):
+        print("Creer exploreur")
+        self.parent.creerexploreur()
+        self.maselection=None
+        self.canevas.delete("marqueur")
+        self.btncreervaisseau.pack_forget()     # À vérifier
+        
+    def creerfregate(self):
+        print("Creer fregate")
+        self.parent.creerfregate()
+        self.maselection=None
+        self.canevas.delete("marqueur")
+        self.btncreervaisseau.pack_forget()     # À vérifier
+    # ------------------------------------------#
+        
     def afficherpartie(self,mod):
         self.canevas.delete("artefact")
         
@@ -435,7 +456,7 @@ class Vue():
                             outline = mod.joueurs[self.nom].couleur,
                             tags=("select","marqueur"))
             elif self.maselection[1]=="flotte":
-                for i in joueur.flotte[choix]:
+                for i in joueur.flotte:
                     if i.id == int(self.maselection[2]):
                         x=i.x
                         y=i.y
@@ -447,7 +468,7 @@ class Vue():
         
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
-            for j in i.flotte[choix]:
+            for j in i.flotte:
                 t = 40
                 self.canevas.create_rectangle (
                     j.x-t, j.y-t, j.x+t, j.y+t, fill = i.couleur,
