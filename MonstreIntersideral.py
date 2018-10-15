@@ -314,8 +314,8 @@ class ModeleMonstre():
         #self.listeVaisseaux.append(VaisseauMonstre(self,550,550))     
     
     def initJoueurs(self):
-        joueur1 = Joueur()
-        joueur2 = Joueur()
+        joueur1 = JoueurMonstre()
+        joueur2 = JoueurMonstre()
         self.joueurs = {"joueur1": joueur1,
                         "joueur2": joueur2 }
     
@@ -345,7 +345,7 @@ class AsteroideMonstre():
         self.x = x
         self.y = y
 
-class Joueur():
+class JoueurMonstre():
     def __init__(self):
         self.flotte = []
         
