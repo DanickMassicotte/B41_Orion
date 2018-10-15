@@ -11,6 +11,7 @@ from Vue import *
 from Modele import *
 from ObjetsJeu import *
 from Controleur import *
+from PIL import Image, ImageTk
         
 if __name__=="__main__":
     c=Controleur()

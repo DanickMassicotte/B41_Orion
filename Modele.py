@@ -10,14 +10,15 @@ from subprocess import Popen
 from helper import Helper as hlp
 from ObjetsJeu import *
 from MonstreIntersideral import *
+from PIL import Image, ImageTk
 
 choix = "A1"
 
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
-        self.largeur=600 #self.parent.vue.root.winfo_screenwidth()
-        self.hauteur=600 #self.parent.vue.root.winfo_screenheight()
+        self.largeur=1920 #self.parent.vue.root.winfo_screenwidth()
+        self.hauteur=700 #self.parent.vue.root.winfo_screenheight()
         self.joueurs={}
         self.actionsafaire={}
         self.planetes=[]

@@ -51,8 +51,8 @@ class Controleur():
     # NOTE si on demarre le serveur, cette fonction est appellee pour nous (voir timer et variable tempo)
     #      ou par un clique sur le bouton 'Creerunclient' du layout
     def inscrirejoueur(self):
-        ipserveur=self.vue.ipsplash.get() # lire le IP dans le champ du layout
-        nom=self.vue.nomsplash.get() # noter notre nom
+        ipserveur=self.vue.ipSplash.get() # lire le IP dans le champ du layout
+        nom=self.vue.nomSplash.get() # noter notre nom
         if ipserveur and nom:
             ad="http://"+ipserveur+":9999"
             self.serveur=xmlrpc.client.ServerProxy(ad)

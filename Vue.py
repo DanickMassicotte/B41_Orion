@@ -7,6 +7,7 @@ import socket
 import random
 from subprocess import Popen 
 from helper import Helper as hlp
+from PIL import Image, ImageTk
 
 choix = "A1"
 
@@ -20,80 +21,119 @@ class Vue():
         self.terrain=[]
         self.cadreactif=None
         self.maselection=None
-        self.root.title(os.path.basename(sys.argv[0]))
+        self.root.title("Orion")
         self.modele=None
         self.nom=""
-        self.cadreapp=Frame(self.root,width=800,height=600)
-        self.cadreapp.pack()
+        self.cadreapp=Frame(self.root,width=1920,height=950)
+        self.cadreapp.grid(row = 0,column = 0)
         self.creercadresplash(ip,nom)
         self.creercadrelobby()
-        self.changecadre(self.cadresplash)
         
     def fermerfenetre(self):
         self.parent.fermefenetre()
         
     def changecadre(self,cadre):
         if self.cadreactif:
-            self.cadreactif.pack_forget()
+            self.cadreactif.grid_forget()
         self.cadreactif=cadre
-        self.cadreactif.pack()
+        self.cadreactif.grid(row = 0,column = 0)
             
     def creercadresplash(self,ip,nom):
-        self.cadresplash=Frame(self.cadreapp)
-        self.canevassplash=Canvas(self.cadresplash,width=640,height=480,bg="red")
-        self.canevassplash.pack()
-        self.nomsplash=Entry(bg="pink")
-        self.nomsplash.insert(0, nom)
-        self.ipsplash=Entry(bg="pink")
-        self.ipsplash.insert(0, ip)
-        labip=Label(text=ip,bg="red",borderwidth=0,relief=RIDGE)
-        btncreerpartie=Button(text="Creer partie",bg="pink",command=self.creerpartie)
-        btnconnecterpartie=Button(text="Connecter partie",bg="pink",command=self.connecterpartie)
-        self.canevassplash.create_window(200,200,window=self.nomsplash,width=100,height=30)
-        self.canevassplash.create_window(200,250,window=self.ipsplash,width=100,height=30)
-        self.canevassplash.create_window(200,300,window=labip,width=100,height=30)
-        self.canevassplash.create_window(200,350,window=btncreerpartie,width=100,height=30)
-        self.canevassplash.create_window(200,400,window=btnconnecterpartie,width=100,height=30) 
+        
+       self.frameSplash = Frame(self.cadreapp, width = 1920, height = 950)
+       self.frameSplashTexte = Frame(self.frameSplash )
+       
+       self.frameSplash.grid(row = 0, column = 0, sticky = "nsew")
+       self.frameSplashTexte.grid(row = 0, column = 0, sticky = "nsew")
+       
+       self.photoSplash = PhotoImage(file = "scifi_art.png")
+       self.label = Label(self.frameSplash,image=self.photoSplash,bg = "black")
+       self.label.grid(row = 0, column = 0)
+       
+       self.canevasSplash = Canvas(self.frameSplashTexte,width=1920,height=950)
+       self.canevasSplash.grid(row = 0, column = 0)
+       
+       self.nomSplash = Entry(bg = "steelblue")
+       self.nomSplash.insert(0, nom)
+       self.ipSplash = Entry(bg = "steelblue")
+       self.ipSplash.insert(0, ip)
+       
+       labip=Label(text=ip,bg="steelblue",borderwidth=0,relief=RIDGE)
+       btncreerpartie=Button(text="Creer partie",bg="steelblue",command=self.creerpartie)
+       btnconnecterpartie=Button(text="Connecter partie",bg="steelblue",command=self.connecterpartie)
+       
+       self.canevasSplash.create_window(1750,200,window=self.nomSplash,width=200,height=40)
+       self.canevasSplash.create_window(1750,250,window=self.ipSplash,width=200,height=40)
+       self.canevasSplash.create_window(1750,300,window=labip,width=200,height=40)
+       self.canevasSplash.create_window(1750,350,window=btncreerpartie,width=200,height=40)
+       self.canevasSplash.create_window(1750,400,window=btnconnecterpartie,width=200,height=40)
             
     def creercadrelobby(self):
-        self.cadrelobby=Frame(self.cadreapp)
-        self.canevaslobby=Canvas(self.cadrelobby,width=640,height=480,bg="lightblue")
-        self.canevaslobby.pack()
-        self.listelobby=Listbox(bg="red",borderwidth=0,relief=FLAT)
-        self.nbetoile=Entry(bg="pink")
+        
+        self.frameLobby=Frame(self.cadreapp, width = 1920, height = 950)
+        self.frameLobbyTexte = Frame(self.frameLobby)
+        
+        self.frameLobby.grid(row = 0, column = 0, sticky = "nsew")
+        self.frameLobbyTexte.grid(row = 0, column = 0, sticky = "nsew")
+        
+        self.photoSplash = PhotoImage(file = "scifi_art.png")
+        self.label = Label(self.frameLobby,image=self.photoSplash,bg = "black")
+        self.label.grid(row = 0, column = 0)
+        
+        self.canevaslobby=Canvas(self.frameLobbyTexte,width=1920,height=950)
+        
+        self.listelobby=Listbox(bg="steelblue", relief = "sunken", font=("Copperplate Gothic", 10, "bold"), bd = 1, highlightbackground= "steelblue")
+        self.nbetoile=Entry(bg="steelblue", font=("Copperplate Gothic", 10))
         self.nbetoile.insert(0, 100)
-        self.largeespace=Entry(bg="pink")
+        self.largeespace=Entry(bg="steelblue", font=("Copperplate Gothic", 10))
         self.largeespace.insert(0, 1000)
-        self.hautespace=Entry(bg="pink")
+        self.hautespace=Entry(bg="steelblue", font=("Copperplate Gothic", 10))
         self.hautespace.insert(0, 800)
-        btnlancerpartie=Button(text="Lancer partie",bg="pink",command=self.lancerpartie)
-        self.canevaslobby.create_window(440,240,window=self.listelobby,width=200,height=400)
-        self.canevaslobby.create_window(200,200,window=self.largeespace,width=100,height=30)
-        self.canevaslobby.create_window(200,250,window=self.hautespace,width=100,height=30)
-        self.canevaslobby.create_window(200,300,window=self.nbetoile,width=100,height=30)
-        self.canevaslobby.create_window(200,400,window=btnlancerpartie,width=100,height=30)
+        
+        self.case1 = Label(text = "Nombre d'étoile",bg = "steelblue", relief = "groove", font=("Copperplate Gothic", 10, "bold"))
+        self.case2 = Label(text = "Largeur",bg = "steelblue", relief = "groove", font=("Copperplate Gothic", 10, "bold"))
+        self.case3 = Label(text = "Hauteur",bg = "steelblue", relief = "groove", font=("Copperplate Gothic", 10, "bold"))
+        self.configuration = Button(text = "Configuration", bg = "steelblue", relief = "raised", font=("Copperplate Gothic", 10, "bold"), command=self.lancerconfig)
+        
+        btnlancerpartie=Button(text="Lancer partie", font=("Copperplate Gothic", 15, "bold"),bg="steelblue",relief = "raised",command=self.lancerpartie)
+        
+        self.canevaslobby.create_window(1700,150, window=self.configuration, width =300, height =40)
+        self.canevaslobby.create_window(1700,530,window=self.listelobby,width=300,height=400)
+        self.canevaslobby.create_window(1700,800,window=btnlancerpartie,width=300,height=80)
         
     def connecterpartie(self):
-        nom=self.nomsplash.get()
-        ip=self.ipsplash.get()
+        self.frameSplashTexte.grid_forget()
+        self.canevaslobby.grid(row = 0,column = 0)
+        nom=self.nomSplash.get()
+        ip=self.ipSplash.get()
         if nom and ip:
             self.parent.inscrirejoueur()
-            self.changecadre(self.cadrelobby)
+            self.changecadre(self.frameLobby)
             print("BOUCLEATTENTE de CONNECTER")
             self.parent.boucleattente()
         
     def creerpartie(self):
-        nom=self.nomsplash.get()
-        ip=self.ipsplash.get()
+        self.frameSplashTexte.grid_forget()
+        self.canevaslobby.grid(row = 0,column = 0)
+        nom=self.nomSplash.get()
+        ip=self.ipSplash.get()
         if nom and ip:
             self.parent.creerpartie()
             self.parent.inscrirejoueur()
-            self.changecadre(self.cadrelobby)
+            self.changecadre(self.frameLobby)
             print("BOUCLEATTENTE de CREER")
             self.parent.boucleattente()
         
     def lancerpartie(self):
         self.parent.lancerpartie()
+        
+    def lancerconfig(self):
+        self.canevaslobby.create_window(1600,200, window=self.case1,width = 100,height = 40)
+        self.canevaslobby.create_window(1600,250, window=self.case2,width = 100,height = 40)
+        self.canevaslobby.create_window(1600,300, window=self.case3,width = 100,height = 40)
+        self.canevaslobby.create_window(1750,200,window=self.largeespace,width=200,height=40)
+        self.canevaslobby.create_window(1750,250,window=self.hautespace,width=200,height=40)
+        self.canevaslobby.create_window(1750,300,window=self.nbetoile,width=200,height=40)
         
     def affichelisteparticipants(self,lj):
         self.listelobby.delete(0,END)
@@ -102,26 +142,223 @@ class Vue():
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
         self.mod=mod
-        self.cadrepartie=Frame(self.cadreapp)
-        self.cadrejeu=Frame(self.cadrepartie)
-        self.canevas=Canvas(self.cadrepartie,width=mod.largeur,height=mod.hauteur,bg="grey11")
-        self.canevas.pack(side=LEFT)
+        
+        self.frameJeu=Frame(self.cadreapp)  
+        self.frameRessource = Frame(self.frameJeu,bg='black', highlightbackground="deep sky blue", highlightthickness=2, width=1920,height = 50)
+        self.frameAireJeu = Frame(self.frameJeu,bg='steelblue', width=1920,height = 500, highlightbackground="deep sky blue", highlightthickness=2)
+        self.frameZoneUsager = Frame(self.frameJeu,bg='black', highlightbackground="deep sky blue", highlightthickness=2, width = 1920, height = 230 )
+        self.frameMessage = Frame(self.frameZoneUsager,bg='steelblue', highlightbackground="deep sky blue", highlightthickness=2, width = 1090, height = 280)
+        self.frameMenu = Frame(self.frameZoneUsager,bg='steelblue', highlightbackground="deep sky blue", highlightthickness=2, width = 500, height = 280)
+        self.frameMap = Frame(self.frameZoneUsager,bg='steelblue', highlightbackground="deep sky blue", highlightthickness=2, width = 330, height = 280)
+        
+        self.frameJeu.grid(row = 0, sticky = "nsew")
+        self.frameRessource.grid(column = 16 , sticky = "new", columnspan=16)
+        self.frameAireJeu.grid(column = 16, sticky = "ew")
+        self.frameZoneUsager.grid(column = 16, sticky = "nsew")
+        self.frameMenu.grid(row = 0, column = 2, sticky = "nsew")
+        self.frameMap.grid(row = 0, column = 0,  sticky = "nsew")
+        self.frameMessage.grid(row = 0, column = 1,  sticky = "nsew")
+
+        self.canevas=Canvas(self.frameAireJeu,width=mod.largeur,height=mod.hauteur,bg="grey11")  
+        self.canevas.grid(row = 0, column = 0)                                                            
         self.canevas.bind("<Button>",self.cliquecosmos)
-        self.cadreinfo=Frame(self.cadrepartie,width=200,height=200,bg="darkgrey")
-        self.cadreinfo.pack(side=LEFT,fill=Y)
-        self.cadreinfogen=Frame(self.cadreinfo,width=200,height=200,bg="grey50")
-        self.cadreinfogen.pack()
-        self.labid=Label(self.cadreinfogen,text=self.nom,fg=mod.joueurs[self.nom].couleur)
-        self.labid.bind("<Button>",self.afficherplanemetemere)
-        self.labid.pack()
-        self.cadreinfochoix=Frame(self.cadreinfo,height=200,width=200,bg="grey30")
-        self.cadreinfochoix.pack()
-        self.btncreervaisseau=Button(self.cadreinfo,text="Vaisseau",command=self.creervaisseau)
-        self.lbselectecible=Label(self.cadreinfo,text="Choisir cible",bg="darkgrey")
+        self.labid=Label(self.frameMessage,text=self.nom,fg=mod.joueurs[self.nom].couleur)
+        self.labid.bind("<Button>",self.afficherplanemetemere)                                  
+        self.labid.grid(row = 0, column = 0 )                                                                                                                                    #.grid
+        self.btncreervaisseau=Button( self.frameMenu,text="Vaisseau",
+                                      command=self.creervaisseau, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        
+        self.lbselectecible=Label(self.frameMenu,text="Choisir cible",bg="darkgrey")
+        
+        #Creation des widgets dans le frame ressource
+        
+        self.boutonXchange = Button(    self.frameRessource, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Xchange",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        
+        self.Alerte = Label(self.frameRessource, 
+                               text='Alerte', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue",
+                               padx = 450)
+       
+        self.ressource = Label(self.frameRessource, 
+                               text='Ressource :', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue",
+                               padx = 10)
+        
+        #Mineral
+        self.mineral = Label(self.frameRessource, 
+                               text='mineral', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue",
+                               padx = 20)
+        
+        self.mineralAmount = Label(self.frameRessource, 
+                               text="7412", 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue")
+        #Food
+        self.food = Label(self.frameRessource, 
+                               text='Food', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue",
+                               padx = 20)
+        
+        self.foodAmount = Label(self.frameRessource, 
+                               text='45632', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue")
+        #Energy
+        self.energy = Label(self.frameRessource, 
+                               text='Energy', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue",
+                               padx = 20)
+        
+        self.energyAmount = Label(self.frameRessource, 
+                               text='4521', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue")
+        
+        #Creation des widgets dans le frame Zone Usager
+        self.boutonTest1 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test1",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.boutonTest2 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test2",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.boutonTest3 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test3",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.boutonTest4 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test4",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.boutonTest5 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test5",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.boutonTest6 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test5",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.boutonTest7 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test5",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.boutonTest8 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test5",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.boutonTest9 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test5",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.boutonTest10 = Button(    self.frameMenu, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue", 
+                                      text = "Test5",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        
+        self.frameJeu.grid_rowconfigure(0, weight = 0)
+        self.frameJeu.grid_columnconfigure(1, weight = 1)
+        
+        self.frameRessource.grid_rowconfigure(0, weight = 0)
+        self.frameRessource.grid_columnconfigure(16, weight = 1)
+        
+        self.frameAireJeu.grid_rowconfigure(0, weight = 0)
+        self.frameAireJeu.grid_columnconfigure(1, weight = 1)
+        
+        self.frameZoneUsager.grid_rowconfigure(0, weight = 0)
+        self.frameZoneUsager.grid_columnconfigure(1, weight = 1)
+        
+        self.ressource.grid(row =0, column =2)
+        self.mineral.grid(row = 0, column = 3)
+        self.mineralAmount.grid(row =0, column =4)
+        self.food.grid(row = 0, column = 5)
+        self.foodAmount.grid(row =0, column =6)
+        self.energy.grid(row = 0, column = 7)
+        self.energyAmount.grid(row =0, column =8)
+        self.boutonXchange.grid(row = 0, column =0)
+        self.Alerte.grid(row = 0, column = 1)
+        
+        #self.btncreervaisseau.grid(row =0, column =0)
+        #self.boutonTest2.grid(row = 1, column =0)
+        #self.boutonTest3.grid(row = 2, column =0)
+        #self.boutonTest4.grid(row = 3, column =0)
+        #self.boutonTest5.grid(row = 4, column =0)
+        #self.boutonTest6.grid(row = 5, column =0)
+        #self.boutonTest7.grid(row = 6, column =0)
+        #self.boutonTest8.grid(row = 7, column =0)
+        #self.boutonTest9.grid(row = 8, column =0)
+        #self.boutonTest10.grid(row = 9, column =0)
         
         self.afficherdecor(mod)
         
-        self.changecadre(self.cadrepartie)
+        self.changecadre(self.frameJeu)
         
     def afficherdecor(self,mod):
         
