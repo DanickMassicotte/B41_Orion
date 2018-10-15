@@ -140,6 +140,24 @@ class Vue():
     def creeraffichercadrepartie(self,mod):
         self.nom=self.parent.monnom
         self.mod=mod
+        # DEBUT AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.varNourriture=StringVar()
+        self.varNourriture.set(str(self.mod.joueurs[self.parent.monnom].nourriture))
+        self.varEnergie=StringVar()
+        self.varEnergie.set(str(self.mod.joueurs[self.parent.monnom].energie))
+        self.varArgent=StringVar()
+        self.varArgent.set(str(self.mod.joueurs[self.parent.monnom].argent))
+        self.varMateriaux=StringVar()
+        self.varMateriaux.set(str(self.mod.joueurs[self.parent.monnom].materiaux))
+        self.varMatiereNucleaire=StringVar()
+        self.varMatiereNucleaire.set(str(self.mod.joueurs[self.parent.monnom].matiereNucleaire))
+        self.varPopulation=StringVar()
+        self.varPopulation.set(str(self.mod.joueurs[self.parent.monnom].population))
+        self.varPopulationMax=StringVar()
+        self.varPopulationMax.set(str(self.mod.joueurs[self.parent.monnom].populationMaximale))
+#         self.varConnaissance=StringVar()
+#         self.varConnaissance.set(str(self.mod.joueurs[self.parent.monnom].connaissance))
+        # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         self.frameJeu=Frame(self.cadreapp)  
         self.frameRessource = Frame(self.frameJeu,bg='black', highlightbackground="deep sky blue", highlightthickness=2, width=1920,height = 50)
@@ -199,16 +217,16 @@ class Vue():
                                fg = "deep sky blue",
                                padx = 10)
         
-        #Mineral
-        self.mineral = Label(self.frameRessource, 
-                               text='mineral', 
+        #Matiere nucleaire
+        self.nucleaire = Label(self.frameRessource, 
+                               text='nuclear', 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue",
                                padx = 20)
         
-        self.mineralAmount = Label(self.frameRessource, 
-                               text="7412", 
+        self.nucleaireAmount = Label(self.frameRessource, 
+                               text=self.varMatiereNucleaire.get(),
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
@@ -221,23 +239,83 @@ class Vue():
                                padx = 20)
         
         self.foodAmount = Label(self.frameRessource, 
-                               text='45632', 
+                               text=self.varNourriture.get(), 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
         #Energy
-        self.energy = Label(self.frameRessource, 
-                               text='Energy', 
+        self.energy = Label(self.frameRessource,
+                               text='Energy:',  
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue",
                                padx = 20)
         
         self.energyAmount = Label(self.frameRessource, 
-                               text='4521', 
+                               text=self.varEnergie.get(),  
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
+        
+        # DEBUT AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+        #Argent
+        self.argent = Label(self.frameRessource, 
+                               text='Money', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue",
+                               padx = 20)
+         
+        self.argentAmount = Label(self.frameRessource, 
+                               text=self.varArgent.get(), 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue")
+        
+        #Population
+        self.population = Label(self.frameRessource, 
+                               text='Population', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue",
+                               padx = 20)
+         
+        self.populationAmount = Label(self.frameRessource, 
+                               text=self.varPopulation.get() + " / " + self.varPopulationMax.get(), 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue")
+         
+        #Materiaux
+        self.materiaux = Label(self.frameRessource, 
+                               text='Materials', 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue",
+                               padx = 20)
+         
+        self.materiauxAmount = Label(self.frameRessource, 
+                               text=self.varMateriaux.get(), 
+                               font = ("Castellar",10, "bold"),
+                               bg = 'black', 
+                               fg = "deep sky blue")
+
+#         #Connaissance
+#         self.connaissance = Label(self.frameRessource, 
+#                                text='connaissance', 
+#                                font = ("Castellar",10, "bold"),
+#                                bg = 'black', 
+#                                fg = "deep sky blue",
+#                                padx = 20)
+#          
+#         self.connaissanceAmount = Label(self.frameRessource, 
+#                                text=self.varConnaissance.get(), 
+#                                font = ("Castellar",10, "bold"),
+#                                bg = 'black', 
+#                                fg = "deep sky blue")
+
+        # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         #Creation des widgets dans le frame Zone Usager
         self.boutonTest1 = Button(    self.frameMenu, 
@@ -333,14 +411,20 @@ class Vue():
         self.frameZoneUsager.grid_rowconfigure(0, weight = 0)
         self.frameZoneUsager.grid_columnconfigure(1, weight = 1)
         
-        self.ressource.grid(row =0, column =2)
-        self.mineral.grid(row = 0, column = 3)
-        self.mineralAmount.grid(row =0, column =4)
+        self.ressource.grid(row = 0, column =2)
+        self.population.grid(row = 0, column = 3)
+        self.populationAmount.grid(row = 0, column = 4)
         self.food.grid(row = 0, column = 5)
-        self.foodAmount.grid(row =0, column =6)
+        self.foodAmount.grid(row = 0, column = 6)
         self.energy.grid(row = 0, column = 7)
-        self.energyAmount.grid(row =0, column =8)
-        self.boutonXchange.grid(row = 0, column =0)
+        self.energyAmount.grid(row = 0, column = 8)
+        self.argent.grid(row = 1, column = 3)
+        self.argentAmount.grid(row = 1, column = 4)
+        self.materiaux.grid(row = 1, column = 5)
+        self.materiauxAmount.grid(row = 1, column = 6)
+        self.nucleaire.grid(row = 1, column = 7)
+        self.nucleaireAmount.grid(row = 1, column = 8)
+        self.boutonXchange.grid(row = 0, column = 0)
         self.Alerte.grid(row = 0, column = 1)
         
         #self.btncreervaisseau.grid(row =0, column =0)
@@ -358,6 +442,7 @@ class Vue():
         
         self.changecadre(self.frameJeu)
         
+    # AFFICHAGE INITIAL SEULEMENT
     def afficherdecor(self,mod):
         
         # afficher etoiles decoratives
@@ -367,7 +452,7 @@ class Vue():
             self.canevas.create_oval (x, y, x+1, y+1, fill = "white", tags = ("fond"))
 
         # afficher planetes vierges
-        self.imgplanete = PhotoImage (file = "img_etoile_01.png")
+        self.imgplanete = PhotoImage (file = "img_planeteVierge_02.png")
         for i in mod.planetes:
             self.canevas.create_image (
                 i.x, i.y, image = self.imgplanete, tags = (i.proprietaire,"planete",str(i.id)))
@@ -377,17 +462,6 @@ class Vue():
         x = mod.monstre.x # hardcode pour l'instant
         y = mod.monstre.y # hardcode pour l'instant
         self.canevas.create_image (x, y, image = self.img_monstre)
-
-        # afficher progenitures du monstre
-        if mod.monstre.listeProgenitures:
-            for progeniture in mod.monstre.listeProgenitures:
-                self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
-                x = progeniture.x
-                y = progeniture.y
-                print(x, y)
-                self.canevas.create_image (x, y, image = self.img_progenitures)
-        else:
-            pass
 
         # afficher une planete infectee
         self.img_planeteInfectee = PhotoImage (file = "img_planeteInfectee_01.png")
@@ -448,6 +522,19 @@ class Vue():
     def afficherpartie(self,mod):
         self.canevas.delete("artefact")
         
+        # afficher progenitures du monstre
+        if mod.monstre.listeProgenitures:
+            for progeniture in mod.monstre.listeProgenitures:
+                self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
+                x = progeniture.x
+                y = progeniture.y
+                print(x, y)
+                self.canevas.create_image (x, y, image = self.img_progenitures)
+        else:
+            pass
+
+        
+        
         if self.maselection!=None:
             joueur=mod.joueurs[self.maselection[0]]
             if self.maselection[1]=="planete":
@@ -478,6 +565,18 @@ class Vue():
                 self.canevas.create_rectangle (
                     j.x-t, j.y-t, j.x+t, j.y+t, fill = i.couleur,
                     tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
+                
+    # Mise à jour des variables d'affichage des statistiques du joueur    
+    # DEBUT AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.varPopulation.set(str(self.mod.joueurs[self.parent.monnom].population))
+        self.varPopulationMax.set(str(self.mod.joueurs[self.parent.monnom].populationMaximale))
+        self.varNourriture.set(str(self.mod.joueurs[self.parent.monnom].nourriture))
+        self.varArgent.set(str(self.mod.joueurs[self.parent.monnom].argent))
+        self.varEnergie.set(str(self.mod.joueurs[self.parent.monnom].energie))                
+        self.varMateriaux.set(str(self.mod.joueurs[self.parent.monnom].materiaux))
+        self.varMatiereNucleaire.set(str(self.mod.joueurs[self.parent.monnom].matiereNucleaire))
+        #self.varConnaissance.set(str(self.mod.joueurs[self.parent.monnom].connaissance))
+    # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     def cliquecosmos(self,evt):
         self.btncreervaisseau.pack_forget()
