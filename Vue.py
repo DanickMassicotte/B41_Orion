@@ -164,7 +164,7 @@ class Vue():
         self.labid.bind("<Button>",self.afficherplanemetemere)                                  
         self.labid.grid(row = 0, column = 0 )                                                                                                                                    #.grid
         self.btncreervaisseau=Button( self.frameMenu,text="Vaisseau",
-                                      command=self.creervaisseau, 
+                                      command=self.creermineur, 
                                       relief=RAISED,
                                       bg = "deep sky blue",
                                       fg="black", 

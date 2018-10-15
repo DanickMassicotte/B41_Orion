@@ -328,6 +328,13 @@ class Joueur():
                         print("GOT TARGET")
                         return
                     
+    def prochaineaction(self):
+        for i in self.flotte:
+            if i.cible:
+                i.avancer()
+            else:
+                pass
+                    
     def prochaineactionWIP(self):
         for i in self.flotte:
             if i.cible and isinstance(i, Mineur):
