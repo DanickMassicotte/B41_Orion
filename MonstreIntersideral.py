@@ -10,7 +10,8 @@ class MonstreIntersideral():
         self.x = x
         self.y = y
         self.frequenceTour = 3.0    #nb de secondes entre chaque tour du monstre
-        self.genese = time.time() 
+        self.genese = 0
+        self.seed = 0
         self.hp = 1000
         self.puissance = 100
         self.grandeurInvasion = 0
@@ -85,9 +86,9 @@ class MonstreIntersideral():
         
 
     def choixAction(self):
-        seedCourante = round(time.time())
-        print(round(seedCourante))
-        random.seed(seedCourante)
+        random.seed(self.seed)
+        print(self.seed)
+        self.seed += 777
         #random.seed(self.pointeurModele.parent.serveur.cadreCourant)
         #si une vaisseau est trop près de lui, le monstre va l'attaquer
         if self.hp <= 0: #p-e mettre dans modele ***
@@ -314,7 +315,7 @@ class ModeleMonstre():
         self.listeEtoiles = []
         self.listeAsteroides = []
         self.genererAstres()
-        self.monstre = MonstreIntersideral(self, random.randint(0,1000),500,500)
+        self.monstre = MonstreIntersideral(self, 500,500)
         self.threadRecursif()
         
     def genererAstres(self):
