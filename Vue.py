@@ -358,6 +358,7 @@ class Vue():
         
         self.changecadre(self.frameJeu)
         
+    # AFFICHAGE INITIAL SEULEMENT
     def afficherdecor(self,mod):
         
         # afficher etoiles decoratives
@@ -367,7 +368,7 @@ class Vue():
             self.canevas.create_oval (x, y, x+1, y+1, fill = "white", tags = ("fond"))
 
         # afficher planetes vierges
-        self.imgplanete = PhotoImage (file = "img_etoile_01.png")
+        self.imgplanete = PhotoImage (file = "img_planeteVierge_02.png")
         for i in mod.planetes:
             self.canevas.create_image (
                 i.x, i.y, image = self.imgplanete, tags = (i.proprietaire,"planete",str(i.id)))
@@ -377,17 +378,6 @@ class Vue():
         x = mod.monstre.x # hardcode pour l'instant
         y = mod.monstre.y # hardcode pour l'instant
         self.canevas.create_image (x, y, image = self.img_monstre)
-
-        # afficher progenitures du monstre
-        if mod.monstre.listeProgenitures:
-            for progeniture in mod.monstre.listeProgenitures:
-                self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
-                x = progeniture.x
-                y = progeniture.y
-                print(x, y)
-                self.canevas.create_image (x, y, image = self.img_progenitures)
-        else:
-            pass
 
         # afficher une planete infectee
         self.img_planeteInfectee = PhotoImage (file = "img_planeteInfectee_01.png")
@@ -447,6 +437,19 @@ class Vue():
         
     def afficherpartie(self,mod):
         self.canevas.delete("artefact")
+        
+        # afficher progenitures du monstre
+        if mod.monstre.listeProgenitures:
+            for progeniture in mod.monstre.listeProgenitures:
+                self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
+                x = progeniture.x
+                y = progeniture.y
+                print(x, y)
+                self.canevas.create_image (x, y, image = self.img_progenitures)
+        else:
+            pass
+
+        
         
         if self.maselection!=None:
             joueur=mod.joueurs[self.maselection[0]]
