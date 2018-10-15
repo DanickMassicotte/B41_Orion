@@ -215,6 +215,7 @@ class ProgenitureInfernale():
         self.cible = None
 
     def procedure(self):
+        print("Je suis progéniture à:", self.x, self.y)
         if not self.isAlive():
             self.pointeurMonstre.listeProgenitures.remove(self)
 

@@ -379,11 +379,16 @@ class Vue():
         self.canevas.create_image (x, y, image = self.img_monstre)
 
         # afficher progenitures du monstre
-        self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
-        x = mod.progenitures.x
-        y = mod.progenitures.y
-        self.canevas.create_image (x, y, image = self.img_progenitures)
-        
+        if mod.monstre.listeProgenitures:
+            for progeniture in mod.monstre.listeProgenitures:
+                self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
+                x = progeniture.x
+                y = progeniture.y
+                print(x, y)
+                self.canevas.create_image (x, y, image = self.img_progenitures)
+        else:
+            pass
+
         # afficher une planete infectee
         self.img_planeteInfectee = PhotoImage (file = "img_planeteInfectee_01.png")
         x = 220 # hardcode pour l'instant
