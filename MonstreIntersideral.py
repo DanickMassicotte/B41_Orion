@@ -220,11 +220,11 @@ class ProgenitureInfernale():
 
         if self.cible == None: #si n'a pas de cible, on en sélectionne une
             self.choixCible()
-            
-        if math.sqrt( ( (self.cible.x -self.x) ** 2 + (self.cible.y - self.y) ** 2 ) ) > self.porteeAttaque:
-            self.deplacement()
-        else:
-            self.attaquer()
+        if self.cible is not None:
+            if math.sqrt( ( (self.cible.x -self.x) ** 2 + (self.cible.y - self.y) ** 2 ) ) > self.porteeAttaque:
+                self.deplacement()
+            else:
+                self.attaquer()
             
     def isAlive(self):
         if self.hp>0:
