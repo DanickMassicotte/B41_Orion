@@ -11,8 +11,6 @@ from subprocess import Popen
 from helper import Helper as hlp
 import Batiments # Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-choix = "A1"
-
 class Id():
     id=0
     def prochainid():
@@ -49,14 +47,13 @@ class Vaisseau():
         self.energie=100
         self.vitesse=2
         self.cible=None 
-        
-        # Debut des modifications
+        # ---------DM---------- #
         self.hp = 100
         self.atk = 10
         self.cout = 100
         self.pop = 1
         self.combat = False
-        # Fin des modifications -- DM
+        # --------------------- #
         
     def avancer(self):
         if self.cible:
@@ -70,24 +67,12 @@ class Vaisseau():
                 #print("Change cible")
         else:
             print("PAS DE CIBLE")
-    
-    def avancer1(self):
-        if self.cible:
-            x=self.cible.x
-            if self.x>x:
-                self.x-=self.vitesse
-            elif self.x<x:
-                self.x+=self.vitesse
-            
-            y=self.cible.y
-            if self.y>y:
-                self.y-=self.vitesse
-            elif self.y<y:
-                self.y+=self.vitesse
-            if abs(self.x-x)<(2*self.cible.taille) and abs(self.y-y)<(2*self.cible.taille):
-                self.cible=None
                 
-# Debut des modifications/differents types de vaisseaux
+    def attaquevalide(self):
+        pass
+    
+    def attaquer(self):
+        pass
         
 class Mineur(Vaisseau):
     def __init__(self, nom, x, y):
@@ -100,7 +85,13 @@ class Mineur(Vaisseau):
         self.pop = self.pop * 3
         
     def minevalide(self):
-        pass
+        if self.cible:
+            if self.cible.mine:     # À réviser; n'entre pas dans le if...
+                print("True")
+                return True
+            else:
+                print("False")
+                return False
     
     def miner(self):
         pass
@@ -131,12 +122,6 @@ class Fregate(Vaisseau):
         self.vitesse = self.vitesse * 1
         self.cout = self.cout * 0.5
         self.pop = self.pop * 1
-        
-    def attaquevalide(self):
-        pass
-        
-    def attaquer(self):
-        pass
                 
 class Chasseur(Vaisseau):
     def __init__(self, nom, x, y):
@@ -148,12 +133,6 @@ class Chasseur(Vaisseau):
         self.vitesse = self.vitesse * 5
         self.cout = self.cout * 2
         self.pop = self.pop * 1
-
-    def attaquevalide(self):
-            pass
-        
-    def attaquer(self):
-            pass
         
 class Bombarde(Vaisseau):
     def __init__(self, nom, x, y):
@@ -165,12 +144,6 @@ class Bombarde(Vaisseau):
         self.vitesse = self.vitesse * 2
         self.cout = self.cout * 2.5
         self.pop = self.pop * 3
-        
-    def attaquevalide(self):
-                pass
-        
-    def attaquerBombe(self):
-        pass
     
 class Dreadnought(Vaisseau):
     def __init__(self, nom, x, y):
@@ -182,12 +155,6 @@ class Dreadnought(Vaisseau):
         self.vitesse = self.vitesse * 0.5
         self.cout = self.cout * 5
         self.pop = self.pop * 10
-        
-    def attaquevalide(self):
-        pass
-        
-    def attaquer(self):
-        pass
     
 class Destructeur(Vaisseau):
     def __init__(self, nom, x, y):
@@ -199,14 +166,6 @@ class Destructeur(Vaisseau):
         self.vitesse = self.vitesse * 0
         self.cout = self.cout * 10
         self.pop = self.pop * 25
-        
-    def attaquevalide(self):
-        pass
-        
-    def attaquerPlanete(self):
-        pass   
-    
-# Fin des modifications/types de vaisseaux -- DM
               
 class Joueur():
     def __init__(self,parent,nom,planetemere,couleur):
@@ -235,40 +194,25 @@ class Joueur():
         self.reacteursNucleaires=[]
     # FIN AJOUTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
-        # Debut des modifications; change "flotte" de liste a dictionnaire de listes
-        self.flotte={"M": [],       # Mineurs
-                     "E": [],       # Exploreurs
-                     "A1": [],      # Fregates
-                     "A2": [],      # Chasseurs
-                     "A3": [],      # Bombardes
-                     "A4": [],      # Dreadnoughts
-                     "A5": []}      # Destructeurs
-        self.actions = { "creervaisseau" : self.creervaisseau, 
-                        "ciblerflotte" : self.ciblerflotte,
-                        "creerPod" : self.creerPod,
-                        "creerFerme" : self.creerFerme,
-                        "creerMineArgent" : self.creerMineArgent,
-                        "creerMineMateriaux" : self.creerMineMateriaux,
-                        "creerMineEnergie" : self.creerMineEnergie,
-                        "creerHangar" : self.creerHangar,
-                        "creerReacteurNucleaire" : self.creerReacteurNucleaire}
+       # -----------DM------------- #
+        self.flotte = []
+        self.actions = {"creermineur" : self.creermineur,
+                        "creerexploreur" : self.creerexploreur,
+                        "creerfregate" : self.creerfregate,
+                        "creerchasseur" : self.creerchasseur,
+                        "creerbombarde" : self.creerbombarde,
+                        "creerdreadnought" : self.creerdreadnought,
+                        "creerdestructeur" : self.creerdestructeur, 
+                        "ciblerflotte" : self.ciblerflotte}
+        # -------------------------- #
         
-        # Fin des modifications -- DM
-        
-    def creervaisseau(self,planete,choix):
-        self.choix = {"M": Mineur,          # Mineurs
-                      "E": Exploreur,       # Exploreur
-                      "A1": Fregate,        # Fregates
-                      "A2": Chasseur,       # Chasseurs
-                      "A3": Bombarde,       # Bombardes
-                      "A4": Dreadnought,    # Dreadnought
-                      "A5": Destructeur     # Destructeurs
-                      }
-        
+    def creermineur(self, planete):
         rx = randint(-25, 25)
         ry = randint(-25, 25)
         
-        v = self.choix[choix](self.nom, self.planetemere.x + rx, self.planetemere.y + ry)
+        v = Mineur(self.nom, self.planetemere.x + rx, self.planetemere.y + ry)
+        self.flotte.append(v)
+        
         print("Vaisseau", v.id)
         print("Type: ", v.type)
         print("Combat: ", v.combat)
@@ -277,11 +221,106 @@ class Joueur():
         print("Vts: ", v.vitesse)
         print("Cout: ", v.cout)
         print("Pop: ", v.pop)
-        self.flotte[choix].append(v)
         
-    def ciblerflotte(self,ids, choix):
+    def creerexploreur(self, planete):
+        rx = randint(-25, 25)
+        ry = randint(-25, 25)
+        
+        v = Exploreur(self.nom, self.planetemere.x + rx, self.planetemere.y + ry)
+        self.flotte.append(v)
+        
+        print("Vaisseau", v.id)
+        print("Type: ", v.type)
+        print("Combat: ", v.combat)
+        print("HP: ", v.hp)
+        print("Atk: ", v.atk)
+        print("Vts: ", v.vitesse)
+        print("Cout: ", v.cout)
+        print("Pop: ", v.pop)
+        
+    def creerfregate(self, planete):
+        rx = randint(-25, 25)
+        ry = randint(-25, 25)
+        
+        v = Fregate(self.nom, self.planetemere.x + rx, self.planetemere.y + ry)
+        self.flotte.append(v)
+        
+        print("Vaisseau", v.id)
+        print("Type: ", v.type)
+        print("Combat: ", v.combat)
+        print("HP: ", v.hp)
+        print("Atk: ", v.atk)
+        print("Vts: ", v.vitesse)
+        print("Cout: ", v.cout)
+        print("Pop: ", v.pop)
+        
+    def creerchasseur(self, planete):
+        rx = randint(-25, 25)
+        ry = randint(-25, 25)
+        
+        v = Chasseur(self.nom, self.planetemere.x + rx, self.planetemere.y + ry)
+        self.flotte.append(v)
+        
+        print("Vaisseau", v.id)
+        print("Type: ", v.type)
+        print("Combat: ", v.combat)
+        print("HP: ", v.hp)
+        print("Atk: ", v.atk)
+        print("Vts: ", v.vitesse)
+        print("Cout: ", v.cout)
+        print("Pop: ", v.pop)
+    
+    def creerbombarde(self, planete):
+        rx = randint(-25, 25)
+        ry = randint(-25, 25)
+        
+        v = Bombarde(self.nom, self.planetemere.x + rx, self.planetemere.y + ry)
+        self.flotte.append(v)
+        
+        print("Vaisseau", v.id)
+        print("Type: ", v.type)
+        print("Combat: ", v.combat)
+        print("HP: ", v.hp)
+        print("Atk: ", v.atk)
+        print("Vts: ", v.vitesse)
+        print("Cout: ", v.cout)
+        print("Pop: ", v.pop)
+        
+    def creerdreadnought(self, planete):
+        rx = randint(-25, 25)
+        ry = randint(-25, 25)
+        
+        v = Dreadnought(self.nom, self.planetemere.x + rx, self.planetemere.y + ry)
+        self.flotte.append(v)
+        
+        print("Vaisseau", v.id)
+        print("Type: ", v.type)
+        print("Combat: ", v.combat)
+        print("HP: ", v.hp)
+        print("Atk: ", v.atk)
+        print("Vts: ", v.vitesse)
+        print("Cout: ", v.cout)
+        print("Pop: ", v.pop)
+        
+    def creerdestructeur(self, planete):
+        rx = randint(-25, 25)
+        ry = randint(-25, 25)
+        
+        v = Destructeur(self.nom, self.planetemere.x + rx, self.planetemere.y + ry)
+        self.flotte.append(v)
+        
+        print("Vaisseau", v.id)
+        print("Type: ", v.type)
+        print("Combat: ", v.combat)
+        print("HP: ", v.hp)
+        print("Atk: ", v.atk)
+        print("Vts: ", v.vitesse)
+        print("Cout: ", v.cout)
+        print("Pop: ", v.pop)
+        
+    def ciblerflotte(self,ids):
         idori,iddesti=ids
-        for i in self.flotte[choix]:
+        for i in self.flotte:
             if i.id== int(idori):
                 for j in self.parent.planetes:
                     if j.id== int(iddesti):
@@ -289,16 +328,27 @@ class Joueur():
                         print("GOT TARGET")
                         return
                     
-    def prochaineaction(self):
-        for i in self.flotte[choix]:
-            if i.cible:
-                i.avancer()
-            else:
+    def prochaineactionWIP(self):
+        for i in self.flotte:
+            if i.cible and isinstance(i, Mineur):
+                if i.minevalide:
+                    i.avancer()
+                    i.miner()
+                else:
+                    print("Impossible de miner cet endroit")
+            
+            elif i.cible and isinstance(i, Exploreur):
+                if i.explovalide:
+                    i.avancer()
+                    i.decouvrir()
+                else:
+                    print("Impossible d'explorer cet endroit")
+                    
+            elif i.cible and isinstance(i, Vaisseau):       # Pour les vaisseaux offensifs; Mineur et Exploreur déjà vérifiés
                 pass
             
-    def prochaineaction2(self):
-        for i in self.flotte:
-            i.avancer()
+            else:
+                pass
 
 # DEBUT AJOUTS CREATION BATIMENTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 

@@ -12,8 +12,6 @@ from ObjetsJeu import *
 from MonstreIntersideral import *
 from PIL import Image, ImageTk
 
-choix = "A1"
-
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent
