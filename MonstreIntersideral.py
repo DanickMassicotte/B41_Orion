@@ -9,8 +9,6 @@ class MonstreIntersideral():
         self.pointeurModele = pointeurModele
         self.x = x
         self.y = y
-        #self.seed = seed            #prendre la mm seed que le serveur pour synchroniser les monstres
-        #random.seed(self.seed)
         self.frequenceTour = 3.0    #nb de secondes entre chaque tour du monstre
         self.genese = time.time() 
         self.hp = 1000
@@ -87,6 +85,10 @@ class MonstreIntersideral():
         
 
     def choixAction(self):
+        seedCourante = round(time.time())
+        print(round(seedCourante))
+        random.seed(seedCourante)
+        #random.seed(self.pointeurModele.parent.serveur.cadreCourant)
         #si une vaisseau est trop près de lui, le monstre va l'attaquer
         if self.hp <= 0: #p-e mettre dans modele ***
             self.pointeurModele.parent.gameOver()
