@@ -166,9 +166,9 @@ class MonstreIntersideral():
     def invasion(self):
         self.updateGrandeurInvasion()
         for nbProgenitures in range(self.grandeurInvasion):
-            progeniture = ProgenitureInfernale(self, self.x, self.y)
+            progeniture = ProgenitureInfernale(self, self.seed, self.x, self.y)
             self.listeProgenitures.append(progeniture)
-        print("Invasion")
+        #print("Invasion")
         
     def devorerEtoile(self):
         self.updatePortee()
@@ -209,10 +209,11 @@ class MonstreIntersideral():
                 progeniture.procedure()
             
 class ProgenitureInfernale():
-    def __init__(self,pointeurMonstre,x,y):
+    def __init__(self,pointeurMonstre,seed,x,y):
         self.pointeurMonstre = pointeurMonstre
         self.x = x
         self.y = y
+        random.seed(seed)
         self.geneseProgeniture = time.time()
         self.tempsGestation = 200
         self.mutant = False

@@ -23,8 +23,9 @@ class Planete():
         self.proprietaire="inconnu"
         self.x=x
         self.y=y
-        self.estOccupee = False # ajout Simon
-        self.estInfectee = False #ajout Simon
+        self.estOccupee = False 
+        self.estInfectee = False 
+        self.estExploree = False 
         self.taille=random.randrange(4,6)
     # Debut ajouts JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         # Creation de listes de batiments
