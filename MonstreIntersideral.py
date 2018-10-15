@@ -20,7 +20,7 @@ class MonstreIntersideral():
         self.compteurHorsPortee = 0  
         self.distanceCritique = 100
         self.cible = None
-        self.tempsPreparation = 120  #nb de secondes de préparation avant d'attaquer
+        self.tempsPreparation = 30  #nb de secondes de préparation avant d'attaquer
         self.nbPlanetesInfectees = 0
         self.nbEtoilesDevorees = 0
         self.nbAsteroidesDevores = 0
