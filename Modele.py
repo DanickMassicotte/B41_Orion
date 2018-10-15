@@ -11,8 +11,6 @@ from helper import Helper as hlp
 from ObjetsJeu import *
 from MonstreIntersideral import *
 
-choix = "A1"
-
 class Modele():
     def __init__(self,parent,joueurs):
         self.parent=parent

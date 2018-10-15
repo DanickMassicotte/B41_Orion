@@ -322,13 +322,13 @@ class Joueur():
 """
 Dans Controleur: 
 
-def creermineur(self):
-    self.actions.append([self.monnom, "creermineur", ""])
+    def creermineur(self):
+        self.actions.append([self.monnom, "creermineur", ""])
         
-def creerexploreur(self):
-    self.actions.append([self.monnom, "creerexploreur", ""])
+    def creerexploreur(self):
+        self.actions.append([self.monnom, "creerexploreur", ""])
         
-def creerfregate(self):
-    self.actions.append([self.monnom, "creerfregate", ""])
+    def creerfregate(self):
+        self.actions.append([self.monnom, "creerfregate", ""])
 
 """

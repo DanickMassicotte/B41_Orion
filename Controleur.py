@@ -134,9 +134,17 @@ class Controleur():
         if self.serveur:
             self.serveur.jequitte(self.monnom)
         self.vue.root.destroy()
-            
-    def creervaisseau(self):
-        self.actions.append([self.monnom,"creervaisseau",""])
+        
+    # -------------DM---------------- #    
+    def creermineur(self):
+        self.actions.append([self.monnom, "creermineur", ""])
+        
+    def creerexploreur(self):
+        self.actions.append([self.monnom, "creerexploreur", ""])
+        
+    def creerfregate(self):
+        self.actions.append([self.monnom, "creerfregate", ""])
+    # -------------DM---------------- #
         
     def ciblerflotte(self,idorigine,iddestination):
         self.actions.append([self.monnom,"ciblerflotte",[idorigine,iddestination]])
