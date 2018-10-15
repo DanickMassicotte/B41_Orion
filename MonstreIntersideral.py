@@ -118,7 +118,7 @@ class MonstreIntersideral():
         
     def modulateurProbabiliteNiveau1(self):
         if time.time() - self.genese  < self.tempsPreparation: # profil néophyte == plus de chances tomber sur messag
-            return -25 
+            return -10 
         else:
             return 25
         
