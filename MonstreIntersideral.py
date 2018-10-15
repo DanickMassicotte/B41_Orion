@@ -11,7 +11,7 @@ class MonstreIntersideral():
         self.y = y
         self.seed = seed #prendre la mm seed que le serveur pour synchroniser les monstres
         random.seed(self.seed)
-        self.frequenceTour = 3.0 #nb de secondes entre chaque tour du monstre
+        self.frequenceTour = 1.0 #nb de secondes entre chaque tour du monstre
         self.genese = time.time() 
         self.hp = 1000
         self.puissance = 100
@@ -20,6 +20,7 @@ class MonstreIntersideral():
         self.compteurHorsPortee = 0  
         self.distanceCritique = 100
         self.cible = None
+        self.tempsPreparation = 0          #nb de secondes de préparation avant d'attaquer
         self.nbPlanetesInfectees = 0
         self.nbEtoilesDevorees = 0
         self.nbAsteroidesDevores = 0
@@ -61,10 +62,11 @@ class MonstreIntersideral():
         
         elif proie == "vaisseau":
             random.shuffle(self.pointeurModele.listeVaisseaux)
-            for vaisseau in self.pointeurModele.listeVaisseaux:
-                portee = math.sqrt( ( (vaisseau.x -self.x) ** 2 + (vaisseau.y - self.y) ** 2 ) )
-                if portee <= self.porteeMonstre:
-                    return vaisseau
+            for key in self.pointeurModele.joueurs:
+                for vaisseau in joueurs[key].flotte:
+                    portee = math.sqrt( ( (vaisseau.x -self.x) ** 2 + (vaisseau.y - self.y) ** 2 ) )
+                    if portee <= self.porteeMonstre:
+                        return vaisseau
         
         elif proie == "etoile":
             random.shuffle(self.pointeurModele.listeEtoiles)
@@ -116,7 +118,7 @@ class MonstreIntersideral():
     def modificateurProbabilite(self):
         #l'AI reconnait 3 profils:  néophyte, expansionniste et belligérant 
         
-        if self.genese - time.time() < 300: # profil néophyte
+        if time.time() - self.genese  < self.tempsPreparation: # profil néophyte
             return -10 # plus de chance de tomber sur message
         else:
             profilBelligerant = 0
@@ -125,25 +127,24 @@ class MonstreIntersideral():
                 for planeteOccupee in self.pointeurModele.planetes:
                     if planeteOccupee.estOccupee:
                         profilExpansionniste += 1
-            if self.pointeurModele.listeVaisseaux:
-                for vaisseau in self.pointeurModele.listeVaisseaux:
-                    if isinstance(vaisseau, Mineur) or isinstance(vaisseau, Explorateur):
-                        profilExpansionniste += 1
-                    else:
-                        profilBelligerant += 1
+                for key in self.pointeurModele.joueurs:
+                    for vaisseau in self.pointeurModele.joueurs[key].flotte:
+                        if isinstance(vaisseau, Mineur) or isinstance(vaisseau, Explorateur):
+                            profilExpansionniste += 1
+                        else:
                     
-            if profilBelligerant > profilExpansionniste:
-                return 5
-            elif profilExpansionniste > profilBelligerant:
-                return -5
-            else:
-                return 0 # dans le cas où le profil serait neutre, on ne modifie pas les probabilités
-        
-    
+                            if profilBelligerant > profilExpansionniste:
+                                return 5
+                            elif profilExpansionniste > profilBelligerant:
+                                return -5
+                            
+            return 0;
+            
     def detectionMenace(self):
-        for vaisseau in self.pointeurModele.listeVaisseaux:
-            if math.sqrt( ( (vaisseau.x - self.x) ** 2 + (vaisseau.y - self.y) ** 2 ) ) < self.distanceCritique and vaisseau.hp > 0:
-                return vaisseau
+        for key in self.pointeurModele.joueurs:
+            for vaisseau in self.pointeurModele.joueurs[key].flotte:
+                if math.sqrt( ( (vaisseau.x - self.x) ** 2 + (vaisseau.y - self.y) ** 2 ) ) < self.distanceCritique and vaisseau.hp > 0:
+                    return vaisseau
         return None
     
     def attaquer(self):
@@ -239,13 +240,14 @@ class ProgenitureInfernale():
         for planete in self.pointeurMonstre.pointeurModele.planetes:
             if planete.estOccupee:
                 listePlanetesOccupees.append(planete)
-        for vaisseau in self.pointeurMonstre.pointeurModele.listeVaisseaux:
-            if vaisseau.hp > 0:
-                if math.sqrt( ( (vaisseau.x - self.pointeurMonstre.x) ** 2 + (vaisseau.y - self.pointeurMonstre.y) ** 2 ) ) < self.pointeurMonstre.distanceCritique:
-                    listeMenaces.append(vaisseau)
-                    print("détection d'un vaisseau dans une distance critique")
-                else:
-                    listeCibles.append(vaisseau)
+        for key in self.pointeurMonstre.pointeurModele.joueurs:
+            for vaisseau in self.pointeurMonstre.pointeurModele.joueurs[key].flotte:
+                if vaisseau.hp > 0:
+                    if math.sqrt( ( (vaisseau.x - self.pointeurMonstre.x) ** 2 + (vaisseau.y - self.pointeurMonstre.y) ** 2 ) ) < self.pointeurMonstre.distanceCritique:
+                        listeMenaces.append(vaisseau)
+                        print("détection d'un vaisseau dans une distance critique")
+                    else:
+                        listeCibles.append(vaisseau)
         
         if listeMenaces:
             self.cible = random.choice(listeMenaces)
@@ -292,7 +294,8 @@ class ModeleMonstre():
         random.seed(7)
         self.parent = parent
         self.planetes = []
-        self.listeVaisseaux = []
+        self.joueurs = {}
+        self.initJoueurs()
         self.listeEtoiles = []
         self.listeAsteroides = []
         self.genererAstres()
@@ -304,16 +307,25 @@ class ModeleMonstre():
             self.planetes.append(PlaneteMonstre(random.randint(0,1000), random.randint(0,1000))) 
             self.listeEtoiles.append(EtoileMonstre(random.randint(0,1000), random.randint(0,1000))) 
             self.listeAsteroides.append(AsteroideMonstre(random.randint(0,1000), random.randint(0,1000))) 
-            self.listeVaisseaux.append(VaisseauMonstre(self,random.randint(0,1000), random.randint(0,1000)))
+            for key in self.joueurs:
+                self.joueurs[key].flotte.append(Mineur(self,random.randint(0,1000), random.randint(0,1000)))
+                self.joueurs[key].flotte.append(Frigate(self,random.randint(0,1000), random.randint(0,1000)))
         #test vaisseau à côté monstre      
         #self.listeVaisseaux.append(VaisseauMonstre(self,550,550))     
-                   
+    
+    def initJoueurs(self):
+        joueur1 = Joueur()
+        joueur2 = Joueur()
+        self.joueurs = {"joueur1": joueur1,
+                        "joueur2": joueur2 }
+    
     def threadRecursif(self):
         time.sleep(1)
         #print("***** thread principal continue *****")
-        for vaisseau in self.listeVaisseaux:
-            vaisseau.choixCible()
-            vaisseau.attaquer()
+        for key in self.joueurs:
+            for vaisseau in self.joueurs[key].flotte:
+                vaisseau.choixCible()
+                vaisseau.attaquer()
         self.threadRecursif()
         
 class PlaneteMonstre():
@@ -332,8 +344,47 @@ class AsteroideMonstre():
     def __init__(self,x,y):
         self.x = x
         self.y = y
+
+class Joueur():
+    def __init__(self):
+        self.flotte = []
         
-class VaisseauMonstre():
+class Mineur():
+    def __init__(self,pointeurModele,x,y):
+        self.pointeurModele = pointeurModele
+        self.x = x
+        self.y = y
+        self.hp = 150
+        self.puissance = 10
+        self.cible =None
+        self.vitesse = 25
+    
+    def choixCible(self):
+            if self.cible == None and self.pointeurModele.monstre.listeProgenitures:
+                self.cible = random.choice(self.pointeurModele.monstre.listeProgenitures)
+                #print("vaisseau", self, "trouver cible", self.cible)
+                
+    def deplacement(self):
+            #print("deplacement de ", self.x, self.y, "vers", self.cible.x, self.cible.y)
+        if self.x > self.cible.x:
+            self.x -= self.vitesse
+        if self.x < self.cible.x:
+            self.x += self.vitesse
+            
+        if self.y > self.cible.y:
+            self.y -= self.vitesse
+        if self.y < self.cible.y:
+            self.y += self.vitesse
+            
+    def attaquer(self):
+        #print("progéniture à",self.x,self.y, "attaque", self.cible.x, self.cible.y, "vie cible:", self.cible.hp)
+        if self.cible is not None and self.cible.hp > 0:
+            self.cible.hp -= self.puissance
+            print("vie cible après attaque", self.cible.hp)
+        else:
+            self.cible = None
+            #print("cible détruite")
+class Frigate():
     def __init__(self,pointeurModele,x,y):
         self.pointeurModele = pointeurModele
         self.x = x
