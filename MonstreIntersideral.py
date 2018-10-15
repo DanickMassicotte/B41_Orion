@@ -229,7 +229,7 @@ class ProgenitureInfernale():
         if (not self.mutant) and (time.time() - self.geneseProgeniture > self.tempsGestation):
             self.mutation()
             
-        if self.cible is None: #si n'a pas de cible, on en sélectionne une
+        if self.cible is None or self.cible.hp <=0: #si n'a pas de cible ou cible morte, on en sélectionne une
             self.choixCible()
         else:
             if math.sqrt( ( (self.cible.x -self.x) ** 2 + (self.cible.y - self.y) ** 2 ) ) > self.porteeAttaque:
@@ -263,15 +263,15 @@ class ProgenitureInfernale():
             self.cible = None
         
     def deplacement(self):
-        print("deplacement de ", self.x, self.y, "vers", self.cible.x, self.cible.y)
-        if self.x > self.cible.x:
+        print("deplacement de ", self.x, self.y, "vers", round(self.cible.x), round(self.cible.y))
+        if self.x > round(self.cible.x):
             self.x -= self.vitesse
-        if self.x < self.cible.x:
+        if self.x < round(self.cible.x):
             self.x += self.vitesse
             
-        if self.y > self.cible.y:
+        if self.y > round(self.cible.y):
             self.y -= self.vitesse
-        if self.y < self.cible.y:
+        if self.y < round(self.cible.y):
             self.y += self.vitesse
         
         

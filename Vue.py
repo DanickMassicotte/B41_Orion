@@ -524,15 +524,13 @@ class Vue():
         
         # afficher progenitures du monstre
         if mod.monstre.listeProgenitures:
+            self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
             for progeniture in mod.monstre.listeProgenitures:
-                self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
-                x = progeniture.x
-                y = progeniture.y
-                print(x, y)
-                self.canevas.create_image (x, y, image = self.img_progenitures)
-        else:
-            pass
+                self.canevas.create_image (progeniture.x, progeniture.y, image = self.img_progenitures)
 
+#                 x = progeniture.x
+#                 y = progeniture.y
+                #print(x, y)
         
         
         if self.maselection!=None:
