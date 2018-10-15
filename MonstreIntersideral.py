@@ -5,12 +5,12 @@ from threading import Timer
 import math
 
 class MonstreIntersideral():
-    def __init__(self,pointeurModele,seed,x,y): #bcp de placeholders à ajuster au fur et à mesure
+    def __init__(self,pointeurModele,x,y): #bcp de placeholders à ajuster au fur et à mesure
         self.pointeurModele = pointeurModele
         self.x = x
         self.y = y
-        self.seed = seed            #prendre la mm seed que le serveur pour synchroniser les monstres
-        random.seed(self.seed)
+        #self.seed = seed            #prendre la mm seed que le serveur pour synchroniser les monstres
+        #random.seed(self.seed)
         self.frequenceTour = 3.0    #nb de secondes entre chaque tour du monstre
         self.genese = time.time() 
         self.hp = 1000
@@ -166,7 +166,7 @@ class MonstreIntersideral():
     def invasion(self):
         self.updateGrandeurInvasion()
         for nbProgenitures in range(self.grandeurInvasion):
-            progeniture = ProgenitureInfernale(self, self.seed, self.x, self.y)
+            progeniture = ProgenitureInfernale(self, self.x, self.y)
             self.listeProgenitures.append(progeniture)
         #print("Invasion")
         
@@ -209,11 +209,11 @@ class MonstreIntersideral():
                 progeniture.procedure()
             
 class ProgenitureInfernale():
-    def __init__(self,pointeurMonstre,seed,x,y):
+    def __init__(self,pointeurMonstre,x,y):
         self.pointeurMonstre = pointeurMonstre
         self.x = x
         self.y = y
-        random.seed(seed)
+        #random.seed(seed)
         self.geneseProgeniture = time.time()
         self.tempsGestation = 200
         self.mutant = False
