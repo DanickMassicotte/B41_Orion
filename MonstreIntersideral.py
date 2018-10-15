@@ -82,9 +82,7 @@ class MonstreIntersideral():
         
         return -1
         
-    def identifierProfilJoueur(self):
-        pass
-    
+
     def choixAction(self):
         #si une vaisseau est trop près de lui, le monstre va l'attaquer
         if self.hp <= 0: #p-e mettre dans modele ***
@@ -94,25 +92,53 @@ class MonstreIntersideral():
             self.attaquer()
         #sinon, son tour est basé sur la probabilité
         else:    
-            probabilite = random.randint(0,100)
+            probabilite = random.randint(0,100) + self.modificateurProbabilite()
             #print("probabilite=",probabilite)
             if 0 <= probabilite < 20:
                 print(self.message())
-            elif 20 <= probabilite < 35:
-                self.invasion()
-            elif 35 <= probabilite <= 100:
+            elif 20 <= probabilite <= 85:
                 choixAstre = random.randint(0,100) 
                 #print("choix astre=",choixAstre)
-                if 0 <= choixAstre < 20:    #faire des branches selon ce qui est à portée??***
+                if 0 <= choixAstre < 20:   
                     self.devorerEtoile()
                 elif 20 <= choixAstre < 70:
                     self.devorerAsteroides()
                 elif 70 <= choixAstre < 100:
                     self.infecterPlanete()
+            elif 85 <= probabilite:
+                self.invasion()
+
         if self.hp > 0: # p-e enlever si on garde le check en haut ***
-            timer = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = self.frequenceTour
+            prochainTour = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = self.frequenceTour
         #dans les deux cas, les progénitures font leur tour, s'il y en a
         self.actionsProgenitures()
+        
+    def modificateurProbabilite(self):
+        #l'AI reconnait 3 profils:  néophyte, expansionniste et belligérant 
+        
+        if self.genese - time.time() < 300: # profil néophyte
+            return -10 # plus de chance de tomber sur message
+        else:
+            profilBelligerant = 0
+            profilExpansionniste = 0
+            if self.pointeurModele.planetes:
+                for planeteOccupee in self.pointeurModele.planetes:
+                    if planeteOccupee.estOccupee:
+                        profilExpansionniste += 1
+            if self.pointeurModele.listeVaisseaux:
+                for vaisseau in self.pointeurModele.listeVaisseaux:
+                    if isinstance(vaisseau, Mineur) or isinstance(vaisseau, Explorateur):
+                        profilExpansionniste += 1
+                    else:
+                        profilBelligerant += 1
+                    
+            if profilBelligerant > profilExpansionniste:
+                return 5
+            elif profilExpansionniste > profilBelligerant:
+                return -5
+            else:
+                return 0 # dans le cas où le profil serait neutre, on ne modifie pas les probabilités
+        
     
     def detectionMenace(self):
         for vaisseau in self.pointeurModele.listeVaisseaux:
@@ -172,7 +198,7 @@ class MonstreIntersideral():
             self.compteurHorsPortee += 1
     
     def actionsProgenitures(self):
-        if (self.listeProgenitures):
+        if self.listeProgenitures:
             for progeniture in self.listeProgenitures:
                 progeniture.procedure()
             
