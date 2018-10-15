@@ -9,9 +9,9 @@ class MonstreIntersideral():
         self.pointeurModele = pointeurModele
         self.x = x
         self.y = y
-        self.seed = seed #prendre la mm seed que le serveur pour synchroniser les monstres
+        self.seed = seed            #prendre la mm seed que le serveur pour synchroniser les monstres
         random.seed(self.seed)
-        self.frequenceTour = 1.0 #nb de secondes entre chaque tour du monstre
+        self.frequenceTour = 3.0    #nb de secondes entre chaque tour du monstre
         self.genese = time.time() 
         self.hp = 1000
         self.puissance = 100
@@ -20,7 +20,7 @@ class MonstreIntersideral():
         self.compteurHorsPortee = 0  
         self.distanceCritique = 100
         self.cible = None
-        self.tempsPreparation = 0          #nb de secondes de préparation avant d'attaquer
+        self.tempsPreparation = 120  #nb de secondes de préparation avant d'attaquer
         self.nbPlanetesInfectees = 0
         self.nbEtoilesDevorees = 0
         self.nbAsteroidesDevores = 0
@@ -42,8 +42,9 @@ class MonstreIntersideral():
         self.listeMessages.append("Og mgn'ghftephai ot ya ymg'ephaich'nglui'ahog feeble lloigg")
         
     def updateGrandeurInvasion(self):
+        grandeurInvasionActuelle = self.grandeurInvasion
         nombreMinutesPassees = math.floor(( (time.time() - self.genese) / 60 )) 
-        self.grandeurInvasion = nombreMinutesPassees + self.nbAsteroidesDevores + ( 2 * self.nbPlanetesInfectees) + (3 * self.nbEtoilesDevorees)
+        self.grandeurInvasion = nombreMinutesPassees + self.nbAsteroidesDevores + ( 2 * self.nbPlanetesInfectees) + (3 * self.nbEtoilesDevorees) - grandeurInvasionActuelle
         print("Grandeur invasion =", self.grandeurInvasion)
     
     def updatePortee(self):
@@ -53,7 +54,7 @@ class MonstreIntersideral():
             print("JE M'ÉTEND MONSTRUEUSEMENT : (portée à:", self.porteeMonstre, ")")
         
     def determinerProiesAPortee(self, proie):
-        if proie == "planete":
+        if proie == "planete" and self.pointeurModele.planetes :
             random.shuffle(self.pointeurModele.planetes)
             for planete in self.pointeurModele.planetes:
                 portee = math.sqrt( ( (planete.x -self.x) ** 2 + (planete.y - self.y) ** 2 ) )
@@ -61,21 +62,21 @@ class MonstreIntersideral():
                    return planete
         
         elif proie == "vaisseau":
-            random.shuffle(self.pointeurModele.listeVaisseaux)
             for key in self.pointeurModele.joueurs:
+                random.shuffle(joueurs[key].flotte)
                 for vaisseau in joueurs[key].flotte:
                     portee = math.sqrt( ( (vaisseau.x -self.x) ** 2 + (vaisseau.y - self.y) ** 2 ) )
                     if portee <= self.porteeMonstre:
                         return vaisseau
         
-        elif proie == "etoile":
+        elif proie == "etoile" and self.pointeurModele.listeEtoiles:
             random.shuffle(self.pointeurModele.listeEtoiles)
             for indiceEtoile in range(len(self.pointeurModele.listeEtoiles)):
                 portee = math.sqrt( ( (self.pointeurModele.listeEtoiles[indiceEtoile].x -self.x) ** 2 + (self.pointeurModele.listeEtoiles[indiceEtoile].y - self.y) ** 2 ) )
                 if portee <= self.porteeMonstre:
                     return self.pointeurModele.listeEtoiles.pop(indiceEtoile)
         
-        elif proie == "asteroide":
+        elif proie == "asteroide" and self.pointeurModele.listeAsteroides:
             random.shuffle(self.pointeurModele.listeAsteroides)
             for indiceAsteroide in range(len(self.pointeurModele.listeAsteroides)):
                 portee = math.sqrt( ( (self.pointeurModele.listeAsteroides[indiceAsteroide].x -self.x) ** 2 + (self.pointeurModele.listeAsteroides[indiceAsteroide].y - self.y) ** 2 ) )
@@ -93,52 +94,56 @@ class MonstreIntersideral():
         if self.cible is not None:
             self.attaquer()
         #sinon, son tour est basé sur la probabilité
-        else:    
-            probabilite = random.randint(0,100) + self.modificateurProbabilite()
-            #print("probabilite=",probabilite)
-            if 0 <= probabilite < 20:
+        else: 
+            probabiliteNiveau1 = random.randint(0,100) + self.modulateurProbabiliteNiveau1()
+            if probabiliteNiveau1 < 50:
                 print(self.message())
-            elif 20 <= probabilite <= 85:
-                choixAstre = random.randint(0,100) 
-                #print("choix astre=",choixAstre)
-                if 0 <= choixAstre < 20:   
-                    self.devorerEtoile()
-                elif 20 <= choixAstre < 70:
-                    self.devorerAsteroides()
-                elif 70 <= choixAstre < 100:
-                    self.infecterPlanete()
-            elif 85 <= probabilite:
-                self.invasion()
+            else:
+                probabiliteNiveau2 = random.randint(0,100) + self.modulateurProbabiliteNiveau2()
+                if  probabiliteNiveau2 < 50:
+                    self.invasion()
+                else:
+                    probabiliteNiveau3 = random.randint(0,100) + self.modulateurProbabiliteNiveau3()
+                    if probabiliteNiveau3 < 40:   
+                        self.devorerAsteroides()
+                    elif 40 >= probabiliteNiveau3 < 85:
+                        self.infecterPlanete()
+                    elif probabiliteNiveau3 >= 85:
+                        self.devorerEtoile()
 
         if self.hp > 0: # p-e enlever si on garde le check en haut ***
             prochainTour = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = self.frequenceTour
-        #dans les deux cas, les progénitures font leur tour, s'il y en a
+        #dans tous les cas, les progénitures existantes font leur tour
         self.actionsProgenitures()
         
-    def modificateurProbabilite(self):
-        #l'AI reconnait 3 profils:  néophyte, expansionniste et belligérant 
-        
-        if time.time() - self.genese  < self.tempsPreparation: # profil néophyte
-            return -10 # plus de chance de tomber sur message
+    def modulateurProbabiliteNiveau1(self):
+        if time.time() - self.genese  < self.tempsPreparation: # profil néophyte == plus de chances tomber sur messag
+            return -25 
         else:
-            profilBelligerant = 0
-            profilExpansionniste = 0
-            if self.pointeurModele.planetes:
-                for planeteOccupee in self.pointeurModele.planetes:
-                    if planeteOccupee.estOccupee:
+            return 25
+        
+    def modulateurProbabiliteNiveau2(self):
+        profilBelligerant = 0
+        profilExpansionniste = 0
+        if self.pointeurModele.planetes:
+            for planeteOccupee in self.pointeurModele.planetes:
+                if planeteOccupee.estOccupee:
+                    profilExpansionniste += 1
+            for key in self.pointeurModele.joueurs:
+                for vaisseau in self.pointeurModele.joueurs[key].flotte:
+                    if isinstance(vaisseau, Mineur) or isinstance(vaisseau, Explorateur):
                         profilExpansionniste += 1
-                for key in self.pointeurModele.joueurs:
-                    for vaisseau in self.pointeurModele.joueurs[key].flotte:
-                        if isinstance(vaisseau, Mineur) or isinstance(vaisseau, Explorateur):
-                            profilExpansionniste += 1
-                        else:
-                    
-                            if profilBelligerant > profilExpansionniste:
-                                return 5
-                            elif profilExpansionniste > profilBelligerant:
-                                return -5
-                            
+                    else:
+                        profilBelligerant += 1
+        if profilBelligerant > profilExpansionniste:
+            return -10
+        elif profilExpansionniste > profilBelligerant:
+            return 10
+        else:           
             return 0;
+        
+    def modulateurProbabiliteNiveau3(self):
+        return 0; #ne semble pas nécessaire pour l'instant
             
     def detectionMenace(self):
         for key in self.pointeurModele.joueurs:
@@ -208,30 +213,30 @@ class ProgenitureInfernale():
         self.pointeurMonstre = pointeurMonstre
         self.x = x
         self.y = y
-        self.hp = 25
-        self.puissance = 20
-        self.porteeAttaque = 15
-        self.vitesse = 10
+        self.geneseProgeniture = time.time()
+        self.tempsGestation = 200
+        self.mutant = False
+        self.hp = 20
+        self.puissance = 10
+        self.porteeAttaque = 12
+        self.vitesse = 5
         self.cible = None
 
     def procedure(self):
-        print("Je suis progéniture à:", self.x, self.y)
-        if not self.isAlive():
+        if self.hp <= 0:
             self.pointeurMonstre.listeProgenitures.remove(self)
-
-        if self.cible == None: #si n'a pas de cible, on en sélectionne une
+            
+        if (not self.mutant) and (time.time() - self.geneseProgeniture > self.tempsGestation):
+            self.mutation()
+            
+        if self.cible is None: #si n'a pas de cible, on en sélectionne une
             self.choixCible()
-        if self.cible is not None:
+        else:
             if math.sqrt( ( (self.cible.x -self.x) ** 2 + (self.cible.y - self.y) ** 2 ) ) > self.porteeAttaque:
                 self.deplacement()
             else:
                 self.attaquer()
-            
-    def isAlive(self):
-        if self.hp>0:
-            return True
-        else:
-            return False
+
         
     def choixCible(self):
         listeCibles = []
@@ -257,8 +262,6 @@ class ProgenitureInfernale():
         else:
             self.cible = None
         
-
-    
     def deplacement(self):
         print("deplacement de ", self.x, self.y, "vers", self.cible.x, self.cible.y)
         if self.x > self.cible.x:
@@ -280,8 +283,14 @@ class ProgenitureInfernale():
         else:
             self.cible = None
             print("cible détruite")
-        
-
+    
+    def mutation(self):
+        self.mutant = True
+        self.hp = 50
+        self.puissance = 20
+        self.vitesse = 10
+        self.porteeAttaque = 25
+            
 # ----------------------------------------------------- #
 #               section tests locaux
 # ----------------------------------------------------- #
@@ -323,8 +332,8 @@ class ModeleMonstre():
                         "joueur2": joueur2 }
     
     def threadRecursif(self):
-        time.sleep(1)
-        #print("***** thread principal continue *****")
+        time.sleep(10)
+        print("***** thread principal continue *****")
         for key in self.joueurs:
             for vaisseau in self.joueurs[key].flotte:
                 vaisseau.choixCible()
