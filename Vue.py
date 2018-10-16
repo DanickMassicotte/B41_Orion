@@ -189,6 +189,46 @@ class Vue():
                                       width=20, 
                                       activebackground='sky blue',
                                       font=("Castellar",10, "bold"))
+        self.btncreerHangar=Button( self.frameMenu,text="Hangar",
+                                      command=self.creerHangar, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.btncreerPod=Button( self.frameMenu,text="Pod",
+                                      command=self.creerPod, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.btncreerMineArgent=Button( self.frameMenu,text="Gold Mine",
+                                      command=self.creerMineArgent, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.btncreerMineMateriaux=Button( self.frameMenu,text="Steel Mine",
+                                      command=self.creerMineMateriaux, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.btncreerMineEnergie=Button( self.frameMenu,text="Nuclear Mine",
+                                      command=self.creerMineEnergie, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
         
         self.lbselectecible=Label(self.frameMenu,text="Choisir cible",bg="darkgrey")
         
@@ -518,6 +558,57 @@ class Vue():
         self.canevas.delete("marqueur")
         self.btncreervaisseau.pack_forget()     # À vérifier
     # ------------------------------------------#
+    
+    # DEBUT Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    
+    def creerPod(self):
+        #print("Creer un Pod")
+        self.parent.creerPod()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerPod.pack_forget()
+        
+    def creerFerme(self):
+        #print("Creer une Ferme")
+        self.parent.creerFerme()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerFerme.pack_forget()
+        
+    def creerMineArgent(self):
+        #print("Creer une mine d'argent")
+        self.parent.creerMineArgent()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerMineArgent.pack_forget()
+        
+    def creerMineMateriaux(self):
+        #print("Creer une mine de materiaux")
+        self.parent.creerMineMateriaux()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerMineMateriaux.pack_forget()
+        
+    def creerMineEnergie(self):
+        #print("Creer une mine d'energie")
+        self.parent.creerMineEnergie()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerMineEnergie.pack_forget()
+        
+    def creerHangar(self):
+        #print("Creer un hangar")
+        self.parent.creerHangar()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerHangar.pack_forget()
+        
+    def creerReacteurNucleaire(self):
+        #print("Creer un reacteur nucleaire")
+        self.parent.creerReacteurNucleaire()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerReacteurNucleaire.pack_forget()
+    # FIN Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
     def afficherpartie(self,mod):
         self.canevas.delete("artefact")
@@ -578,6 +669,11 @@ class Vue():
 
     def cliquecosmos(self,evt):
         self.btncreervaisseau.pack_forget()
+        self.btncreerHangar.pack_forget()
+        self.btncreerPod.pack_forget()
+        self.btncreerMineArgent.pack_forget()
+        self.btncreerMineMateriaux.pack_forget()
+        self.btncreerMineEnergie.pack_forget()
         t=self.canevas.gettags(CURRENT)
         if t and t[0]==self.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
@@ -603,6 +699,11 @@ class Vue():
             
     def montreplaneteselection(self):
         self.btncreervaisseau.pack()
+        self.btncreerHangar.pack()
+        self.btncreerPod.pack()
+        self.btncreerMineArgent.pack()
+        self.btncreerMineMateriaux.pack()
+        self.btncreerMineEnergie.pack()
     def montreflotteselection(self):
         self.lbselectecible.pack()
     

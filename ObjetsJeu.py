@@ -178,14 +178,14 @@ class Joueur():
         self.couleur=couleur
         self.planetescontrolees=[planetemere]
     # DEBUT AJOUTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        self.argent = 1000
+        self.argent = 3000
         self.nourriture = 1000
-        self.materiaux = 1000
-        self.energie = 1000
-        self.matiereNucleaire = 0
-        self.population = 0
-        self.populationMaximale = 0
-        self.connaissance = 1000
+        self.materiaux = 4000
+        self.energie = 2000
+        self.matiereNucleaire = 5000
+        self.population = 10
+        self.populationMaximale = 100
+        self.connaissance = 6000
         self.fermes=[]
         self.pods=[] # Logements
         self.minesArgent=[]
@@ -204,7 +204,19 @@ class Joueur():
                         "creerbombarde" : self.creerbombarde,
                         "creerdreadnought" : self.creerdreadnought,
                         "creerdestructeur" : self.creerdestructeur, 
-                        "ciblerflotte" : self.ciblerflotte}
+                        "ciblerflotte" : self.ciblerflotte,
+                        "creerPod" : self.creerPod,
+                        "creerFerme" : self.creerFerme,
+                        "creerMineArgent" : self.creerMineArgent,
+                        "creerMineMateriaux" : self.creerMineMateriaux,
+                        "creerMineEnergie" : self.creerMineEnergie,
+                        "creerHangar" : self.creerHangar,
+                        "creerReacteurNucleaire" : self.creerReacteurNucleaire,
+                        "productionFerme" : self.productionFerme,
+                        "productionMineArgent" : self.productionMineArgent,
+                        "productionMineMateriaux" : self.productionMineMateriaux,
+                        "productionMineEnergie" : self.productionMineEnergie,
+                        "productionReacteurNucleaire" : self.productionReacteurNucleaire,}
         # -------------------------- #
         
     def creermineur(self, planete):
