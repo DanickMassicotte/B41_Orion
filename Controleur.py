@@ -150,6 +150,9 @@ class Controleur():
         
     def creerfregate(self):
         self.actions.append([self.monnom, "creerfregate", ""])
+        
+    def creerchasseur(self):
+        self.actions.append([self.monnom, "creerchasseur", ""])
     # -------------DM---------------- #
         
     def ciblerflotte(self,idorigine,iddestination):

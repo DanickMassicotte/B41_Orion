@@ -182,7 +182,7 @@ class Vue():
         self.labid.bind("<Button>",self.afficherplanemetemere)                                  
         self.labid.grid(row = 0, column = 0 )                                                                                                                                    #.grid
         self.btncreervaisseau=Button( self.frameMenu,text="Vaisseau",
-                                      command=self.creermineur, 
+                                      command=self.creerchasseur, 
                                       relief=RAISED,
                                       bg = "deep sky blue",
                                       fg="black", 
@@ -501,7 +501,7 @@ class Vue():
         self.img_monstre = PhotoImage (file = "img_monstre_02.png")
         x = mod.monstre.x # hardcode pour l'instant
         y = mod.monstre.y # hardcode pour l'instant
-        self.canevas.create_image (x, y, image = self.img_monstre)
+        self.canevas.create_image (x, y, image = self.img_monstre, tags = (mod.monstre, "monstre", str(mod.monstre.id)))
 
         # afficher une planete infectee
         self.img_planeteInfectee = PhotoImage (file = "img_planeteInfectee_01.png")
@@ -554,6 +554,13 @@ class Vue():
     def creerfregate(self):
         print("Creer fregate")
         self.parent.creerfregate()
+        self.maselection=None
+        self.canevas.delete("marqueur")
+        self.btncreervaisseau.pack_forget()     # À vérifier
+        
+    def creerchasseur(self):
+        print("Creer chasseur")
+        self.parent.creerchasseur()
         self.maselection=None
         self.canevas.delete("marqueur")
         self.btncreervaisseau.pack_forget()     # À vérifier
@@ -691,6 +698,18 @@ class Vue():
             self.maselection=None
             self.lbselectecible.pack_forget()
             self.canevas.delete("marqueur")
+            
+        # ----------------DM------------------- #
+        elif "monstre" in t:
+            if self.maselection:
+                print("CLIQUE MONSTRE")
+                self.parent.ciblerflotte(self.maselection[2], t[2])
+            
+            self.maselection = None
+            self.lbselectecible.pack_forget()
+            self.canevas.delete("marqueur")
+        # ------------------------------------- #
+        
         else:
             print("Region inconnue")
             self.maselection=None

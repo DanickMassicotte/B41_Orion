@@ -7,6 +7,9 @@ import math
 class MonstreIntersideral():
     def __init__(self,pointeurModele,x,y): #bcp de placeholders à ajuster au fur et à mesure
         self.pointeurModele = pointeurModele
+        # -----------DM------------ #
+        self.id = 9999
+        # ------------------------- #
         self.x = x
         self.y = y
         self.frequenceTour = 3.0    #nb de secondes entre chaque tour du monstre
