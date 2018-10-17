@@ -26,6 +26,7 @@ class MonstreIntersideral():
         self.nbPlanetesInfectees = 0
         self.nbEtoilesDevorees = 0
         self.nbAsteroidesDevores = 0
+        self.idProgeniture = 77777
         self.listeProgenitures = []
         self.listeMessages= []
         self.initMessages()
@@ -46,7 +47,7 @@ class MonstreIntersideral():
     def updateGrandeurInvasion(self):
         grandeurInvasionActuelle = self.grandeurInvasion
         nombreMinutesPassees = math.floor(( (time.time() - self.genese) / 60 )) 
-        self.grandeurInvasion = nombreMinutesPassees + self.nbAsteroidesDevores + ( 2 * self.nbPlanetesInfectees) + (3 * self.nbEtoilesDevorees) - grandeurInvasionActuelle
+        self.grandeurInvasion = 3 + nombreMinutesPassees + self.nbAsteroidesDevores + ( 2 * self.nbPlanetesInfectees) + (3 * self.nbEtoilesDevorees) - grandeurInvasionActuelle
         print("Grandeur invasion =", self.grandeurInvasion)
     
     def updatePortee(self):
@@ -91,7 +92,7 @@ class MonstreIntersideral():
     def choixAction(self):
        #synchronisation des seeds, probablement pas optimal mais fonctionne pour l'instant
         random.seed(self.seed)
-        self.seed += 777 #incrément magique 
+        self.seed += 75737 #incrément magique 
       
         #si une vaisseau est trop près de lui, le monstre va l'attaquer
         if self.hp <= 0: #p-e mettre dans modele ***
@@ -172,8 +173,9 @@ class MonstreIntersideral():
     def invasion(self):
         self.updateGrandeurInvasion()
         for nbProgenitures in range(self.grandeurInvasion):
-            progeniture = ProgenitureInfernale(self, self.x, self.y)
+            progeniture = ProgenitureInfernale(self, self.x, self.y, self.idProgeniture)
             self.listeProgenitures.append(progeniture)
+            self.idProgeniture += 777
         #print("Invasion")
         
     def devorerEtoile(self):
@@ -215,11 +217,12 @@ class MonstreIntersideral():
                 progeniture.procedure()
             
 class ProgenitureInfernale():
-    def __init__(self,pointeurMonstre,x,y):
+    def __init__(self,pointeurMonstre,x,y, idProgeniture):
         self.pointeurMonstre = pointeurMonstre
         self.x = x
         self.y = y
-        #random.seed(seed)
+        self.id = idProgeniture
+        self.seedProgeniture = self.pointeurMonstre.genese + self.id
         self.geneseProgeniture = time.time()
         self.tempsGestation = 200
         self.mutant = False
@@ -232,6 +235,8 @@ class ProgenitureInfernale():
         self.procedure()
 
     def procedure(self):
+        random.seed(self.seedProgeniture)
+        self.seedProgeniture += self.id
         if self.hp <= 0:
             self.pointeurMonstre.listeProgenitures.remove(self)
             
