@@ -9,11 +9,13 @@ class Vaisseau():
         self.vitesse=2
         self.cible=None 
         # ---------DM---------- #
+        self.monstre = None
         self.hp = 100
         self.atk = 10
         self.cout = 100
         self.pop = 1
         self.combat = False
+        self.rangeAtk = 12
         # --------------------- #
         
     def avancer(self):
@@ -30,10 +32,20 @@ class Vaisseau():
             print("PAS DE CIBLE")
                 
     def attaquevalide(self):
-        pass
+        if self.cible:
+            if self.cible == self.monstre:
+                return True
+            else:
+                return False
     
     def attaquer(self):
-        pass
+        print("vaisseau à",self.x,self.y, "attaque", self.cible.x, self.cible.y, "vie cible:", self.cible.hp)
+        if self.cible.hp > 0:
+            self.cible.hp -= self.atk
+            print("vie cible après attaque", self.cible.hp)
+        else:
+            self.cible = None
+            print("cible détruite")
         
 class Mineur(Vaisseau):
     def __init__(self, nom, x, y):
@@ -141,22 +153,25 @@ class Joueur():
         self.planetemere.proprietaire=self.nom
         self.couleur=couleur
         self.planetescontrolees=[planetemere]
-        # -----------JCB------------ #
-        self.argent = 1000
+    # DEBUT AJOUTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.argent = 3000
         self.nourriture = 1000
-        self.materiaux = 1000
-        self.energie = 1000
-        self.population = 100
-        self.populationMaximale = 1000
-        self.connaissance = 1000
+        self.materiaux = 4000
+        self.energie = 2000
+        self.matiereNucleaire = 5000
+        self.population = 10
+        self.populationMaximale = 100
+        self.connaissance = 6000
         self.fermes=[]
         self.pods=[] # Logements
         self.minesArgent=[]
         self.minesMateriaux=[]
         self.minesEnergie=[]
         self.hangars=[]
-        # -------------------------- #
-        # -----------DM------------- #
+        self.reacteursNucleaires=[]
+    # FIN AJOUTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        
+       # -----------DM------------- #
         self.flotte = []
         self.actions = {"creermineur" : self.creermineur,
                         "creerexploreur" : self.creerexploreur,
@@ -165,9 +180,22 @@ class Joueur():
                         "creerbombarde" : self.creerbombarde,
                         "creerdreadnought" : self.creerdreadnought,
                         "creerdestructeur" : self.creerdestructeur, 
-                        "ciblerflotte" : self.ciblerflotte}
+                        "ciblerflotte" : self.ciblerflotte,
+                        "creerPod" : self.creerPod,
+                        "creerFerme" : self.creerFerme,
+                        "creerMineArgent" : self.creerMineArgent,
+                        "creerMineMateriaux" : self.creerMineMateriaux,
+                        "creerMineEnergie" : self.creerMineEnergie,
+                        "creerHangar" : self.creerHangar,
+                        "creerReacteurNucleaire" : self.creerReacteurNucleaire,
+                        "productionFerme" : self.productionFerme,
+                        "productionMineArgent" : self.productionMineArgent,
+                        "productionMineMateriaux" : self.productionMineMateriaux,
+                        "productionMineEnergie" : self.productionMineEnergie,
+                        "productionReacteurNucleaire" : self.productionReacteurNucleaire,}
         # -------------------------- #
         
+    # -------------DM--------------- #    
     def creermineur(self, planete):
         rx = randint(-25, 25)
         ry = randint(-25, 25)
@@ -282,6 +310,7 @@ class Joueur():
         
     def ciblerflotte(self,ids):
         idori,iddesti=ids
+        print("CIBLER FLOTTE")
         for i in self.flotte:
             if i.id== int(idori):
                 for j in self.parent.planetes:
@@ -290,34 +319,43 @@ class Joueur():
                         print("GOT TARGET")
                         return
                     
-    def prochaineaction(self):
+                # -------------DM------------- #    
+                if self.parent.monstre.id == int(iddesti):
+                    i.cible = self.parent.monstre
+                    i.monstre = self.parent.monstre
+                    print("GOT MONSTRE")
+                # ---------------------------- #
+                    
+    def prochaineaction1(self):
         for i in self.flotte:
             if i.cible:
                 i.avancer()
             else:
                 pass
             
-    def prochaineactionWIP(self):
+    def prochaineaction(self):
         for i in self.flotte:
             if i.cible and isinstance(i, Mineur):
-                if i.minevalide:
-                    i.avancer()
-                    i.miner()
-                else:
-                    print("Impossible de miner cet endroit")
+                i.avancer()
             
             elif i.cible and isinstance(i, Exploreur):
-                if i.explovalide:
-                    i.avancer()
-                    i.decouvrir()
-                else:
-                    print("Impossible d'explorer cet endroit")
-                    
+                i.avancer()
+                
             elif i.cible and isinstance(i, Vaisseau):       # Pour les vaisseaux offensifs; Mineur et Exploreur déjà vérifiés
-                pass
+                if i.attaquevalide():
+                    if math.sqrt(((i.cible.x - i.x) ** 2 + (i.cible.y - i.y) ** 2 )) > i.rangeAtk:
+                        i.avancer()
+                    else:
+                        i.attaquer()
+                
+                else:
+                    i.avancer()
+                    
             
             else:
                 pass
+            
+    # --------------DM-------------- #
             
 """
 Dans Controleur: 
@@ -330,5 +368,8 @@ Dans Controleur:
         
     def creerfregate(self):
         self.actions.append([self.monnom, "creerfregate", ""])
+        
+    def creerchasseur(self):
+        self.actions.append([self.monnom, "creerchasseur", ""])
 
 """

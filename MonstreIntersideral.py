@@ -5,14 +5,16 @@ from threading import Timer
 import math
 
 class MonstreIntersideral():
-    def __init__(self,pointeurModele,seed,x,y): #bcp de placeholders à ajuster au fur et à mesure
+    def __init__(self,pointeurModele,x,y): #bcp de placeholders à ajuster au fur et à mesure
         self.pointeurModele = pointeurModele
+        # -----------DM------------ #
+        self.id = 9999
+        # ------------------------- #
         self.x = x
         self.y = y
-        self.seed = seed            #prendre la mm seed que le serveur pour synchroniser les monstres
-        random.seed(self.seed)
         self.frequenceTour = 3.0    #nb de secondes entre chaque tour du monstre
-        self.genese = time.time() 
+        self.genese = 0
+        self.seed = 0
         self.hp = 1000
         self.puissance = 100
         self.grandeurInvasion = 0
@@ -24,6 +26,7 @@ class MonstreIntersideral():
         self.nbPlanetesInfectees = 0
         self.nbEtoilesDevorees = 0
         self.nbAsteroidesDevores = 0
+        self.idProgeniture = 77777
         self.listeProgenitures = []
         self.listeMessages= []
         self.initMessages()
@@ -44,7 +47,7 @@ class MonstreIntersideral():
     def updateGrandeurInvasion(self):
         grandeurInvasionActuelle = self.grandeurInvasion
         nombreMinutesPassees = math.floor(( (time.time() - self.genese) / 60 )) 
-        self.grandeurInvasion = nombreMinutesPassees + self.nbAsteroidesDevores + ( 2 * self.nbPlanetesInfectees) + (3 * self.nbEtoilesDevorees) - grandeurInvasionActuelle
+        self.grandeurInvasion = 3 + nombreMinutesPassees + self.nbAsteroidesDevores + ( 2 * self.nbPlanetesInfectees) + (3 * self.nbEtoilesDevorees) - grandeurInvasionActuelle
         print("Grandeur invasion =", self.grandeurInvasion)
     
     def updatePortee(self):
@@ -87,6 +90,10 @@ class MonstreIntersideral():
         
 
     def choixAction(self):
+       #synchronisation des seeds, probablement pas optimal mais fonctionne pour l'instant
+        random.seed(self.seed)
+        self.seed += 75737 #incrément magique 
+      
         #si une vaisseau est trop près de lui, le monstre va l'attaquer
         if self.hp <= 0: #p-e mettre dans modele ***
             self.pointeurModele.parent.gameOver()
@@ -114,7 +121,7 @@ class MonstreIntersideral():
         if self.hp > 0: # p-e enlever si on garde le check en haut ***
             prochainTour = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = self.frequenceTour
         #dans tous les cas, les progénitures existantes font leur tour
-        self.actionsProgenitures()
+        #self.actionsProgenitures()*****
         
     def modulateurProbabiliteNiveau1(self):
         if time.time() - self.genese  < self.tempsPreparation: # profil néophyte == plus de chances tomber sur messag
@@ -166,9 +173,10 @@ class MonstreIntersideral():
     def invasion(self):
         self.updateGrandeurInvasion()
         for nbProgenitures in range(self.grandeurInvasion):
-            progeniture = ProgenitureInfernale(self, self.x, self.y)
+            progeniture = ProgenitureInfernale(self, self.x, self.y, self.idProgeniture)
             self.listeProgenitures.append(progeniture)
-        print("Invasion")
+            self.idProgeniture += 777
+        #print("Invasion")
         
     def devorerEtoile(self):
         self.updatePortee()
@@ -209,20 +217,26 @@ class MonstreIntersideral():
                 progeniture.procedure()
             
 class ProgenitureInfernale():
-    def __init__(self,pointeurMonstre,x,y):
+    def __init__(self,pointeurMonstre,x,y, idProgeniture):
         self.pointeurMonstre = pointeurMonstre
         self.x = x
         self.y = y
+        self.id = idProgeniture
+        self.seedProgeniture = self.pointeurMonstre.genese + self.id
         self.geneseProgeniture = time.time()
         self.tempsGestation = 200
         self.mutant = False
         self.hp = 20
         self.puissance = 10
         self.porteeAttaque = 12
-        self.vitesse = 5
+        self.vitesse = 1
         self.cible = None
+        self.frequenceTourProgeniture = 0.1 #*****
+        self.procedure()
 
     def procedure(self):
+        random.seed(self.seedProgeniture)
+        self.seedProgeniture += self.id
         if self.hp <= 0:
             self.pointeurMonstre.listeProgenitures.remove(self)
             
@@ -236,6 +250,8 @@ class ProgenitureInfernale():
                 self.deplacement()
             else:
                 self.attaquer()
+        if self.hp > 0:
+            prochainTourProgeniture = Timer(self.frequenceTourProgeniture,self.procedure).start()   #*****
 
         
     def choixCible(self):
@@ -263,7 +279,7 @@ class ProgenitureInfernale():
             self.cible = None
         
     def deplacement(self):
-        print("deplacement de ", self.x, self.y, "vers", round(self.cible.x), round(self.cible.y))
+        #print("deplacement de ", self.x, self.y, "vers", round(self.cible.x), round(self.cible.y))
         if self.x > round(self.cible.x):
             self.x -= self.vitesse
         if self.x < round(self.cible.x):
@@ -276,7 +292,7 @@ class ProgenitureInfernale():
         
         
     def attaquer(self):
-        print("progéniture à",self.x,self.y, "attaque", self.cible.x, self.cible.y, "vie cible:", self.cible.hp)
+        #print("progéniture à",self.x,self.y, "attaque", self.cible.x, self.cible.y, "vie cible:", self.cible.hp)
         if self.cible.hp > 0:
             self.cible.hp -= self.puissance
             print("vie cible après attaque", self.cible.hp)
@@ -288,7 +304,7 @@ class ProgenitureInfernale():
         self.mutant = True
         self.hp = 50
         self.puissance = 20
-        self.vitesse = 10
+        self.vitesse = 3
         self.porteeAttaque = 25
             
 # ----------------------------------------------------- #
@@ -311,7 +327,7 @@ class ModeleMonstre():
         self.listeEtoiles = []
         self.listeAsteroides = []
         self.genererAstres()
-        self.monstre = MonstreIntersideral(self, random.randint(0,1000),500,500)
+        self.monstre = MonstreIntersideral(self, 500,500)
         self.threadRecursif()
         
     def genererAstres(self):

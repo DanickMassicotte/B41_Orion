@@ -5,6 +5,7 @@ import sys
 import xmlrpc.client
 import socket
 import random
+import time
 from subprocess import Popen 
 from helper import Helper as hlp
 from Vue import *
@@ -73,6 +74,11 @@ class Controleur():
     def initierpartie(self,rep):  # initalisation locale de la simulation, creation du modele, generation des assets et suppression du layout de lobby
         if rep[1][0][0]=="lancerpartie":
             self.modele=Modele(self,rep[1][0][1]) # on cree le modele
+        #-----------------------------------------------------------#
+            #synchronisation de genese et seed
+            self.modele.monstre.genese = round(time.time())
+            self.modele.monstre.seed = self.modele.monstre.genese
+        #-----------------------------------------------------------#  
             self.vue.creeraffichercadrepartie(self.modele)
             print(self.monnom,"LANCE PROCHAINTOUR")
             self.prochaintour()
@@ -144,6 +150,9 @@ class Controleur():
         
     def creerfregate(self):
         self.actions.append([self.monnom, "creerfregate", ""])
+        
+    def creerchasseur(self):
+        self.actions.append([self.monnom, "creerchasseur", ""])
     # -------------DM---------------- #
         
     def ciblerflotte(self,idorigine,iddestination):

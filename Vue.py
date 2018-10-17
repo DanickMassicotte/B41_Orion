@@ -183,7 +183,47 @@ class Vue():
         self.labid.bind("<Button>",self.afficherplanemetemere)                                  
         self.labid.grid(row = 0, column = 0 )                                                                                                                                    #.grid
         self.btncreervaisseau=Button( self.frameMenu,text="Vaisseau",
-                                      command=self.creermineur, 
+                                      command=self.creerchasseur, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.btncreerHangar=Button( self.frameMenu,text="Hangar",
+                                      command=self.creerHangar, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.btncreerPod=Button( self.frameMenu,text="Pod",
+                                      command=self.creerPod, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.btncreerMineArgent=Button( self.frameMenu,text="Gold Mine",
+                                      command=self.creerMineArgent, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.btncreerMineMateriaux=Button( self.frameMenu,text="Steel Mine",
+                                      command=self.creerMineMateriaux, 
+                                      relief=RAISED,
+                                      bg = "deep sky blue",
+                                      fg="black", 
+                                      width=20, 
+                                      activebackground='sky blue',
+                                      font=("Castellar",10, "bold"))
+        self.btncreerMineEnergie=Button( self.frameMenu,text="Nuclear Mine",
+                                      command=self.creerMineEnergie, 
                                       relief=RAISED,
                                       bg = "deep sky blue",
                                       fg="black", 
@@ -688,7 +728,7 @@ class Vue():
         self.img_monstre = PhotoImage (file = "img_monstre_02.png")
         x = mod.monstre.x # hardcode pour l'instant
         y = mod.monstre.y # hardcode pour l'instant
-        self.canevas.create_image (x, y, image = self.img_monstre)
+        self.canevas.create_image (x, y, image = self.img_monstre, tags = (mod.monstre, "monstre", str(mod.monstre.id)))
 
         # afficher une planete infectee
         self.img_planeteInfectee = PhotoImage (file = "img_planeteInfectee_01.png")
@@ -744,7 +784,65 @@ class Vue():
         self.maselection=None
         self.canevas.delete("marqueur")
         self.btncreervaisseau.pack_forget()     # À vérifier
+        
+    def creerchasseur(self):
+        print("Creer chasseur")
+        self.parent.creerchasseur()
+        self.maselection=None
+        self.canevas.delete("marqueur")
+        self.btncreervaisseau.pack_forget()     # À vérifier
     # ------------------------------------------#
+    
+    # DEBUT Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    
+    def creerPod(self):
+        #print("Creer un Pod")
+        self.parent.creerPod()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerPod.pack_forget()
+        
+    def creerFerme(self):
+        #print("Creer une Ferme")
+        self.parent.creerFerme()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerFerme.pack_forget()
+        
+    def creerMineArgent(self):
+        #print("Creer une mine d'argent")
+        self.parent.creerMineArgent()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerMineArgent.pack_forget()
+        
+    def creerMineMateriaux(self):
+        #print("Creer une mine de materiaux")
+        self.parent.creerMineMateriaux()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerMineMateriaux.pack_forget()
+        
+    def creerMineEnergie(self):
+        #print("Creer une mine d'energie")
+        self.parent.creerMineEnergie()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerMineEnergie.pack_forget()
+        
+    def creerHangar(self):
+        #print("Creer un hangar")
+        self.parent.creerHangar()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerHangar.pack_forget()
+        
+    def creerReacteurNucleaire(self):
+        #print("Creer un reacteur nucleaire")
+        self.parent.creerReacteurNucleaire()
+        #self.maselection=None
+        self.canevas.delete("marqueur")
+        #self.btncreerReacteurNucleaire.pack_forget()
+    # FIN Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
     def afficherpartie(self,mod):
         self.canevas.delete("artefact")
@@ -805,6 +903,11 @@ class Vue():
 
     def cliquecosmos(self,evt):
         self.btncreervaisseau.pack_forget()
+        self.btncreerHangar.pack_forget()
+        self.btncreerPod.pack_forget()
+        self.btncreerMineArgent.pack_forget()
+        self.btncreerMineMateriaux.pack_forget()
+        self.btncreerMineEnergie.pack_forget()
         t=self.canevas.gettags(CURRENT)
         if t and t[0]==self.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
@@ -822,6 +925,18 @@ class Vue():
             self.maselection=None
             self.lbselectecible.pack_forget()
             self.canevas.delete("marqueur")
+            
+        # ----------------DM------------------- #
+        elif "monstre" in t:
+            if self.maselection:
+                print("CLIQUE MONSTRE")
+                self.parent.ciblerflotte(self.maselection[2], t[2])
+            
+            self.maselection = None
+            self.lbselectecible.pack_forget()
+            self.canevas.delete("marqueur")
+        # ------------------------------------- #
+        
         else:
             print("Region inconnue")
             self.maselection=None
@@ -830,6 +945,11 @@ class Vue():
             
     def montreplaneteselection(self):
         self.btncreervaisseau.pack()
+        self.btncreerHangar.pack()
+        self.btncreerPod.pack()
+        self.btncreerMineArgent.pack()
+        self.btncreerMineMateriaux.pack()
+        self.btncreerMineEnergie.pack()
     def montreflotteselection(self):
         self.lbselectecible.pack()
     
