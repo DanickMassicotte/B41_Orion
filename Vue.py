@@ -181,8 +181,8 @@ class Vue():
         self.canevas.bind("<Button>",self.cliquecosmos)
         self.labid=Label(self.frameMessage,text=self.nom,fg=mod.joueurs[self.nom].couleur)
         self.labid.bind("<Button>",self.afficherplanemetemere)                                  
-        self.labid.grid(row = 0, column = 0 )                                                                                                                                    #.grid
-        self.lbselectecible=Label(self.frameMenu,text="Choisir cible",bg="darkgrey")
+        self.labid.grid(row = 0, column = 0 )
+#         self.lbselectecible=Label(self.frameMenu,text="Choisir cible",bg="darkgrey")
         
         #Creation des widgets dans le frame ressource
         
@@ -536,24 +536,26 @@ class Vue():
         #---------------------------------------
         # Boutons de style "menu precedent"
         #---------------------------------------
-        self.bouton_retour_au_menu_ma_planete = Button (self.frameMenu,
-                                                        text = " -> Menu initial   ",
-                                                        font = ("Copperplate Gothic", 12, "bold"),
-                                                        bg = "steelblue",
-                                                        fg = "white",
-                                                        relief = "raised",
-                                                        width = 20,
-                                                        command = self.afficher_menu_ma_planete)
+        self.bouton_retour_au_menu_ma_planete = Button (
+            self.frameMenu,
+            text = " -> Menu initial   ",
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "raised",
+            width = 20,
+            command = self.afficher_menu_ma_planete)
         
         #---------------------------------------
-        self.bouton_retour_au_menu_pr_batir_une_amelioration = Button ( self.frameMenu,
-                                                                        text = " -> Menu des ameliorations   ",
-                                                                        font = ("Copperplate Gothic", 12, "bold"),
-                                                                        bg = "steelblue",
-                                                                        fg = "white",
-                                                                        relief = "raised",
-                                                                        width = 20,
-                                                                        command = self.afficher_menu_pr_batir_une_amelioration)
+        self.bouton_retour_au_menu_pr_batir_une_amelioration = Button (
+            self.frameMenu,
+            text = " -> Menu des ameliorations   ",
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "raised",
+            width = 20,
+            command = self.afficher_menu_pr_batir_une_amelioration)
 
 #         #Connaissance
 #         self.connaissance = Label(self.frameRessource, 
