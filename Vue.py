@@ -894,30 +894,30 @@ class Vue():
 
 
         
+        self.exploreur = PhotoImage (file = "exploreur.png")
+        self.mineur = PhotoImage (file = "mineur.png")
+        self.fregate = PhotoImage (file = "fregate.png")
+        self.chasseur = PhotoImage (file = "chasseur.png")
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
             for j in i.flotte:
                 # afficher exploreur
                 if isinstance (j, Exploreur):
-                    self.exploreur = PhotoImage (file = "exploreur.png")
                     self.canevas.create_image (
                         j.x, j.y, image = self.exploreur,
                         tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
                 # afficher mineur
                 if isinstance (j, Mineur):
-                    self.mineur = PhotoImage (file = "mineur.png")
                     self.canevas.create_image (
                         j.x, j.y, image = self.mineur,
                         tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
                 # afficher fregate
                 if isinstance (j, Fregate):
-                    self.fregate = PhotoImage (file = "fregate.png")
                     self.canevas.create_image (
                         j.x, j.y, image = self.fregate,
                         tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
                 # afficher chasseur
                 if isinstance (j, Chasseur):
-                    self.chasseur = PhotoImage (file = "chasseur.png")
                     self.canevas.create_image (
                         j.x, j.y, image = self.chasseur,
                         tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
