@@ -705,10 +705,17 @@ class Vue():
             self.canevas.create_oval (x, y, x+1, y+1, fill = "white", tags = ("fond"))
 
         # afficher planetes vierges
-        self.imgplanete = PhotoImage (file = "img_planeteVierge_02.png")
+        self.imgplanete = PhotoImage (file = "planete_vierge.png")
         for i in mod.planetes:
             self.canevas.create_image (
                 i.x, i.y, image = self.imgplanete, tags = (i.proprietaire,"planete",str(i.id)))
+        
+        # afficher etoiles
+        self.img_etoile = PhotoImage (file = "etoile.png")
+        for i in mod.listeEtoiles:
+            self.canevas.create_image (
+                i.x, i.y, image = self.img_etoile)
+
 
         # afficher monstre        
         self.img_monstre = PhotoImage (file = "img_monstre_02.png")
@@ -717,19 +724,23 @@ class Vue():
         self.canevas.create_image (x, y, image = self.img_monstre, tags = (mod.monstre, "monstre", str(mod.monstre.id)))
 
         # afficher une planete infectee
-        self.img_planeteInfectee = PhotoImage (file = "img_planeteInfectee_01.png")
-        x = 220 # hardcode pour l'instant
-        y = 60 # hardcode pour l'instant
-        self.canevas.create_image (x, y, image = self.img_planeteInfectee)
+#         self.img_planeteInfectee = PhotoImage (file = "img_planeteInfectee_01.png")
+#         x = 220 # hardcode pour l'instant
+#         y = 60 # hardcode pour l'instant
+#         self.canevas.create_image (x, y, image = self.img_planeteInfectee)
 
         # afficher planetes joueurs
-        self.img_planeteJoueur = PhotoImage (file = "img_planeteJoueur_01.png")
+#         self.img_planeteJoueur_1 = PhotoImage (file = "joueur_1.png")
         for i in mod.joueurs.keys():
             for j in mod.joueurs[i].planetescontrolees:
+                # si joueur #1
+                #    affiche image 1
+                # si joueur #2
+                #    affiche image 1
                 self.canevas.create_image (
-                    j.x, j.y, image = self.img_planeteJoueur,
-                    tags = (j.proprietaire,"planete", str(j.id), "possession"))
-                
+                j.x, j.y, image = mod.joueurs[i].image,
+                tags = (j.proprietaire,"planete", str(j.id), "possession"))
+
         self.afficherpartie(mod)
                 
     def afficherplanemetemere(self,evt):

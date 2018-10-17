@@ -11,6 +11,8 @@ from subprocess import Popen
 from helper import Helper as hlp
 import Batiments # Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 import math     # Ajout DM
+from PIL import Image, ImageTk
+
 
 class Id():
     id=0
@@ -197,6 +199,7 @@ class Joueur():
         self.planetemere=planetemere
         self.planetemere.proprietaire=self.nom
         self.couleur=couleur
+        self.image = PhotoImage (file = "joueur_1.png")
         self.planetescontrolees=[planetemere]
     # DEBUT AJOUTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.argent = 3000

@@ -44,8 +44,8 @@ class Modele():
             self.terrain.append(ligne)
         
     def creerplanetes(self,joueurs):
-        bordure=10
-        for i in range(100):
+        bordure=20
+        for i in range(50):
             x=random.randrange(self.largeur-(2*bordure))+bordure
             y=random.randrange(self.hauteur-(2*bordure))+bordure
             self.planetes.append(Planete(x,y)) # ajouter false quand class sera mise � jour
@@ -59,13 +59,22 @@ class Modele():
                 np-=1
         couleurs=["red","blue","lightgreen","yellow",
                   "lightblue","pink","gold","purple"]
+        #liste images 
+        listeImages = [PhotoImage (file = "joueur_1.png"),
+                       PhotoImage (file = "joueur_2.png"),
+                       PhotoImage (file = "joueur_3.png"),
+                       PhotoImage (file = "joueur_4.png"),
+                       PhotoImage (file = "joueur_5.png"),
+                       PhotoImage (file = "joueur_6.png")]
+
         for i in joueurs:
             self.joueurs[i]=Joueur(self,i,planes.pop(0),couleurs.pop(0))
+            self.joueurs[i].image = listeImages.pop(0)
             
     def genererAstres(self):
-        for i in range(10):
-            self.listeEtoiles.append(Etoile(random.randint(0,1000), random.randint(0,1000))) 
-            self.listeAsteroides.append(Asteroide(random.randint(0,1000), random.randint(0,1000)))   
+        for i in range(30):
+            self.listeEtoiles.append(Etoile(random.randint(0,1920), random.randint(0,700))) 
+            self.listeAsteroides.append(Asteroide(random.randint(0,1920), random.randint(0,700)))   
             
     def prochaineaction(self,cadre):
         if cadre in self.actionsafaire:
