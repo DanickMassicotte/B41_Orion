@@ -158,6 +158,7 @@ class Vue():
 #         self.varConnaissance=StringVar()
 #         self.varConnaissance.set(str(self.mod.joueurs[self.parent.monnom].connaissance))
         # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self.saut_de_ligne_x1 = "\n"
         
         self.frameJeu=Frame(self.cadreapp)  
         self.frameRessource = Frame(self.frameJeu,bg='black', highlightbackground="deep sky blue", highlightthickness=2, width=1920,height = 50)
@@ -340,6 +341,239 @@ class Vue():
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
+        
+        self.label_du_menu_ma_planete = Label ( self.frameMenu,
+                                                text = self.saut_de_ligne_x1 + "Menu de ma planete" + self.saut_de_ligne_x1,
+                                                font = ("Copperplate Gothic", 12, "bold"),
+                                                bg = "steelblue",
+                                                fg = "white",
+                                                relief = "flat",
+                                                width = 30)
+        
+        #---------------------------------------
+        self.label_du_menu_pr_batir_une_amelioration = Label (  self.frameMenu,
+                                                                text = self.saut_de_ligne_x1 + "Menu pour batir une amelioration" + self.saut_de_ligne_x1,
+                                                                font = ("Copperplate Gothic", 12, "bold"),
+                                                                bg = "steelblue",
+                                                                fg = "white",
+                                                                relief = "flat",
+                                                                width = 30)
+        
+        #---------------------------------------
+        self.label_du_menu_pr_batir_une_mine = Label (  self.frameMenu,
+                                                        text = self.saut_de_ligne_x1 + "Menu pour batir une mine" + self.saut_de_ligne_x1,
+                                                        font = ("Copperplate Gothic", 12, "bold"),
+                                                        bg = "steelblue",
+                                                        fg = "white",
+                                                        relief = "flat",
+                                                        width = 30)
+        
+        #---------------------------------------
+        self.label_du_menu_pr_batir_un_vaisseau = Label (   self.frameMenu,
+                                                            text = self.saut_de_ligne_x1 + "Menu pour batir un vaisseau" + self.saut_de_ligne_x1,
+                                                            font = ("Copperplate Gothic", 12, "bold"),
+                                                            bg = "steelblue",
+                                                            fg = "white",
+                                                            relief = "flat",
+                                                            width = 30)
+        
+        #---------------------------------------
+        self.label_saut_de_ligne = Label (self.frameMenu,
+            text = self.saut_de_ligne_x1,
+            bg = "steelblue")
+        
+        #---------------------------------------
+        # Menu de ma planete
+        #---------------------------------------
+        self.bouton_afficher_menu_pr_batir_une_amelioration = Button (  self.frameMenu,
+                                                                        text = "Batir une amelioration",
+                                                                        font = ("Copperplate Gothic", 12, "bold"),
+                                                                        bg = "steelblue",
+                                                                        fg = "white",
+                                                                        relief = "raised",
+                                                                        width = 20,
+                                                                        command = self.afficher_menu_pr_batir_une_amelioration)
+        
+        #---------------------------------------
+        self.bouton_afficher_menu_pr_batir_un_vaisseau = Button (   self.frameMenu,
+                                                                    text = "Batir un vaisseau",
+                                                                    font = ("Copperplate Gothic", 12, "bold"),
+                                                                    bg = "steelblue",
+                                                                    fg = "white",
+                                                                    relief = "raised",
+                                                                    width = 20,
+                                                                    command = self.afficher_menu_pr_batir_un_vaisseau)
+        
+        #---------------------------------------
+        # Menu pour batir des ameliorations
+        #---------------------------------------
+        self.bouton_hangar = Button (   self.frameMenu,
+                                        text = "Batir un hangar",
+                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        bg = "steelblue",
+                                        fg = "white",
+                                        relief = "raised",
+                                        width = 20,
+                                        command = None)
+        
+        #---------------------------------------
+        self.bouton_ferme = Button (    self.frameMenu,
+                                        text = "Batir une ferme",
+                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        bg = "steelblue",
+                                        fg = "white",
+                                        relief = "raised",
+                                        width = 20,
+                                        command = None)
+        
+        #---------------------------------------
+        self.bouton_pod = Button (  self.frameMenu,
+                                    text = "Batir un pod",
+                                    font = ("Copperplate Gothic", 12, "bold"),
+                                    bg = "steelblue",
+                                    fg = "white",
+                                    relief = "raised",
+                                    width = 20,
+                                    command = None)
+        
+        #---------------------------------------
+        self.bouton_afficher_menu_pr_batir_une_mine = Button (  self.frameMenu,
+                                                                text = "Batir une mine",
+                                                                font = ("Copperplate Gothic", 12, "bold"),
+                                                                bg = "steelblue",
+                                                                fg = "white",
+                                                                relief = "raised",
+                                                                width = 20,
+                                                                command = self.afficher_menu_pr_batir_une_mine)
+        
+        #---------------------------------------
+        # Menu pour batir une mine
+        #---------------------------------------
+        self.bouton_mine_argent = Button (  self.frameMenu,
+                                            text = "Batir une mine d'argent",
+                                            font = ("Copperplate Gothic", 12, "bold"),
+                                            bg = "steelblue",
+                                            fg = "white",
+                                            relief = "raised",
+                                            width = 20,
+                                            command = None)
+        
+        #---------------------------------------
+        self.bouton_mine_materiau = Button (self.frameMenu,
+                                            text = "Batir une mine de materiau",
+                                            font = ("Copperplate Gothic", 12, "bold"),
+                                            bg = "steelblue",
+                                            fg = "white",
+                                            relief = "raised",
+                                            width = 20,
+                                            command = None)
+        
+        #---------------------------------------
+        self.bouton_mine_energie = Button ( self.frameMenu,
+                                            text = "Batir une mine d'energie",
+                                            font = ("Copperplate Gothic", 12, "bold"),
+                                            bg = "steelblue",
+                                            fg = "white",
+                                            relief = "raised",
+                                            width = 20,
+                                            command = None)
+        
+        #---------------------------------------
+        # Menu pour batir un vaisseau
+        #---------------------------------------
+        self.bouton_exploreur = Button (self.frameMenu,
+                                        text = "Batir un exploreur",
+                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        bg = "steelblue",
+                                        fg = "white",
+                                        relief = "raised",
+                                        width = 20,
+                                        command = None)
+        
+        #---------------------------------------
+        self.bouton_mineur = Button (   self.frameMenu,
+                                        text = "Batir un mineur",
+                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        bg = "steelblue",
+                                        fg = "white",
+                                        relief = "raised",
+                                        width = 20,
+                                        command = None)
+        
+        #---------------------------------------
+        self.bouton_fregate = Button (  self.frameMenu,
+                                        text = "Batir une fregate",
+                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        bg = "steelblue",
+                                        fg = "white",
+                                        relief = "raised",
+                                        width = 20,
+                                        command = None)
+        
+        #---------------------------------------
+        '''bouton_bombarde = Button (
+            frame,
+            text = "Batir une bombarde",
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "raised",
+            width = 20,
+            command = None)
+        '''
+        #---------------------------------------
+        self.bouton_chasseur = Button ( self.frameMenu,
+                                        text = "Batir un chasseur",
+                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        bg = "steelblue",
+                                        fg = "white",
+                                        relief = "raised",
+                                        width = 20,
+                                        command = None)
+        
+        #---------------------------------------
+        '''bouton_dreadnought = Button (
+            frame,
+            text = "Batir un dreadnought",
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "raised",
+            width = 20,
+            command = None)
+        '''
+        #---------------------------------------
+        '''bouton_destructeur = Button (
+            frame,
+            text = "Batir un destructeur",
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "raised",
+            width = 20,
+            command = None)
+        '''
+        #---------------------------------------
+        # Boutons de style "menu precedent"
+        #---------------------------------------
+        self.bouton_retour_au_menu_ma_planete = Button (self.frameMenu,
+                                                        text = " -> Menu initial   ",
+                                                        font = ("Copperplate Gothic", 12, "bold"),
+                                                        bg = "steelblue",
+                                                        fg = "white",
+                                                        relief = "raised",
+                                                        width = 20,
+                                                        command = self.afficher_menu_ma_planete)
+        
+        #---------------------------------------
+        self.bouton_retour_au_menu_pr_batir_une_amelioration = Button ( self.frameMenu,
+                                                                        text = " -> Menu des ameliorations   ",
+                                                                        font = ("Copperplate Gothic", 12, "bold"),
+                                                                        bg = "steelblue",
+                                                                        fg = "white",
+                                                                        relief = "raised",
+                                                                        width = 20,
+                                                                        command = self.afficher_menu_pr_batir_une_amelioration)
 
 #         #Connaissance
 #         self.connaissance = Label(self.frameRessource, 
@@ -358,86 +592,7 @@ class Vue():
         # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         #Creation des widgets dans le frame Zone Usager
-        self.boutonTest1 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test1",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.boutonTest2 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test2",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.boutonTest3 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test3",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.boutonTest4 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test4",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.boutonTest5 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test5",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.boutonTest6 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test5",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.boutonTest7 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test5",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.boutonTest8 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test5",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.boutonTest9 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test5",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.boutonTest10 = Button(    self.frameMenu, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Test5",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
+        
         
         self.frameJeu.grid_rowconfigure(0, weight = 0)
         self.frameJeu.grid_columnconfigure(1, weight = 1)
@@ -467,22 +622,94 @@ class Vue():
         self.boutonXchange.grid(row = 0, column = 0)
         self.Alerte.grid(row = 0, column = 1)
         
-        #self.btncreervaisseau.grid(row =0, column =0)
-        #self.boutonTest2.grid(row = 1, column =0)
-        #self.boutonTest3.grid(row = 2, column =0)
-        #self.boutonTest4.grid(row = 3, column =0)
-        #self.boutonTest5.grid(row = 4, column =0)
-        #self.boutonTest6.grid(row = 5, column =0)
-        #self.boutonTest7.grid(row = 6, column =0)
-        #self.boutonTest8.grid(row = 7, column =0)
-        #self.boutonTest9.grid(row = 8, column =0)
-        #self.boutonTest10.grid(row = 9, column =0)
-        
         self.afficherdecor(mod)
         
         self.changecadre(self.frameJeu)
+        self.afficher_menu_ma_planete()
         
     # AFFICHAGE INITIAL SEULEMENT
+    def afficher_menu_ma_planete(self):
+    
+        self.vider_le_cadre()
+    
+        self.label_du_menu_ma_planete.grid(column = 3, row =0)
+        self.bouton_afficher_menu_pr_batir_une_amelioration.grid(column = 3, row =1)
+        self.bouton_afficher_menu_pr_batir_un_vaisseau.grid(column = 3, row =2)
+    
+    #---------------------------------------
+    def afficher_menu_pr_batir_une_amelioration(self):
+    
+        self.vider_le_cadre()
+    
+        self.label_du_menu_pr_batir_une_amelioration.grid(column = 3, row =0)
+        self.bouton_hangar.grid(column = 3, row =1)
+        self.bouton_ferme.grid(column = 3, row =2)
+        self.bouton_pod.grid(column = 3, row =3)
+        self.bouton_afficher_menu_pr_batir_une_mine.grid(column = 3, row =4)
+    
+        self.label_saut_de_ligne.grid(column = 3, row =6)
+        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =7)
+     
+    #---------------------------------------
+    def afficher_menu_pr_batir_une_mine(self):
+    
+        self.vider_le_cadre()
+    
+        self.label_du_menu_pr_batir_une_mine.grid(column = 3, row =0)
+        self.bouton_mine_argent.grid(column = 3, row =1)
+        self.bouton_mine_materiau.grid(column = 3, row =2)
+        self.bouton_mine_energie.grid(column = 3, row =3)
+    
+        self.label_saut_de_ligne.grid(column = 3, row =4)
+        self.bouton_retour_au_menu_pr_batir_une_amelioration.grid(column = 3, row =6)
+        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =7)
+    
+    #---------------------------------------
+    def afficher_menu_pr_batir_un_vaisseau(self):
+    
+        self.vider_le_cadre()
+    
+        self.label_du_menu_pr_batir_un_vaisseau.grid(column = 3, row =0)
+        self.bouton_exploreur.grid(column = 3, row =1)
+        self.bouton_mineur.grid(column = 3, row =2)
+        self.bouton_fregate.grid(column = 3, row =3)
+        #bouton_bombarde.grid(column = 0, row =0)
+        self.bouton_chasseur.grid(column = 3, row =4)
+        #bouton_dreadnought.grid(column = 0, row =0)
+        #bouton_destructeur.grid(column = 0, row =0)
+    
+        self.label_saut_de_ligne.grid(column = 3, row =5)
+        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =6)
+     
+    #---------------------------------------
+    def vider_le_cadre(self):
+        self.label_du_menu_ma_planete.grid_forget()
+        self.label_du_menu_pr_batir_une_amelioration.grid_forget()
+        self.label_du_menu_pr_batir_une_mine.grid_forget()
+        self.label_du_menu_pr_batir_un_vaisseau.grid_forget()
+        self.label_saut_de_ligne.grid_forget()
+        
+        self.bouton_retour_au_menu_ma_planete.grid_forget()
+        self.bouton_retour_au_menu_pr_batir_une_amelioration.grid_forget()
+    
+        self.bouton_afficher_menu_pr_batir_une_amelioration.grid_forget()
+        self.bouton_hangar.grid_forget()
+        self.bouton_ferme.grid_forget()
+        self.bouton_pod.grid_forget()
+    
+        self.bouton_afficher_menu_pr_batir_une_mine.grid_forget()
+        self.bouton_mine_argent.grid_forget()
+        self.bouton_mine_materiau.grid_forget()
+        self.bouton_mine_energie.grid_forget()
+    
+        self.bouton_afficher_menu_pr_batir_un_vaisseau.grid_forget()
+        self.bouton_exploreur.grid_forget()
+        self.bouton_mineur.grid_forget()
+        self.bouton_fregate.grid_forget()
+        #bouton_bombarde.grid_forget()
+        self.bouton_chasseur.grid_forget()
+        #bouton_dreadnought.grid_forget()
+        #bouton_destructeur.grid_forget()
     def afficherdecor(self,mod):
         
         # afficher etoiles decoratives
@@ -624,7 +851,7 @@ class Vue():
         if mod.monstre.listeProgenitures:
             self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
             for progeniture in mod.monstre.listeProgenitures:
-                self.canevas.create_image (progeniture.x, progeniture.y, image = self.img_progenitures, tags = (progeniture, "progeniture", str(progeniture.id)))
+                self.canevas.create_image (progeniture.x, progeniture.y, image = self.img_progenitures)
 
 #                 x = progeniture.x
 #                 y = progeniture.y
@@ -648,7 +875,7 @@ class Vue():
                     if i.id == int(self.maselection[2]):
                         x=i.x
                         y=i.y
-                        t = 15
+                        t = 60
                         self.canevas.create_rectangle (
                             x-t, y-t, x+t, y+t, dash = (2,2),
                             outline = mod.joueurs[self.nom].couleur,
@@ -657,7 +884,7 @@ class Vue():
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
             for j in i.flotte:
-                t = 10
+                t = 40
                 self.canevas.create_rectangle (
                     j.x-t, j.y-t, j.x+t, j.y+t, fill = i.couleur,
                     tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
@@ -703,15 +930,6 @@ class Vue():
         elif "monstre" in t:
             if self.maselection:
                 print("CLIQUE MONSTRE")
-                self.parent.ciblerflotte(self.maselection[2], t[2])
-            
-            self.maselection = None
-            self.lbselectecible.pack_forget()
-            self.canevas.delete("marqueur")
-            
-        elif "progeniture" in t:
-            if self.maselection:
-                print("CLIQUE PROGENITURE")
                 self.parent.ciblerflotte(self.maselection[2], t[2])
             
             self.maselection = None
