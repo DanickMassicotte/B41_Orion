@@ -182,7 +182,14 @@ class Vue():
         self.labid=Label(self.frameMessage,text=self.nom,fg=mod.joueurs[self.nom].couleur)
         self.labid.bind("<Button>",self.afficherplanemetemere)                                  
         self.labid.grid(row = 0, column = 0 )
-        self.lbselectecible=Label(self.frameMenu,text="Choisir cible",bg="darkgrey")
+        self.lbselectecible=Label (
+            self.frameMenu,text = "SVP CHOISIR CIBLE",
+            font = ("Copperplate Gothic", 10, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "flat",
+            width = 30)
+
         
         #Creation des widgets dans le frame ressource
         
@@ -307,7 +314,7 @@ class Vue():
         self.label_du_menu_ma_planete = Label (
             self.frameMenu,
             text = self.saut_de_ligne_x1 + "Menu de ma planete" + self.saut_de_ligne_x1,
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "flat",
@@ -317,7 +324,7 @@ class Vue():
         self.label_du_menu_pr_batir_une_amelioration = Label (
             self.frameMenu,
             text = self.saut_de_ligne_x1 + "Menu pour batir une amelioration" + self.saut_de_ligne_x1,
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "flat",
@@ -327,7 +334,7 @@ class Vue():
         self.label_du_menu_pr_batir_une_mine = Label (
             self.frameMenu,
             text = self.saut_de_ligne_x1 + "Menu pour batir une mine" + self.saut_de_ligne_x1,
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "flat",
@@ -337,7 +344,7 @@ class Vue():
         self.label_du_menu_pr_batir_un_vaisseau = Label (
             self.frameMenu,
             text = self.saut_de_ligne_x1 + "Menu pour batir un vaisseau" + self.saut_de_ligne_x1,
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "flat",
@@ -355,7 +362,7 @@ class Vue():
         self.bouton_afficher_menu_pr_batir_une_amelioration = Button (
               self.frameMenu,
               text = "Batir une amelioration",
-              font = ("Copperplate Gothic", 12, "bold"),
+              font = ("Copperplate Gothic", 10, "bold"),
               bg = "steelblue",
               fg = "white",
               relief = "raised",
@@ -366,7 +373,7 @@ class Vue():
         self.bouton_afficher_menu_pr_batir_un_vaisseau = Button (
             self.frameMenu,
             text = "Batir un vaisseau",
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "raised",
@@ -378,7 +385,7 @@ class Vue():
         #---------------------------------------
         self.bouton_hangar = Button (   self.frameMenu,
                                         text = "Batir un hangar",
-                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        font = ("Copperplate Gothic", 10, "bold"),
                                         bg = "steelblue",
                                         fg = "white",
                                         relief = "raised",
@@ -388,7 +395,7 @@ class Vue():
         #---------------------------------------
         self.bouton_ferme = Button (    self.frameMenu,
                                         text = "Batir une ferme",
-                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        font = ("Copperplate Gothic", 10, "bold"),
                                         bg = "steelblue",
                                         fg = "white",
                                         relief = "raised",
@@ -398,7 +405,7 @@ class Vue():
         #---------------------------------------
         self.bouton_pod = Button (  self.frameMenu,
                                     text = "Batir un pod",
-                                    font = ("Copperplate Gothic", 12, "bold"),
+                                    font = ("Copperplate Gothic", 10, "bold"),
                                     bg = "steelblue",
                                     fg = "white",
                                     relief = "raised",
@@ -408,7 +415,7 @@ class Vue():
         #---------------------------------------
         self.bouton_reacteur = Button (    self.frameMenu,
                                         text = "Batir un reacteur",
-                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        font = ("Copperplate Gothic", 10, "bold"),
                                         bg = "steelblue",
                                         fg = "white",
                                         relief = "raised",
@@ -419,7 +426,7 @@ class Vue():
         self.bouton_afficher_menu_pr_batir_une_mine = Button (
             self.frameMenu,
             text = "Batir une mine",
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "raised",
@@ -431,7 +438,7 @@ class Vue():
         #---------------------------------------
         self.bouton_mine_argent = Button (  self.frameMenu,
                                             text = "Batir une mine d'argent",
-                                            font = ("Copperplate Gothic", 12, "bold"),
+                                            font = ("Copperplate Gothic", 10, "bold"),
                                             bg = "steelblue",
                                             fg = "white",
                                             relief = "raised",
@@ -441,7 +448,7 @@ class Vue():
         #---------------------------------------
         self.bouton_mine_materiau = Button (self.frameMenu,
                                             text = "Batir une mine de materiau",
-                                            font = ("Copperplate Gothic", 12, "bold"),
+                                            font = ("Copperplate Gothic", 10, "bold"),
                                             bg = "steelblue",
                                             fg = "white",
                                             relief = "raised",
@@ -451,7 +458,7 @@ class Vue():
         #---------------------------------------
         self.bouton_mine_energie = Button ( self.frameMenu,
                                             text = "Batir une mine d'energie",
-                                            font = ("Copperplate Gothic", 12, "bold"),
+                                            font = ("Copperplate Gothic", 10, "bold"),
                                             bg = "steelblue",
                                             fg = "white",
                                             relief = "raised",
@@ -463,7 +470,7 @@ class Vue():
         #---------------------------------------
         self.bouton_exploreur = Button (self.frameMenu,
                                         text = "Batir un exploreur",
-                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        font = ("Copperplate Gothic", 10, "bold"),
                                         bg = "steelblue",
                                         fg = "white",
                                         relief = "raised",
@@ -473,7 +480,7 @@ class Vue():
         #---------------------------------------
         self.bouton_mineur = Button (   self.frameMenu,
                                         text = "Batir un mineur",
-                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        font = ("Copperplate Gothic", 10, "bold"),
                                         bg = "steelblue",
                                         fg = "white",
                                         relief = "raised",
@@ -483,7 +490,7 @@ class Vue():
         #---------------------------------------
         self.bouton_fregate = Button (  self.frameMenu,
                                         text = "Batir une fregate",
-                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        font = ("Copperplate Gothic", 10, "bold"),
                                         bg = "steelblue",
                                         fg = "white",
                                         relief = "raised",
@@ -494,7 +501,7 @@ class Vue():
         '''bouton_bombarde = Button (
             frame,
             text = "Batir une bombarde",
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "raised",
@@ -504,7 +511,7 @@ class Vue():
         #---------------------------------------
         self.bouton_chasseur = Button ( self.frameMenu,
                                         text = "Batir un chasseur",
-                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        font = ("Copperplate Gothic", 10, "bold"),
                                         bg = "steelblue",
                                         fg = "white",
                                         relief = "raised",
@@ -515,7 +522,7 @@ class Vue():
         '''bouton_dreadnought = Button (
             frame,
             text = "Batir un dreadnought",
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "raised",
@@ -526,7 +533,7 @@ class Vue():
         '''bouton_destructeur = Button (
             frame,
             text = "Batir un destructeur",
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "raised",
@@ -539,7 +546,7 @@ class Vue():
         self.bouton_retour_au_menu_ma_planete = Button (
             self.frameMenu,
             text = " -> Menu initial   ",
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "raised",
@@ -550,7 +557,7 @@ class Vue():
         self.bouton_retour_au_menu_pr_batir_une_amelioration = Button (
             self.frameMenu,
             text = " -> Menu des ameliorations   ",
-            font = ("Copperplate Gothic", 12, "bold"),
+            font = ("Copperplate Gothic", 10, "bold"),
             bg = "steelblue",
             fg = "white",
             relief = "raised",
