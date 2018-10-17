@@ -89,10 +89,10 @@ class MonstreIntersideral():
         
 
     def choixAction(self):
+       #synchronisation des seeds, probablement pas optimal mais fonctionne pour l'instant
         random.seed(self.seed)
-        print(self.seed)
-        self.seed += 777
-        #random.seed(self.pointeurModele.parent.serveur.cadreCourant)
+        self.seed += 777 #incrément magique 
+      
         #si une vaisseau est trop près de lui, le monstre va l'attaquer
         if self.hp <= 0: #p-e mettre dans modele ***
             self.pointeurModele.parent.gameOver()
@@ -120,7 +120,7 @@ class MonstreIntersideral():
         if self.hp > 0: # p-e enlever si on garde le check en haut ***
             prochainTour = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = self.frequenceTour
         #dans tous les cas, les progénitures existantes font leur tour
-        self.actionsProgenitures()
+        #self.actionsProgenitures()*****
         
     def modulateurProbabiliteNiveau1(self):
         if time.time() - self.genese  < self.tempsPreparation: # profil néophyte == plus de chances tomber sur messag
@@ -226,8 +226,10 @@ class ProgenitureInfernale():
         self.hp = 20
         self.puissance = 10
         self.porteeAttaque = 12
-        self.vitesse = 5
+        self.vitesse = 1
         self.cible = None
+        self.frequenceTourProgeniture = 0.1 #*****
+        self.procedure()
 
     def procedure(self):
         if self.hp <= 0:
@@ -243,6 +245,8 @@ class ProgenitureInfernale():
                 self.deplacement()
             else:
                 self.attaquer()
+        if self.hp > 0:
+            prochainTourProgeniture = Timer(self.frequenceTourProgeniture,self.procedure).start()   #*****
 
         
     def choixCible(self):
@@ -270,7 +274,7 @@ class ProgenitureInfernale():
             self.cible = None
         
     def deplacement(self):
-        print("deplacement de ", self.x, self.y, "vers", round(self.cible.x), round(self.cible.y))
+        #print("deplacement de ", self.x, self.y, "vers", round(self.cible.x), round(self.cible.y))
         if self.x > round(self.cible.x):
             self.x -= self.vitesse
         if self.x < round(self.cible.x):
@@ -283,7 +287,7 @@ class ProgenitureInfernale():
         
         
     def attaquer(self):
-        print("progéniture à",self.x,self.y, "attaque", self.cible.x, self.cible.y, "vie cible:", self.cible.hp)
+        #print("progéniture à",self.x,self.y, "attaque", self.cible.x, self.cible.y, "vie cible:", self.cible.hp)
         if self.cible.hp > 0:
             self.cible.hp -= self.puissance
             print("vie cible après attaque", self.cible.hp)
@@ -295,7 +299,7 @@ class ProgenitureInfernale():
         self.mutant = True
         self.hp = 50
         self.puissance = 20
-        self.vitesse = 10
+        self.vitesse = 3
         self.porteeAttaque = 25
             
 # ----------------------------------------------------- #
