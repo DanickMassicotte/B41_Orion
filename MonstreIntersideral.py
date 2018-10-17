@@ -33,6 +33,7 @@ class MonstreIntersideral():
         self.initProgenitures()
         self.listeMessages= []
         self.initMessages()
+        self.messageCourant = "Ma sombre conquête... débute!!!"
         self.choixAction()
         
         
@@ -114,7 +115,7 @@ class MonstreIntersideral():
         else: 
             probabiliteNiveau1 = random.randint(0,100) + self.modulateurProbabiliteNiveau1()
             if probabiliteNiveau1 < 50:
-                print(self.message())
+                self.messageCourant = self.message()
             else:
                 probabiliteNiveau2 = random.randint(0,100) + self.modulateurProbabiliteNiveau2()
                 if  probabiliteNiveau2 < 50:
@@ -269,11 +270,11 @@ class ProgenitureInfernale():
     def choixCible(self):
         listeCibles = []
         listeMenaces = []
-        listePlanetesOccupees = []
+       
         
         for planete in self.pointeurMonstre.pointeurModele.planetes:
             if planete.estOccupee:
-                listePlanetesOccupees.append(planete)
+                listeCibles.append(planete)
         for key in self.pointeurMonstre.pointeurModele.joueurs:
             for vaisseau in self.pointeurMonstre.pointeurModele.joueurs[key].flotte:
                 if vaisseau.hp > 0:
