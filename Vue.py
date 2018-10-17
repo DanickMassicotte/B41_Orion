@@ -267,7 +267,8 @@ class Vue():
                                padx = 20)
         
         self.nucleaireAmount = Label(self.frameRessource, 
-                               text=self.varMatiereNucleaire.get(),
+                               #text=self.varMatiereNucleaire.get(),
+                               textvariable=self.varMatiereNucleaire,
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
@@ -280,7 +281,8 @@ class Vue():
                                padx = 20)
         
         self.foodAmount = Label(self.frameRessource, 
-                               text=self.varNourriture.get(), 
+                               #text=self.varNourriture.get(),
+                               textvariable=self.varNourriture, 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
@@ -293,7 +295,8 @@ class Vue():
                                padx = 20)
         
         self.energyAmount = Label(self.frameRessource, 
-                               text=self.varEnergie.get(),  
+                               #text=self.varEnergie.get(),
+                               textvariable=self.varEnergie,  
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
@@ -309,7 +312,8 @@ class Vue():
                                padx = 20)
          
         self.argentAmount = Label(self.frameRessource, 
-                               text=self.varArgent.get(), 
+                               #text=self.varArgent.get(),
+                               textvariable=self.varArgent, 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
@@ -323,7 +327,8 @@ class Vue():
                                padx = 20)
          
         self.populationAmount = Label(self.frameRessource, 
-                               text=self.varPopulation.get() + " / " + self.varPopulationMax.get(), 
+                               #text=self.varPopulation.get() + " / " + self.varPopulationMax.get(),
+                               textvariable=self.varPopulationMax, 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
@@ -337,7 +342,8 @@ class Vue():
                                padx = 20)
          
         self.materiauxAmount = Label(self.frameRessource, 
-                               text=self.varMateriaux.get(), 
+                               #text=self.varMateriaux.get(),
+                               textvariable=self.varMateriaux, 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
                                fg = "deep sky blue")
@@ -414,7 +420,7 @@ class Vue():
                                         fg = "white",
                                         relief = "raised",
                                         width = 20,
-                                        command = None)
+                                        command = self.creerHangar)
         
         #---------------------------------------
         self.bouton_ferme = Button (    self.frameMenu,
@@ -424,7 +430,7 @@ class Vue():
                                         fg = "white",
                                         relief = "raised",
                                         width = 20,
-                                        command = None)
+                                        command = self.creerFerme)
         
         #---------------------------------------
         self.bouton_pod = Button (  self.frameMenu,
@@ -434,7 +440,7 @@ class Vue():
                                     fg = "white",
                                     relief = "raised",
                                     width = 20,
-                                    command = None)
+                                    command = self.creerPod)
         
         #---------------------------------------
         self.bouton_afficher_menu_pr_batir_une_mine = Button (  self.frameMenu,
@@ -456,7 +462,7 @@ class Vue():
                                             fg = "white",
                                             relief = "raised",
                                             width = 20,
-                                            command = None)
+                                            command = self.creerMineArgent)
         
         #---------------------------------------
         self.bouton_mine_materiau = Button (self.frameMenu,
@@ -466,7 +472,7 @@ class Vue():
                                             fg = "white",
                                             relief = "raised",
                                             width = 20,
-                                            command = None)
+                                            command = self.creerMineMateriaux)
         
         #---------------------------------------
         self.bouton_mine_energie = Button ( self.frameMenu,
@@ -476,7 +482,7 @@ class Vue():
                                             fg = "white",
                                             relief = "raised",
                                             width = 20,
-                                            command = None)
+                                            command = self.creerMineEnergie)
         
         #---------------------------------------
         # Menu pour batir un vaisseau
@@ -893,11 +899,11 @@ class Vue():
     # DEBUT AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.varPopulation.set(str(self.mod.joueurs[self.parent.monnom].population))
         self.varPopulationMax.set(str(self.mod.joueurs[self.parent.monnom].populationMaximale))
-        self.varNourriture.set(str(self.mod.joueurs[self.parent.monnom].nourriture))
-        self.varArgent.set(str(self.mod.joueurs[self.parent.monnom].argent))
-        self.varEnergie.set(str(self.mod.joueurs[self.parent.monnom].energie))                
-        self.varMateriaux.set(str(self.mod.joueurs[self.parent.monnom].materiaux))
-        self.varMatiereNucleaire.set(str(self.mod.joueurs[self.parent.monnom].matiereNucleaire))
+        self.varNourriture.set(str(round(self.mod.joueurs[self.parent.monnom].nourriture,2)))
+        self.varArgent.set(str(round(self.mod.joueurs[self.parent.monnom].argent,2)))
+        self.varEnergie.set(str(round(self.mod.joueurs[self.parent.monnom].energie,2)))               
+        self.varMateriaux.set(str(round(self.mod.joueurs[self.parent.monnom].materiaux,2)))
+        self.varMatiereNucleaire.set(str(round(self.mod.joueurs[self.parent.monnom].matiereNucleaire,2)))
         #self.varConnaissance.set(str(self.mod.joueurs[self.parent.monnom].connaissance))
     # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
