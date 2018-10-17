@@ -881,7 +881,7 @@ class Vue():
                     if i.id == int(self.maselection[2]):
                         x=i.x
                         y=i.y
-                        t = 60
+                        t = 15
                         self.canevas.create_rectangle (
                             x-t, y-t, x+t, y+t, dash = (2,2),
                             outline = mod.joueurs[self.nom].couleur,
@@ -890,7 +890,7 @@ class Vue():
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
             for j in i.flotte:
-                t = 40
+                t = 10
                 self.canevas.create_rectangle (
                     j.x-t, j.y-t, j.x+t, j.y+t, fill = i.couleur,
                     tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
