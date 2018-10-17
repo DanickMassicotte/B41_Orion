@@ -182,96 +182,52 @@ class Vue():
         self.labid=Label(self.frameMessage,text=self.nom,fg=mod.joueurs[self.nom].couleur)
         self.labid.bind("<Button>",self.afficherplanemetemere)                                  
         self.labid.grid(row = 0, column = 0 )                                                                                                                                    #.grid
-        self.btncreervaisseau=Button( self.frameMenu,text="Vaisseau",
-                                      command=self.creerchasseur, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.btncreerHangar=Button( self.frameMenu,text="Hangar",
-                                      command=self.creerHangar, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.btncreerPod=Button( self.frameMenu,text="Pod",
-                                      command=self.creerPod, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.btncreerMineArgent=Button( self.frameMenu,text="Gold Mine",
-                                      command=self.creerMineArgent, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.btncreerMineMateriaux=Button( self.frameMenu,text="Steel Mine",
-                                      command=self.creerMineMateriaux, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        self.btncreerMineEnergie=Button( self.frameMenu,text="Nuclear Mine",
-                                      command=self.creerMineEnergie, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
-        
         self.lbselectecible=Label(self.frameMenu,text="Choisir cible",bg="darkgrey")
         
         #Creation des widgets dans le frame ressource
         
-        self.boutonXchange = Button(    self.frameRessource, 
-                                      relief=RAISED,
-                                      bg = "deep sky blue", 
-                                      text = "Xchange",
-                                      fg="black", 
-                                      width=20, 
-                                      activebackground='sky blue',
-                                      font=("Castellar",10, "bold"))
+        self.boutonXchange = Button (
+            self.frameRessource,
+            relief=RAISED,
+            bg = "deep sky blue",
+            text = "Xchange",
+            fg="black",
+            width=20,
+            activebackground='sky blue',
+            font=("Castellar",10, "bold"))
         
-        self.Alerte = Label(self.frameRessource, 
-                               text='Alerte', 
-                               font = ("Castellar",10, "bold"),
-                               bg = 'black', 
-                               fg = "deep sky blue",
-                               padx = 450)
+        self.Alerte = Label (
+            self.frameRessource,
+            text='Alerte',
+            font = ("Castellar",10, "bold"),
+            bg = 'black',
+            fg = "deep sky blue",
+            padx = 450)
        
-        self.ressource = Label(self.frameRessource, 
-                               text='Ressource :', 
-                               font = ("Castellar",10, "bold"),
-                               bg = 'black', 
-                               fg = "deep sky blue",
-                               padx = 10)
+        self.ressource = Label (
+            self.frameRessource,
+            text='Ressource :',
+            font = ("Castellar",10, "bold"),
+            bg = 'black',
+            fg = "deep sky blue",
+            padx = 10)
         
         #Matiere nucleaire
-        self.nucleaire = Label(self.frameRessource, 
-                               text='nuclear', 
-                               font = ("Castellar",10, "bold"),
-                               bg = 'black', 
-                               fg = "deep sky blue",
-                               padx = 20)
+        self.nucleaire = Label (
+            self.frameRessource,
+            text='nuclear',
+            font = ("Castellar",10, "bold"),
+            bg = 'black',
+            fg = "deep sky blue",
+            padx = 20)
         
-        self.nucleaireAmount = Label(self.frameRessource, 
-                               #text=self.varMatiereNucleaire.get(),
-                               textvariable=self.varMatiereNucleaire,
-                               font = ("Castellar",10, "bold"),
-                               bg = 'black', 
-                               fg = "deep sky blue")
+        self.nucleaireAmount = Label (
+            self.frameRessource,
+            #text=self.varMatiereNucleaire.get(),
+            textvariable=self.varMatiereNucleaire,
+            font = ("Castellar",10, "bold"),
+            bg = 'black',
+            fg = "deep sky blue")
         #Food
         self.food = Label(self.frameRessource, 
                                text='Food', 
@@ -348,43 +304,48 @@ class Vue():
                                bg = 'black', 
                                fg = "deep sky blue")
         
-        self.label_du_menu_ma_planete = Label ( self.frameMenu,
-                                                text = self.saut_de_ligne_x1 + "Menu de ma planete" + self.saut_de_ligne_x1,
-                                                font = ("Copperplate Gothic", 12, "bold"),
-                                                bg = "steelblue",
-                                                fg = "white",
-                                                relief = "flat",
-                                                width = 30)
+        self.label_du_menu_ma_planete = Label (
+            self.frameMenu,
+            text = self.saut_de_ligne_x1 + "Menu de ma planete" + self.saut_de_ligne_x1,
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "flat",
+            width = 30)
         
         #---------------------------------------
-        self.label_du_menu_pr_batir_une_amelioration = Label (  self.frameMenu,
-                                                                text = self.saut_de_ligne_x1 + "Menu pour batir une amelioration" + self.saut_de_ligne_x1,
-                                                                font = ("Copperplate Gothic", 12, "bold"),
-                                                                bg = "steelblue",
-                                                                fg = "white",
-                                                                relief = "flat",
-                                                                width = 30)
+        self.label_du_menu_pr_batir_une_amelioration = Label (
+            self.frameMenu,
+            text = self.saut_de_ligne_x1 + "Menu pour batir une amelioration" + self.saut_de_ligne_x1,
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "flat",
+            width = 30)
         
         #---------------------------------------
-        self.label_du_menu_pr_batir_une_mine = Label (  self.frameMenu,
-                                                        text = self.saut_de_ligne_x1 + "Menu pour batir une mine" + self.saut_de_ligne_x1,
-                                                        font = ("Copperplate Gothic", 12, "bold"),
-                                                        bg = "steelblue",
-                                                        fg = "white",
-                                                        relief = "flat",
-                                                        width = 30)
+        self.label_du_menu_pr_batir_une_mine = Label (
+            self.frameMenu,
+            text = self.saut_de_ligne_x1 + "Menu pour batir une mine" + self.saut_de_ligne_x1,
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "flat",
+            width = 30)
         
         #---------------------------------------
-        self.label_du_menu_pr_batir_un_vaisseau = Label (   self.frameMenu,
-                                                            text = self.saut_de_ligne_x1 + "Menu pour batir un vaisseau" + self.saut_de_ligne_x1,
-                                                            font = ("Copperplate Gothic", 12, "bold"),
-                                                            bg = "steelblue",
-                                                            fg = "white",
-                                                            relief = "flat",
-                                                            width = 30)
+        self.label_du_menu_pr_batir_un_vaisseau = Label (
+            self.frameMenu,
+            text = self.saut_de_ligne_x1 + "Menu pour batir un vaisseau" + self.saut_de_ligne_x1,
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "flat",
+            width = 30)
         
         #---------------------------------------
-        self.label_saut_de_ligne = Label (self.frameMenu,
+        self.label_saut_de_ligne = Label (
+            self.frameMenu,
             text = self.saut_de_ligne_x1,
             bg = "steelblue")
         
@@ -455,14 +416,15 @@ class Vue():
                                         command = self.creerReacteurNucleaire)
         
         #---------------------------------------
-        self.bouton_afficher_menu_pr_batir_une_mine = Button (  self.frameMenu,
-                                                                text = "Batir une mine",
-                                                                font = ("Copperplate Gothic", 12, "bold"),
-                                                                bg = "steelblue",
-                                                                fg = "white",
-                                                                relief = "raised",
-                                                                width = 20,
-                                                                command = self.afficher_menu_pr_batir_une_mine)
+        self.bouton_afficher_menu_pr_batir_une_mine = Button (
+            self.frameMenu,
+            text = "Batir une mine",
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "raised",
+            width = 20,
+            command = self.afficher_menu_pr_batir_une_mine)
         
         #---------------------------------------
         # Menu pour batir une mine
@@ -917,12 +879,7 @@ class Vue():
     # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     def cliquecosmos(self,evt):
-        self.btncreervaisseau.grid_forget()
-        self.btncreerHangar.grid_forget()
-        self.btncreerPod.grid_forget()
-        self.btncreerMineArgent.grid_forget()
-        self.btncreerMineMateriaux.grid_forget()
-        self.btncreerMineEnergie.grid_forget()
+        
         t=self.canevas.gettags(CURRENT)
         if t and t[0]==self.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
@@ -968,12 +925,8 @@ class Vue():
             self.canevas.delete("marqueur")
             
     def montreplaneteselection(self):
-        self.btncreervaisseau.grid(row=0,column=0)
-        self.btncreerHangar.grid(row=0,column=0)
-        self.btncreerPod.grid(row=0,column=0)
-        self.btncreerMineArgent.grid(row=0,column=0)
-        self.btncreerMineMateriaux.grid(row=0,column=0)
-        self.btncreerMineEnergie.grid(row=0,column=0)
+        pass
+
     def montreflotteselection(self):
         self.lbselectecible.grid(row=0,column=0)
     
