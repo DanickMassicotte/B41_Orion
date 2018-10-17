@@ -72,8 +72,10 @@ class Modele():
             self.joueurs[i].image = listeImages.pop(0)
             
     def genererAstres(self):
-        for i in range(30):
+        for i in range(40):
             self.listeEtoiles.append(Etoile(random.randint(0,1920), random.randint(0,700))) 
+
+        for i in range(15):
             self.listeAsteroides.append(Asteroide(random.randint(0,1920), random.randint(0,700)))   
             
     def prochaineaction(self,cadre):

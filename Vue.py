@@ -704,18 +704,23 @@ class Vue():
             y=random.randrange(mod.hauteur)
             self.canevas.create_oval (x, y, x+1, y+1, fill = "white", tags = ("fond"))
 
-        # afficher planetes vierges
-        self.imgplanete = PhotoImage (file = "planete_vierge.png")
-        for i in mod.planetes:
-            self.canevas.create_image (
-                i.x, i.y, image = self.imgplanete, tags = (i.proprietaire,"planete",str(i.id)))
-        
         # afficher etoiles
         self.img_etoile = PhotoImage (file = "etoile.png")
         for i in mod.listeEtoiles:
             self.canevas.create_image (
                 i.x, i.y, image = self.img_etoile)
 
+        # afficher asteroides
+        self.img_asteroide = PhotoImage (file = "asteroide.png")
+        for i in mod.listeAsteroides:
+            self.canevas.create_image (
+                i.x, i.y, image = self.img_asteroide)
+
+        # afficher planetes vierges
+        self.imgplanete = PhotoImage (file = "planete_vierge.png")
+        for i in mod.planetes:
+            self.canevas.create_image (
+                i.x, i.y, image = self.imgplanete, tags = (i.proprietaire,"planete",str(i.id)))
 
         # afficher monstre        
         self.img_monstre = PhotoImage (file = "img_monstre_02.png")
