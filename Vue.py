@@ -391,24 +391,26 @@ class Vue():
         #---------------------------------------
         # Menu de ma planete
         #---------------------------------------
-        self.bouton_afficher_menu_pr_batir_une_amelioration = Button (  self.frameMenu,
-                                                                        text = "Batir une amelioration",
-                                                                        font = ("Copperplate Gothic", 12, "bold"),
-                                                                        bg = "steelblue",
-                                                                        fg = "white",
-                                                                        relief = "raised",
-                                                                        width = 20,
-                                                                        command = self.afficher_menu_pr_batir_une_amelioration)
+        self.bouton_afficher_menu_pr_batir_une_amelioration = Button (
+              self.frameMenu,
+              text = "Batir une amelioration",
+              font = ("Copperplate Gothic", 12, "bold"),
+              bg = "steelblue",
+              fg = "white",
+              relief = "raised",
+              width = 20,
+              command = self.afficher_menu_pr_batir_une_amelioration)
         
         #---------------------------------------
-        self.bouton_afficher_menu_pr_batir_un_vaisseau = Button (   self.frameMenu,
-                                                                    text = "Batir un vaisseau",
-                                                                    font = ("Copperplate Gothic", 12, "bold"),
-                                                                    bg = "steelblue",
-                                                                    fg = "white",
-                                                                    relief = "raised",
-                                                                    width = 20,
-                                                                    command = self.afficher_menu_pr_batir_un_vaisseau)
+        self.bouton_afficher_menu_pr_batir_un_vaisseau = Button (
+            self.frameMenu,
+            text = "Batir un vaisseau",
+            font = ("Copperplate Gothic", 12, "bold"),
+            bg = "steelblue",
+            fg = "white",
+            relief = "raised",
+            width = 20,
+            command = self.afficher_menu_pr_batir_un_vaisseau)
         
         #---------------------------------------
         # Menu pour batir des ameliorations
@@ -691,7 +693,7 @@ class Vue():
         #bouton_dreadnought.grid(column = 0, row =0)
         #bouton_destructeur.grid(column = 0, row =0)
     
-        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =4)
+        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =5)
      
     #---------------------------------------
     def vider_le_cadre(self):
@@ -862,7 +864,7 @@ class Vue():
         
         # afficher progenitures du monstre
         if mod.monstre.listeProgenitures:
-            self.img_progenitures = PhotoImage (file = "img_progenitures_04.png")
+            self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
             for progeniture in mod.monstre.listeProgenitures:
                 self.canevas.create_image (progeniture.x, progeniture.y, image = self.img_progenitures, tags = (progeniture, "progeniture", str(progeniture.id)))
 
