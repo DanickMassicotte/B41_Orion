@@ -182,7 +182,7 @@ class Vue():
         self.labid=Label(self.frameMessage,text=self.nom,fg=mod.joueurs[self.nom].couleur)
         self.labid.bind("<Button>",self.afficherplanemetemere)                                  
         self.labid.grid(row = 0, column = 0 )
-#         self.lbselectecible=Label(self.frameMenu,text="Choisir cible",bg="darkgrey")
+        self.lbselectecible=Label(self.frameMenu,text="Choisir cible",bg="darkgrey")
         
         #Creation des widgets dans le frame ressource
         
