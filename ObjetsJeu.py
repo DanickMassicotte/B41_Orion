@@ -78,8 +78,6 @@ class Vaisseau():
                 return True
             elif self.cible in joueur.parent.monstre.listeProgenitures:
                 return True
-                # À faire: vérifier pourquoi les vaisseaux ne vont pas
-                # vers les progénitures
             else:
                 return False
     
@@ -120,8 +118,8 @@ class Exploreur(Vaisseau):
         
     def explovalide(self, joueur):
         if self.cible:
-            if not self.cible.estExploree:
-                if self.cible in joueur.parent.planetes:
+            if self.cible in joueur.parent.planetes:
+                if not self.cible.estExploree:
                     return True
                 else:
                     return False
@@ -372,9 +370,11 @@ class Joueur():
                     print("GOT MONSTRE")
                     return
                 
-                for p in self.parent.monstre.listeProgenitures:
-                    if p.id == int(iddesti):
-                        i.cible = p
+                else:
+                    for p in self.parent.monstre.listeProgenitures:
+                        if p.id == int(iddesti):
+                            i.cible = p
+                            return
                 # ---------------------------- #
                     
     def prochaineaction1(self):
