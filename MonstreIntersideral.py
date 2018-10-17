@@ -129,10 +129,9 @@ class MonstreIntersideral():
                     elif probabiliteNiveau3 >= 85:
                         self.devorerEtoile()
 
-        if self.hp > 0: # p-e enlever si on garde le check en haut ***
+        if self.hp > 0:
             prochainTour = Timer(self.frequenceTour,self.choixAction).start() # si le monstre vie, on rappel la fonction après t temps où t = self.frequenceTour
-        #dans tous les cas, les progénitures existantes font leur tour
-        #self.actionsProgenitures()*****
+
         
     def modulateurProbabiliteNiveau1(self):
         if time.time() - self.genese  < self.tempsPreparation: # profil néophyte == plus de chances tomber sur messag
@@ -173,7 +172,7 @@ class MonstreIntersideral():
     def attaquer(self):
         if self.cible.hp > 0:
             self.cible.hp -= self.puissance
-            print("Le monstre attaque:", self.cible)
+            #print("Le monstre attaque:", self.cible)
         else:
             self.cible = None
     
@@ -236,9 +235,9 @@ class ProgenitureInfernale():
         self.geneseProgeniture = time.time()
         self.tempsGestation = 200
         self.mutant = False
-        self.hp = 20
-        self.puissance = 10
-        self.porteeAttaque = 12
+        self.hp = 10
+        self.puissance = 2
+        self.porteeAttaque = 50
         self.vitesse = 1
         self.cible = None
         self.frequenceTourProgeniture = 0.1 
@@ -269,27 +268,15 @@ class ProgenitureInfernale():
         
     def choixCible(self):
         listeCibles = []
-        listeMenaces = []
-       
-        
-        for planete in self.pointeurMonstre.pointeurModele.planetes:
-            if planete.estOccupee:
-                listeCibles.append(planete)
         for key in self.pointeurMonstre.pointeurModele.joueurs:
             for vaisseau in self.pointeurMonstre.pointeurModele.joueurs[key].flotte:
-                if vaisseau.hp > 0:
-                    if math.sqrt( ( (vaisseau.x - self.pointeurMonstre.x) ** 2 + (vaisseau.y - self.pointeurMonstre.y) ** 2 ) ) < self.pointeurMonstre.distanceCritique:
-                        listeMenaces.append(vaisseau)
-                        print("détection d'un vaisseau dans une distance critique")
-                    else:
-                        listeCibles.append(vaisseau)
-        
-        if listeMenaces:
-            self.cible = random.choice(listeMenaces)
-        elif listeCibles:
+                listeCibles.append(vaisseau)
+            for planeteControlee in self.pointeurMonstre.pointeurModele.joueurs[key].planetescontrolees:
+                listeCibles.append(planeteControlee)
+        if listeCibles:
             self.cible = random.choice(listeCibles)
-        else:
-            self.cible = random.choice( self.pointeurMonstre.pointeurModele.planetes)
+        #else:
+           # self.cible = random.choice( self.pointeurMonstre.pointeurModele.planetes)
            
         
     def deplacement(self):
@@ -318,8 +305,8 @@ class ProgenitureInfernale():
     
     def mutation(self):
         self.mutant = True
-        self.hp = 10
-        self.puissance = 20
+        self.hp = 20
+        self.puissance = 5
         self.vitesse = 3
         self.porteeAttaque = 25
         
@@ -340,16 +327,15 @@ class ProgenitureInfernale():
         for key in self.pointeurMonstre.pointeurModele.joueurs:
             if self.pointeurMonstre.pointeurModele.joueurs[key].flotte:
                 absenceCible = False
-        for planete in self.pointeurMonstre.pointeurModele.planetes:
-            if planete.estOccupee:
+            if self.pointeurMonstre.pointeurModele.joueurs[key].planetescontrolees:
                 absenceCible = False
-        
+
         if absenceCible:
-            if ( self.cible is None ) or math.sqrt( ( (self.x - self.cible.x) ** 2) + ( (self.y - self.cible.y) ** 2)  ) < 50:
+            if ( self.cible is None ) or math.sqrt( ( (self.x - self.cible.x) ** 2) + ( (self.y - self.cible.y) ** 2)  ) < 100:
                 random.shuffle(self.pointeurMonstre.pointeurModele.planetes)
                 self.cible = random.choice( self.pointeurMonstre.pointeurModele.planetes)
         
-        elif (not absenceCible and not isinstance(self.cible, Vaisseau)) or self.cible is None or self.cible.hp <=0:
+        elif not absenceCible and ( self.cible is None or self.cible.hp <=0):
             self.choixCible()
         
  
