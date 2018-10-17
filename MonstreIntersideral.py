@@ -148,7 +148,7 @@ class MonstreIntersideral():
                     profilExpansionniste += 1
             for key in self.pointeurModele.joueurs:
                 for vaisseau in self.pointeurModele.joueurs[key].flotte:
-                    if isinstance(vaisseau, Mineur) or isinstance(vaisseau, Explorateur):
+                    if isinstance(vaisseau, Mineur) or isinstance(vaisseau, Exploreur):
                         profilExpansionniste += 1
                     else:
                         profilBelligerant += 1
@@ -344,7 +344,10 @@ class ProgenitureInfernale():
                 absenceCible = False
         
         if absenceCible:
-            self.cible = random.choice( self.pointeurMonstre.pointeurModele.planetes)
+            if ( self.cible is None ) or math.sqrt( ( (self.x - self.cible.x) ** 2) + ( (self.y - self.cible.y) ** 2)  ) < 50:
+                random.shuffle(self.pointeurMonstre.pointeurModele.planetes)
+                self.cible = random.choice( self.pointeurMonstre.pointeurModele.planetes)
+        
         elif (not absenceCible and not isinstance(self.cible, Vaisseau)) or self.cible is None or self.cible.hp <=0:
             self.choixCible()
         
