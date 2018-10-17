@@ -61,4 +61,5 @@ Bugs connus:
 	  attaquer à une certaine distance;
 	- Planètes ne changent pas pour la couleur du joueur qui les découvrent;
 	- Progénitures s'arrêtent lorsqu'il n'y a pas de vaisseaux sur l'aire de jeu;
-	- 
+	- Si on attaque le monstre, parfois les vaisseaux d'attaque se dirigent vers
+	  une progénitures;
