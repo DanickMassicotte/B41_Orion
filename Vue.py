@@ -8,6 +8,7 @@ import random
 from subprocess import Popen 
 from helper import Helper as hlp
 from PIL import Image, ImageTk
+from ObjetsJeu import *
 
 class Vue():
     def __init__(self,parent,ip,nom):
@@ -877,19 +878,51 @@ class Vue():
                     if i.id == int(self.maselection[2]):
                         x=i.x
                         y=i.y
-                        t = 15
-                        self.canevas.create_rectangle (
+                        t = 30
+                        self.canevas.create_oval (
                             x-t, y-t, x+t, y+t, dash = (2,2),
                             outline = mod.joueurs[self.nom].couleur,
-                            tags=("select","marqueur"))
+                            tags = ("select","marqueur"))
+                        self.canevas.create_oval (
+                            x-t-2, y-t-2, x+t+2, y+t+2, dash = (2,2),
+                            outline = mod.joueurs[self.nom].couleur,
+                            tags = ("select","marqueur"))
+                        self.canevas.create_oval (
+                            x-t-4, y-t-4, x+t+4, y+t+4, dash = (2,2),
+                            outline = mod.joueurs[self.nom].couleur,
+                            tags = ("select","marqueur"))
+
+
         
         for i in mod.joueurs.keys():
             i=mod.joueurs[i]
             for j in i.flotte:
-                t = 10
-                self.canevas.create_rectangle (
-                    j.x-t, j.y-t, j.x+t, j.y+t, fill = i.couleur,
-                    tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
+                # afficher exploreur
+                if isinstance (j, Exploreur):
+                    self.exploreur = PhotoImage (file = "exploreur.png")
+                    self.canevas.create_image (
+                        j.x, j.y, image = self.exploreur,
+                        tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
+                # afficher mineur
+                if isinstance (j, Mineur):
+                    self.mineur = PhotoImage (file = "mineur.png")
+                    self.canevas.create_image (
+                        j.x, j.y, image = self.mineur,
+                        tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
+                # afficher fregate
+                if isinstance (j, Fregate):
+                    self.fregate = PhotoImage (file = "fregate.png")
+                    self.canevas.create_image (
+                        j.x, j.y, image = self.fregate,
+                        tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
+                # afficher chasseur
+                if isinstance (j, Chasseur):
+                    self.chasseur = PhotoImage (file = "chasseur.png")
+                    self.canevas.create_image (
+                        j.x, j.y, image = self.chasseur,
+                        tags = (j.proprietaire,"flotte",str(j.id),"artefact"))
+
+
                 
     # Mise à jour des variables d'affichage des statistiques du joueur    
     # DEBUT AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

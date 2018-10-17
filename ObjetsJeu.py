@@ -13,7 +13,6 @@ import Batiments # Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 import math     # Ajout DM
 from PIL import Image, ImageTk
 
-
 class Id():
     id=0
     def prochainid():
