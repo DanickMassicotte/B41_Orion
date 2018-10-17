@@ -494,7 +494,7 @@ class Vue():
                                         fg = "white",
                                         relief = "raised",
                                         width = 20,
-                                        command = None)
+                                        command = self.creerexploreur)
         
         #---------------------------------------
         self.bouton_mineur = Button (   self.frameMenu,
@@ -504,7 +504,7 @@ class Vue():
                                         fg = "white",
                                         relief = "raised",
                                         width = 20,
-                                        command = None)
+                                        command = self.creermineur)
         
         #---------------------------------------
         self.bouton_fregate = Button (  self.frameMenu,
@@ -514,7 +514,7 @@ class Vue():
                                         fg = "white",
                                         relief = "raised",
                                         width = 20,
-                                        command = None)
+                                        command = self.creerfregate)
         
         #---------------------------------------
         '''bouton_bombarde = Button (
@@ -535,7 +535,7 @@ class Vue():
                                         fg = "white",
                                         relief = "raised",
                                         width = 20,
-                                        command = None)
+                                        command = self.creerchasseur)
         
         #---------------------------------------
         '''bouton_dreadnought = Button (
@@ -767,7 +767,7 @@ class Vue():
         self.parent.creervaisseau()
         self.maselection=None
         self.canevas.delete("marqueur")
-        self.btncreervaisseau.pack_forget()
+        self.btncreervaisseau.grid_forget()
         
     # -----------------DM---------------------- #
     def creermineur(self):
@@ -775,28 +775,28 @@ class Vue():
         self.parent.creermineur()
         self.maselection=None
         self.canevas.delete("marqueur")
-        self.btncreervaisseau.pack_forget()     # À vérifier
+        #self.btncreervaisseau.grid_forget()     # À vérifier
         
     def creerexploreur(self):
         print("Creer exploreur")
         self.parent.creerexploreur()
         self.maselection=None
         self.canevas.delete("marqueur")
-        self.btncreervaisseau.pack_forget()     # À vérifier
+        #self.btncreervaisseau.grid_forget()     # À vérifier
         
     def creerfregate(self):
         print("Creer fregate")
         self.parent.creerfregate()
         self.maselection=None
         self.canevas.delete("marqueur")
-        self.btncreervaisseau.pack_forget()     # À vérifier
+        #self.btncreervaisseau.grid_forget()     # À vérifier
         
     def creerchasseur(self):
         print("Creer chasseur")
         self.parent.creerchasseur()
         self.maselection=None
         self.canevas.delete("marqueur")
-        self.btncreervaisseau.pack_forget()     # À vérifier
+        #self.btncreervaisseau.grid_forget()     # À vérifier
     # ------------------------------------------#
     
     # DEBUT Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    
@@ -805,49 +805,49 @@ class Vue():
         self.parent.creerPod()
         #self.maselection=None
         self.canevas.delete("marqueur")
-        #self.btncreerPod.pack_forget()
+        #self.btncreerPod.grid_forget()
         
     def creerFerme(self):
         #print("Creer une Ferme")
         self.parent.creerFerme()
         #self.maselection=None
         self.canevas.delete("marqueur")
-        #self.btncreerFerme.pack_forget()
+        #self.btncreerFerme.grid_forget()
         
     def creerMineArgent(self):
         #print("Creer une mine d'argent")
         self.parent.creerMineArgent()
         #self.maselection=None
         self.canevas.delete("marqueur")
-        #self.btncreerMineArgent.pack_forget()
+        #self.btncreerMineArgent.grid_forget()
         
     def creerMineMateriaux(self):
         #print("Creer une mine de materiaux")
         self.parent.creerMineMateriaux()
         #self.maselection=None
         self.canevas.delete("marqueur")
-        #self.btncreerMineMateriaux.pack_forget()
+        #self.btncreerMineMateriaux.grid_forget()
         
     def creerMineEnergie(self):
         #print("Creer une mine d'energie")
         self.parent.creerMineEnergie()
         #self.maselection=None
         self.canevas.delete("marqueur")
-        #self.btncreerMineEnergie.pack_forget()
+        #self.btncreerMineEnergie.grid_forget()
         
     def creerHangar(self):
         #print("Creer un hangar")
         self.parent.creerHangar()
         #self.maselection=None
         self.canevas.delete("marqueur")
-        #self.btncreerHangar.pack_forget()
+        #self.btncreerHangar.grid_forget()
         
     def creerReacteurNucleaire(self):
         #print("Creer un reacteur nucleaire")
         self.parent.creerReacteurNucleaire()
         #self.maselection=None
         self.canevas.delete("marqueur")
-        #self.btncreerReacteurNucleaire.pack_forget()
+        #self.btncreerReacteurNucleaire.grid_forget()
     # FIN Ajout JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
     def afficherpartie(self,mod):
@@ -857,7 +857,7 @@ class Vue():
         if mod.monstre.listeProgenitures:
             self.img_progenitures = PhotoImage (file = "img_progenitures_02.png")
             for progeniture in mod.monstre.listeProgenitures:
-                self.canevas.create_image (progeniture.x, progeniture.y, image = self.img_progenitures)
+                self.canevas.create_image (progeniture.x, progeniture.y, image = self.img_progenitures, tags = (progeniture, "progeniture", str(progeniture.id)))
 
 #                 x = progeniture.x
 #                 y = progeniture.y
@@ -908,12 +908,12 @@ class Vue():
     # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     def cliquecosmos(self,evt):
-        self.btncreervaisseau.pack_forget()
-        self.btncreerHangar.pack_forget()
-        self.btncreerPod.pack_forget()
-        self.btncreerMineArgent.pack_forget()
-        self.btncreerMineMateriaux.pack_forget()
-        self.btncreerMineEnergie.pack_forget()
+        self.btncreervaisseau.grid_forget()
+        self.btncreerHangar.grid_forget()
+        self.btncreerPod.grid_forget()
+        self.btncreerMineArgent.grid_forget()
+        self.btncreerMineMateriaux.grid_forget()
+        self.btncreerMineEnergie.grid_forget()
         t=self.canevas.gettags(CURRENT)
         if t and t[0]==self.nom:
             #self.maselection=self.canevas.find_withtag(CURRENT)#[0]
@@ -929,7 +929,7 @@ class Vue():
                 self.parent.ciblerflotte(self.maselection[2],t[2])
             print("Cette planete ne vous appartient pas - elle est a ",t[0])
             self.maselection=None
-            self.lbselectecible.pack_forget()
+            self.lbselectecible.grid_forget()
             self.canevas.delete("marqueur")
             
         # ----------------DM------------------- #
@@ -939,25 +939,34 @@ class Vue():
                 self.parent.ciblerflotte(self.maselection[2], t[2])
             
             self.maselection = None
-            self.lbselectecible.pack_forget()
+            self.lbselectecible.grid_forget()
+            self.canevas.delete("marqueur")
+            
+        elif "progeniture" in t:
+            if self.maselection:
+                print("CLIQUE PROGENITURE")
+                self.parent.ciblerflotte(self.maselection[2], t[2])
+            
+            self.maselection = None
+            self.lbselectecible.grid_forget()
             self.canevas.delete("marqueur")
         # ------------------------------------- #
         
         else:
             print("Region inconnue")
             self.maselection=None
-            self.lbselectecible.pack_forget()
+            self.lbselectecible.grid_forget()
             self.canevas.delete("marqueur")
             
     def montreplaneteselection(self):
-        self.btncreervaisseau.pack()
-        self.btncreerHangar.pack()
-        self.btncreerPod.pack()
-        self.btncreerMineArgent.pack()
-        self.btncreerMineMateriaux.pack()
-        self.btncreerMineEnergie.pack()
+        self.btncreervaisseau.grid(row=0,column=0)
+        self.btncreerHangar.grid(row=0,column=0)
+        self.btncreerPod.grid(row=0,column=0)
+        self.btncreerMineArgent.grid(row=0,column=0)
+        self.btncreerMineMateriaux.grid(row=0,column=0)
+        self.btncreerMineEnergie.grid(row=0,column=0)
     def montreflotteselection(self):
-        self.lbselectecible.pack()
+        self.lbselectecible.grid(row=0,column=0)
     
     def afficherartefacts(self,joueurs):
         pass #print("ARTEFACTS de ",self.nom)
