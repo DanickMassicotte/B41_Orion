@@ -443,6 +443,16 @@ class Vue():
                                     command = self.creerPod)
         
         #---------------------------------------
+        self.bouton_reacteur = Button (    self.frameMenu,
+                                        text = "Batir un reacteur",
+                                        font = ("Copperplate Gothic", 12, "bold"),
+                                        bg = "steelblue",
+                                        fg = "white",
+                                        relief = "raised",
+                                        width = 20,
+                                        command = self.creerReacteurNucleaire)
+        
+        #---------------------------------------
         self.bouton_afficher_menu_pr_batir_une_mine = Button (  self.frameMenu,
                                                                 text = "Batir une mine",
                                                                 font = ("Copperplate Gothic", 12, "bold"),
@@ -651,10 +661,9 @@ class Vue():
         self.bouton_hangar.grid(column = 3, row =1)
         self.bouton_ferme.grid(column = 3, row =2)
         self.bouton_pod.grid(column = 3, row =3)
-        self.bouton_afficher_menu_pr_batir_une_mine.grid(column = 3, row =4)
-    
-        self.label_saut_de_ligne.grid(column = 3, row =6)
-        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =7)
+        self.bouton_reacteur.grid(column = 3, row = 4)
+        self.bouton_afficher_menu_pr_batir_une_mine.grid(column = 3, row =5)
+        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =6)
      
     #---------------------------------------
     def afficher_menu_pr_batir_une_mine(self):
@@ -665,10 +674,8 @@ class Vue():
         self.bouton_mine_argent.grid(column = 3, row =1)
         self.bouton_mine_materiau.grid(column = 3, row =2)
         self.bouton_mine_energie.grid(column = 3, row =3)
-    
-        self.label_saut_de_ligne.grid(column = 3, row =4)
-        self.bouton_retour_au_menu_pr_batir_une_amelioration.grid(column = 3, row =6)
-        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =7)
+        self.bouton_retour_au_menu_pr_batir_une_amelioration.grid(column = 3, row = 4)
+        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =5)
     
     #---------------------------------------
     def afficher_menu_pr_batir_un_vaisseau(self):
@@ -684,8 +691,7 @@ class Vue():
         #bouton_dreadnought.grid(column = 0, row =0)
         #bouton_destructeur.grid(column = 0, row =0)
     
-        self.label_saut_de_ligne.grid(column = 3, row =5)
-        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =6)
+        self.bouton_retour_au_menu_ma_planete.grid(column = 3, row =4)
      
     #---------------------------------------
     def vider_le_cadre(self):
@@ -702,6 +708,7 @@ class Vue():
         self.bouton_hangar.grid_forget()
         self.bouton_ferme.grid_forget()
         self.bouton_pod.grid_forget()
+        self.bouton_reacteur.grid_forget()
     
         self.bouton_afficher_menu_pr_batir_une_mine.grid_forget()
         self.bouton_mine_argent.grid_forget()
@@ -743,7 +750,7 @@ class Vue():
         self.canevas.create_image (x, y, image = self.img_planeteInfectee)
 
         # afficher planetes joueurs
-        self.img_planeteJoueur = PhotoImage (file = "img_planeteJoueur_02.png")
+        self.img_planeteJoueur = PhotoImage (file = "img_planeteJoueur_01.png")
         for i in mod.joueurs.keys():
             for j in mod.joueurs[i].planetescontrolees:
                 self.canevas.create_image (
