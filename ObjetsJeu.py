@@ -50,7 +50,6 @@ class Vaisseau():
         self.vitesse=2
         self.cible=None 
         # ---------DM---------- #
-        self.monstre = None
         self.hp = 100
         self.atk = 10
         self.cout = 100
@@ -72,10 +71,14 @@ class Vaisseau():
         else:
             print("PAS DE CIBLE")
                 
-    def attaquevalide(self):
+    def attaquevalide(self, joueur):
         if self.cible:
-            if self.cible == self.monstre:
+            if self.cible == joueur.parent.monstre:
                 return True
+            elif self.cible in joueur.parent.monstre.listeProgenitures:
+                return True
+                # À faire: vérifier pourquoi les vaisseaux ne vont pas
+                # vers les progénitures
             else:
                 return False
     
@@ -99,13 +102,7 @@ class Mineur(Vaisseau):
         self.pop = self.pop * 3
         
     def minevalide(self):
-        if self.cible:
-            if self.cible.mine:     # À réviser; n'entre pas dans le if...
-                print("True")
-                return True
-            else:
-                print("False")
-                return False
+        pass
     
     def miner(self):
         pass
@@ -120,11 +117,23 @@ class Exploreur(Vaisseau):
         self.cout = self.cout * 1.5
         self.pop = self.pop * 1
         
-    def explovalide(self):
-        pass
+    def explovalide(self, joueur):
+        if self.cible:
+            if not self.cible.estExploree:
+                if self.cible in joueur.parent.planetes:
+                    return True
+                else:
+                    return False
     
-    def decouvrir(self):
-        pass
+    def explorer(self, joueur):
+        print("vaisseau à",self.x,self.y, "a découvert", self.cible.x, self.cible.y)
+        if not self.cible.estExploree:
+            self.cible.estExploree = True
+            joueur.planetescontrolees.append(self.cible)
+            joueur.parent.planetes.remove(self.cible)
+            
+            # À faire: trouver pourquoi la planète ne change pas de
+            # couleur
     
 class Fregate(Vaisseau):
     def __init__(self, nom, x, y):
@@ -359,8 +368,12 @@ class Joueur():
                 # -------------DM------------- #    
                 if self.parent.monstre.id == int(iddesti):
                     i.cible = self.parent.monstre
-                    i.monstre = self.parent.monstre
                     print("GOT MONSTRE")
+                    return
+                
+                for p in self.parent.monstre.listeProgenitures:
+                    if p.id == int(iddesti):
+                        i.cible = p
                 # ---------------------------- #
                     
     def prochaineaction1(self):
@@ -376,10 +389,18 @@ class Joueur():
                 i.avancer()
             
             elif i.cible and isinstance(i, Exploreur):
-                i.avancer()
+                if i.explovalide(self):
+                    if math.sqrt(((i.cible.x - i.x) ** 2 + (i.cible.y - i.y) ** 2 )) > 5:
+                        i.avancer()
+                    else:
+                        i.explorer(self)
+                        print(self.planetescontrolees)
+                    
+                else:
+                    pass
                 
             elif i.cible and isinstance(i, Vaisseau):       # Pour les vaisseaux offensifs; Mineur et Exploreur déjà vérifiés
-                if i.attaquevalide():
+                if i.attaquevalide(self):
                     if math.sqrt(((i.cible.x - i.x) ** 2 + (i.cible.y - i.y) ** 2 )) > i.rangeAtk:
                         i.avancer()
                     else:
@@ -391,8 +412,7 @@ class Joueur():
             
             else:
                 pass
-            
-    # --------------DM-------------- #
+    # ------------------------------ #
 
 # DEBUT AJOUTS CREATION BATIMENTS JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
