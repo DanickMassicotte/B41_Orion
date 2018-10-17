@@ -24,6 +24,7 @@ class Planete():
         self.proprietaire="inconnu"
         self.x=x
         self.y=y
+        self.hp = 1000
         self.estOccupee = False 
         self.estInfectee = False 
         self.estExploree = False 
