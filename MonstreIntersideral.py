@@ -28,6 +28,7 @@ class MonstreIntersideral():
         self.nbAsteroidesDevores = 0
         self.idProgeniture = 77777
         self.listeProgenitures = []
+        self.initProgenitures()
         self.listeMessages= []
         self.initMessages()
         self.choixAction()
@@ -44,11 +45,18 @@ class MonstreIntersideral():
         self.listeMessages.append("Y'ephairemake ymg'nilgh'rishuggogg")
         self.listeMessages.append("Og mgn'ghftephai ot ya ymg'ephaich'nglui'ahog feeble lloigg")
         
+    def initProgenitures(self):
+        for i in range(3):
+            progeniture = ProgenitureInfernale(self, self.x, self.y, self.idProgeniture)
+            self.idProgeniture += 777
+            self.listeProgenitures.append(progeniture)
+            
+        
     def updateGrandeurInvasion(self):
         grandeurInvasionActuelle = self.grandeurInvasion
         nombreMinutesPassees = math.floor(( (time.time() - self.genese) / 60 )) 
         self.grandeurInvasion = 3 + nombreMinutesPassees + self.nbAsteroidesDevores + ( 2 * self.nbPlanetesInfectees) + (3 * self.nbEtoilesDevorees) - grandeurInvasionActuelle
-        print("Grandeur invasion =", self.grandeurInvasion)
+        #print("Grandeur invasion =", self.grandeurInvasion)
     
     def updatePortee(self):
         porteeAnterieure = self.porteeMonstre
@@ -237,6 +245,7 @@ class ProgenitureInfernale():
     def procedure(self):
         random.seed(self.seedProgeniture)
         self.seedProgeniture += self.id
+        self.confirmKills()
         if self.hp <= 0:
             self.pointeurMonstre.listeProgenitures.remove(self)
             
@@ -306,6 +315,12 @@ class ProgenitureInfernale():
         self.puissance = 20
         self.vitesse = 3
         self.porteeAttaque = 25
+        
+    def confirmKills(self):
+        for key in self.pointeurMonstre.pointeurModele.joueurs:
+            for vaisseau in self.pointeurMonstre.pointeurModele.joueurs[key].flotte:
+                if vaisseau.hp <= 0:
+                    self.pointeurMonstre.pointeurModele.joueurs[key].flotte.remove(vaisseau)
             
 # ----------------------------------------------------- #
 #               section tests locaux
