@@ -156,18 +156,22 @@ class Vue():
         self.varPopulation.set(str(self.mod.joueurs[self.parent.monnom].population))
         self.varPopulationMax=StringVar()
         self.varPopulationMax.set(str(self.mod.joueurs[self.parent.monnom].populationMaximale))
+        self.varMessage=StringVar()
+        self.varMessage.set(self.mod.monstre.messageCourant)
 #         self.varConnaissance=StringVar()
 #         self.varConnaissance.set(str(self.mod.joueurs[self.parent.monnom].connaissance))
         # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.saut_de_ligne_x1 = "\n"
         
         self.frameJeu=Frame(self.cadreapp)  
-        self.frameRessource = Frame(self.frameJeu,bg='black', highlightbackground="deep sky blue", highlightthickness=2, width=1920,height = 50)
-        self.frameAireJeu = Frame(self.frameJeu,bg='steelblue', width=1920,height = 500, highlightbackground="deep sky blue", highlightthickness=2)
-        self.frameZoneUsager = Frame(self.frameJeu,bg='black', highlightbackground="deep sky blue", highlightthickness=2, width = 1920, height = 230 )
-        self.frameMessage = Frame(self.frameZoneUsager,bg='steelblue', highlightbackground="deep sky blue", highlightthickness=2, width = 1090, height = 280)
-        self.frameMenu = Frame(self.frameZoneUsager,bg='steelblue', highlightbackground="deep sky blue", highlightthickness=2, width = 500, height = 280)
-        self.frameMap = Frame(self.frameZoneUsager,bg='steelblue', highlightbackground="deep sky blue", highlightthickness=2, width = 330, height = 280)
+        self.frameRessource = Frame(self.frameJeu,bg='black', width=1920,height = 50)
+        self.frameAireJeu = Frame(self.frameJeu,bg='steelblue', width=1920,height = 500, highlightbackground="steelblue4", highlightthickness=2)
+        self.frameZoneUsager = Frame(self.frameJeu,bg='black', highlightbackground="steelblue4", highlightthickness=2, width = 1920, height = 230 )
+        self.frameMessage = Frame(self.frameZoneUsager,bg='steelblue', highlightbackground="steelblue4", highlightthickness=2, width = 1090, height = 280)
+        self.frameMenu = Frame(self.frameZoneUsager,bg='steelblue', highlightbackground="steelblue4", highlightthickness=2, width = 500, height = 280)
+        self.frameMap = Frame(self.frameZoneUsager,bg='steelblue', highlightbackground="steelblue4", highlightthickness=2, width = 330, height = 280)
+        self.frameRessource2 = Frame(self.frameRessource, highlightbackground="steelblue4", highlightthickness=2, width = 1920, height = 50)
+        self.frameRessource3 = Frame(self.frameRessource,highlightbackground="steelblue4", highlightthickness=2, width=1920,height = 50)
         
         self.frameJeu.grid(row = 0, sticky = "nsew")
         self.frameRessource.grid(column = 16 , sticky = "new", columnspan=16)
@@ -176,8 +180,10 @@ class Vue():
         self.frameMenu.grid(row = 0, column = 2, sticky = "nsew")
         self.frameMap.grid(row = 0, column = 0,  sticky = "nsew")
         self.frameMessage.grid(row = 0, column = 1,  sticky = "nsew")
+        self.frameRessource2.grid(row =1, column =0,sticky = "nsew")
+        self.frameRessource3.grid(row =0, column =0,sticky = "nsew")
 
-        self.canevas=Canvas(self.frameAireJeu,width=mod.largeur,height=mod.hauteur,bg="grey11")  
+        self.canevas=Canvas(self.frameAireJeu,width=mod.largeur,height=mod.hauteur,bg="grey11",highlightbackground="grey11")  
         self.canevas.grid(row = 0, column = 0)                                                            
         self.canevas.bind("<Button>",self.cliquecosmos)
         self.labid=Label(self.frameMessage,text=self.nom,fg=mod.joueurs[self.nom].couleur)
@@ -194,123 +200,158 @@ class Vue():
         
         #Creation des widgets dans le frame ressource
         
-        self.boutonXchange = Button (
-            self.frameRessource,
+        self.boutonQuitter = Button (
+            self.frameRessource3,
             relief=RAISED,
-            bg = "deep sky blue",
-            text = "Xchange",
+            bg = "steelblue",
+            text = "Quitter",
             fg="black",
             width=20,
             activebackground='sky blue',
             font=("Castellar",10, "bold"))
         
-        self.Alerte = Label (
-            self.frameRessource,
-            text='Alerte',
+        self.Alerte = Button (
+            self.frameRessource2,
+            #text='Alerte',
+            textvariable=self.varMessage,
+            font = ("Castellar",10, "bold"),
+            bg = 'steelblue',
+            fg = "black",
+            width = 174,
+            relief = "flat")
+        self.espace = Button(
+            self.frameRessource3,
+            text=' ',
             font = ("Castellar",10, "bold"),
             bg = 'black',
-            fg = "deep sky blue",
-            padx = 450)
+            fg = "black",
+            width = 14,
+            relief = "flat")
        
-        self.ressource = Label (
-            self.frameRessource,
+        self.ressource = Button (
+            self.frameRessource3,
             text='Ressource :',
             font = ("Castellar",10, "bold"),
             bg = 'black',
-            fg = "deep sky blue",
-            padx = 10)
+            fg = "steelblue",
+            width = 10,
+            relief = "flat")
         
         #Matiere nucleaire
-        self.nucleaire = Label (
-            self.frameRessource,
+        self.nucleaire = Button (
+            self.frameRessource3,
             text='nuclear',
             font = ("Castellar",10, "bold"),
             bg = 'black',
-            fg = "deep sky blue",
-            padx = 20)
+            fg = "steelblue",
+            padx = 23,
+            width = 8,
+            relief = "flat")
         
-        self.nucleaireAmount = Label (
-            self.frameRessource,
+        self.nucleaireAmount = Button (
+            self.frameRessource3,
             #text=self.varMatiereNucleaire.get(),
             textvariable=self.varMatiereNucleaire,
             font = ("Castellar",10, "bold"),
             bg = 'black',
-            fg = "deep sky blue")
+            fg = "steelblue",
+            width = 8,
+            relief = "flat")
         #Food
-        self.food = Label(self.frameRessource, 
+        self.food = Button(self.frameRessource3, 
                                text='Food', 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue",
-                               padx = 20)
+                               fg = "steelblue",
+                               padx = 20,
+                               width = 8,
+                               relief = "flat")
         
-        self.foodAmount = Label(self.frameRessource, 
+        self.foodAmount = Button(self.frameRessource3, 
                                #text=self.varNourriture.get(),
                                textvariable=self.varNourriture, 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue")
+                               fg = "steelblue",
+                               width = 8,
+                               relief = "flat")
         #Energy
-        self.energy = Label(self.frameRessource,
+        self.energy = Button(self.frameRessource3,
                                text='Energy:',  
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue",
-                               padx = 20)
+                               fg = "steelblue",
+                               padx = 20,
+                               width = 8,
+                               relief = "flat")
         
-        self.energyAmount = Label(self.frameRessource, 
+        self.energyAmount = Button(self.frameRessource3, 
                                #text=self.varEnergie.get(),
                                textvariable=self.varEnergie,  
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue")
+                               fg = "steelblue",
+                               width = 8,
+                               relief = "flat")
         
         # DEBUT AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         
         #Argent
-        self.argent = Label(self.frameRessource, 
+        self.argent = Button(self.frameRessource3, 
                                text='Money', 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue",
-                               padx = 20)
+                               fg = "steelblue",
+                               padx = 20,
+                               width = 8,
+                               relief = "flat")
          
-        self.argentAmount = Label(self.frameRessource, 
+        self.argentAmount = Button(self.frameRessource3, 
                                #text=self.varArgent.get(),
                                textvariable=self.varArgent, 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue")
+                               fg = "steelblue",
+                               width = 8,
+                               relief = "flat")
         
         #Population
-        self.population = Label(self.frameRessource, 
+        self.population = Button(self.frameRessource3, 
                                text='Population', 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue",
-                               padx = 20)
+                               fg = "steelblue",
+                               padx = 20,
+                               width = 8,
+                               relief = "flat")
          
-        self.populationAmount = Label(self.frameRessource, 
+        self.populationAmount = Button(self.frameRessource3, 
                                #text=self.varPopulation.get() + " / " + self.varPopulationMax.get(),
                                textvariable=self.varPopulationMax, 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue")
+                               fg = "steelblue",
+                               width = 8,
+                               relief = "flat")
          
         #Materiaux
-        self.materiaux = Label(self.frameRessource, 
+        self.materiaux = Button(self.frameRessource3, 
                                text='Materials', 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue",
-                               padx = 20)
+                               fg = "steelblue",
+                               padx = 20,
+                               width = 8,
+                               relief = "flat")
          
-        self.materiauxAmount = Label(self.frameRessource, 
+        self.materiauxAmount = Button(self.frameRessource3, 
                                #text=self.varMateriaux.get(),
                                textvariable=self.varMateriaux, 
                                font = ("Castellar",10, "bold"),
                                bg = 'black', 
-                               fg = "deep sky blue")
+                               fg = "steelblue",
+                               width = 8,
+                               relief = "flat")
         
         self.label_du_menu_ma_planete = Label (
             self.frameMenu,
@@ -564,25 +605,6 @@ class Vue():
             relief = "raised",
             width = 20,
             command = self.afficher_menu_pr_batir_une_amelioration)
-
-#         #Connaissance
-#         self.connaissance = Label(self.frameRessource, 
-#                                text='connaissance', 
-#                                font = ("Castellar",10, "bold"),
-#                                bg = 'black', 
-#                                fg = "deep sky blue",
-#                                padx = 20)
-#          
-#         self.connaissanceAmount = Label(self.frameRessource, 
-#                                text=self.varConnaissance.get(), 
-#                                font = ("Castellar",10, "bold"),
-#                                bg = 'black', 
-#                                fg = "deep sky blue")
-
-        # FIN AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        
-        #Creation des widgets dans le frame Zone Usager
-        
         
         self.frameJeu.grid_rowconfigure(0, weight = 0)
         self.frameJeu.grid_columnconfigure(1, weight = 1)
@@ -596,21 +618,22 @@ class Vue():
         self.frameZoneUsager.grid_rowconfigure(0, weight = 0)
         self.frameZoneUsager.grid_columnconfigure(1, weight = 1)
         
-        self.ressource.grid(row = 0, column =2)
-        self.population.grid(row = 0, column = 3)
-        self.populationAmount.grid(row = 0, column = 4)
-        self.food.grid(row = 0, column = 5)
-        self.foodAmount.grid(row = 0, column = 6)
-        self.energy.grid(row = 0, column = 7)
-        self.energyAmount.grid(row = 0, column = 8)
-        self.argent.grid(row = 1, column = 3)
-        self.argentAmount.grid(row = 1, column = 4)
-        self.materiaux.grid(row = 1, column = 5)
-        self.materiauxAmount.grid(row = 1, column = 6)
-        self.nucleaire.grid(row = 1, column = 7)
-        self.nucleaireAmount.grid(row = 1, column = 8)
-        self.boutonXchange.grid(row = 0, column = 0)
-        self.Alerte.grid(row = 0, column = 1)
+        self.espace.grid(row = 0, column =2)
+        self.ressource.grid(row = 0, column =3)
+        self.population.grid(row = 0, column = 4)
+        self.populationAmount.grid(row = 0, column = 5)
+        self.food.grid(row = 0, column = 6)
+        self.foodAmount.grid(row = 0, column = 7)
+        self.energy.grid(row = 0, column = 8)
+        self.energyAmount.grid(row = 0, column = 9)
+        self.argent.grid(row = 0, column = 10)
+        self.argentAmount.grid(row = 0, column = 11)
+        self.materiaux.grid(row = 0, column = 12)
+        self.materiauxAmount.grid(row = 0, column = 13)
+        self.nucleaire.grid(row = 0, column = 14)
+        self.nucleaireAmount.grid(row = 0, column = 15)
+        self.boutonQuitter.grid(row = 0, column = 0)
+        self.Alerte.grid(row = 1, column = 9)
         
         self.afficherdecor(mod)
         
@@ -724,7 +747,7 @@ class Vue():
                 i.x, i.y, image = self.imgplanete, tags = (i.proprietaire,"planete",str(i.id)))
 
         # afficher monstre        
-        self.img_monstre = PhotoImage (file = "img_monstre_02.png")
+        self.img_monstre = PhotoImage (file = "img_monstre_03.png")
         x = mod.monstre.x # hardcode pour l'instant
         y = mod.monstre.y # hardcode pour l'instant
         self.canevas.create_image (x, y, image = self.img_monstre, tags = (mod.monstre, "monstre", str(mod.monstre.id)))
@@ -927,6 +950,7 @@ class Vue():
     # Mise à jour des variables d'affichage des statistiques du joueur    
     # DEBUT AJOUT JCB !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self.varPopulation.set(str(self.mod.joueurs[self.parent.monnom].population))
+        self.varMessage.set(self.mod.monstre.messageCourant)
         self.varPopulationMax.set(str(self.mod.joueurs[self.parent.monnom].populationMaximale))
         self.varNourriture.set(str(round(self.mod.joueurs[self.parent.monnom].nourriture,2)))
         self.varArgent.set(str(round(self.mod.joueurs[self.parent.monnom].argent,2)))
